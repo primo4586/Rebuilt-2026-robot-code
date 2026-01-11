@@ -28,10 +28,6 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.CommandGroupFactory;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.Cannon.CannonIO;
-import frc.robot.subsystems.Cannon.CannonRealIO;
-import frc.robot.subsystems.Cannon.CannonSimIO;
-import frc.robot.subsystems.Cannon.CannonSubsystem;
 import frc.robot.subsystems.disposer.*;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
@@ -55,14 +51,8 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
  */
 public class RobotContainer {
   // Subsystems
-  private final Drive drive;
   private final Vision vision;
-  private final CannonSubsystem cannon;
-  private final Disposer disposer;
-  private final Elevator elevator;
-
-  // command group factory
-  private final CommandGroupFactory commandGroupFactory;
+  private final Drive drive;
 
   // Controller
   private final CommandXboxController driveController = new CommandXboxController(0);
@@ -97,9 +87,6 @@ public class RobotContainer {
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVision(cameraOPI, cameraOPITranslation),
                 new VisionIOPhotonVision(cameraElevator, cameraElevatorTranslation));
-        cannon = CannonSubsystem.getInstance(new CannonRealIO());
-        disposer = Disposer.getInstance(new DisposerReal());
-        elevator = Elevator.getInstance(new ElevatorIOReal());
         break;
 
       case SIM:
@@ -117,9 +104,6 @@ public class RobotContainer {
                 new VisionIOPhotonVisionSim(cameraOPI, cameraOPITranslation, drive::getPose),
                 new VisionIOPhotonVisionSim(
                     cameraElevator, cameraElevatorTranslation, drive::getPose));
-        cannon = CannonSubsystem.getInstance(new CannonSimIO());
-        disposer = Disposer.getInstance(new DisposerSim());
-        elevator = Elevator.getInstance(new ElevatorIOSim());
         break;
 
       default:
@@ -132,67 +116,10 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
-        cannon = CannonSubsystem.getInstance(new CannonIO() {});
-        disposer = Disposer.getInstance(new DisposerIO() {});
-        elevator = Elevator.getInstance(new ElevatorIO() {});
         break;
     }
 
-    // command group factory
-    commandGroupFactory = new CommandGroupFactory(cannon, disposer, elevator, drive);
-
     // named commands
-    @SuppressWarnings("rawtypes")
-    Set systemSet = Set.of(cannon, disposer, elevator);
-    @SuppressWarnings("rawtypes")
-    Set swerveSet = Set.of(drive);
-    Set allSet = Set.of(drive, disposer, elevator, cannon);
-    NamedCommands.registerCommand(
-        "align to reef",
-        Commands.defer(
-            () -> {
-              try {
-                return commandGroupFactory.alignToReef();
-              } catch (FileVersionException | IOException | ParseException e) {
-                e.printStackTrace();
-              }
-              return Commands.none();
-            },
-            swerveSet));
-
-    NamedCommands.registerCommand(
-        "align to home",
-        Commands.defer(
-            () -> {
-              try {
-                return commandGroupFactory.alignToHome();
-              } catch (FileVersionException | IOException | ParseException e) {
-                e.printStackTrace();
-              }
-              return Commands.none();
-            },
-            swerveSet));
-    NamedCommands.registerCommand(
-        "drive to reef", Commands.defer(() -> commandGroupFactory.driveToReef(), swerveSet));
-    NamedCommands.registerCommand(
-        "drive to home", Commands.defer(() -> commandGroupFactory.driveToHome(), swerveSet));
-    NamedCommands.registerCommand(
-        "score", Commands.defer(() -> commandGroupFactory.Score(), systemSet));
-    NamedCommands.registerCommand(
-        "remove algea", Commands.defer(() -> commandGroupFactory.removeAlgea(), allSet));
-    NamedCommands.registerCommand("L1", elevator.relocateCommand(ElevatorConstants.L1_HEIGHT));
-    NamedCommands.registerCommand("L2", elevator.relocateCommand(ElevatorConstants.L2_HEIGHT));
-    NamedCommands.registerCommand("L3", elevator.relocateCommand(ElevatorConstants.L3_HEIGHT));
-    NamedCommands.registerCommand("L4", elevator.relocateCommand(ElevatorConstants.L4_HEIGHT));
-    NamedCommands.registerCommand("Edge", cannon.edgeTimeCommand());
-    NamedCommands.registerCommand("shootAndStop", cannon.edgeShootCommand());
-    NamedCommands.registerCommand("LAuto", elevator.relocateCommand(ElevatorConstants.AUTO_HEIGHT));
-    NamedCommands.registerCommand("waitForCoral", cannon.waitForCoral());
-    NamedCommands.registerCommand(
-        "isElevatorReady", Commands.waitUntil(() -> elevator.isElevatorReady()));
-    NamedCommands.registerCommand("new Left", commandGroupFactory.newLeftAuto());
-    NamedCommands.registerCommand("new Right", commandGroupFactory.newRightAuto());
-    NamedCommands.registerCommand("new Middle", commandGroupFactory.newMiddleAuto());
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -214,17 +141,9 @@ public class RobotContainer {
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     // event triggers
-    new EventTrigger("L1").onTrue(elevator.relocateCommand(ElevatorConstants.L1_HEIGHT));
-    new EventTrigger("L2").onTrue(elevator.relocateCommand(ElevatorConstants.L2_HEIGHT));
-    new EventTrigger("L3").onTrue(elevator.relocateCommand(ElevatorConstants.L3_HEIGHT));
-    new EventTrigger("L4").onTrue(elevator.relocateCommand(ElevatorConstants.L4_HEIGHT));
-    new EventTrigger("LAuto").onTrue(elevator.relocateCommand(ElevatorConstants.AUTO_HEIGHT));
 
-    // coral edge trigger
-    // CannonConstants.CORAL_EDGE_TRIGGER.onTrue(cannon.edgeCommand());
 
     // Configure the button bindings
-
     configureButtonBindings();
   }
 
@@ -244,96 +163,7 @@ public class RobotContainer {
                 () -> -driveController.getRightX() * slowSpeed.getAsDouble())
             .withName("Drive"));
 
-    // testerController.leftTrigger().whileTrue(drive);
-
-    // controller.a().whileTrue(cannon.setVoltageCommand(3));
-    // controller.b().onTrue(disposer.moveToPositionCommand(DisposerConstants.HOME_POSITION));
-    // controller.x().onTrue(disposer.moveToPositionCommand(DisposerConstants.OPEN_POSITION));
-    // controller.y().whileTrue(elevator.setVoltageCommand(1));
-
-    // controller.a().onTrue(Commands.runOnce(() -> isLeft = false));
-    // controller.b().onTrue(Commands.runOnce(() -> isLeft = false));
-    // controller.y().onTrue(new PathPlannerAuto("Test"));
-    // driveController.a().onTrue(elevator.relocateCommand(0));
-    // driveController.y().onTrue(elevator.relocateCommand(5));
-    // driveController.b().onTrue(elevator.relocateCommand(10));
-    // driveController.x().onTrue(cannon.edgeCommand());
-    operatorController.button(2).onTrue(commandGroupFactory.switchSidesCommand(1));
-    operatorController.button(1).onTrue(commandGroupFactory.switchSidesCommand(2));
-    operatorController.button(7).onTrue(commandGroupFactory.switchSidesCommand(3));
-    operatorController.button(8).onTrue(commandGroupFactory.switchSidesCommand(4));
-    operatorController.button(9).onTrue(commandGroupFactory.switchSidesCommand(5));
-    operatorController.button(3).onTrue(commandGroupFactory.switchSidesCommand(6));
-    operatorController
-        .button(10)
-        .onTrue(Commands.runOnce(() -> elevatorHeight = () -> ElevatorConstants.L2_HEIGHT));
-    operatorController
-        .button(11)
-        .onTrue(Commands.runOnce(() -> elevatorHeight = () -> ElevatorConstants.L3_HEIGHT));
-    operatorController
-        .button(12)
-        .onTrue(Commands.runOnce(() -> elevatorHeight = () -> ElevatorConstants.L4_HEIGHT));
-    operatorController.button(4).onTrue(changeSidesLeft());
-    operatorController.button(5).onTrue(changeSidesRightAlgea());
-    operatorController.button(6).onTrue(Commands.runOnce(() -> RobotState.rightReef = () -> true));
-    operatorController
-        .button(14)
-        .onTrue(Commands.runOnce(() -> RobotState.rightHome = !RobotState.rightHome));
-    operatorController.button(15).whileFalse(new PathPlannerAuto("Test").repeatedly());
-
-    testerController.a().onTrue(elevator.relocateCommand(ElevatorConstants.L1_HEIGHT));
-    testerController.b().onTrue(elevator.relocateCommand(ElevatorConstants.L2_HEIGHT));
-    testerController.x().onTrue(elevator.relocateCommand(ElevatorConstants.L3_HEIGHT));
-    testerController.y().onTrue(elevator.relocateCommand(ElevatorConstants.L4_HEIGHT));
-    testerController.rightBumper().whileTrue(elevator.setVoltageCommand(2));
-    testerController.leftBumper().whileTrue(elevator.setVoltageCommand(-2));
-    testerController.back().onTrue(cannon.shootAndStopCommand());
-    testerController.start().onTrue(elevator.setPositionCommand(0));
-    driveController.rightTrigger().whileTrue(new PathPlannerAuto("AutoAlgea"));
-    driveController.leftTrigger().whileTrue(new PathPlannerAuto("AutoCoral"));
-    driveController.leftStick().onTrue(cannon.edgeTimeCommand());
-    driveController
-        .a()
-        .onTrue(
-            Commands.runOnce(() -> RobotState.elevatorHeight = () -> ElevatorConstants.L4_HEIGHT));
-    driveController
-        .b()
-        .onTrue(
-            Commands.runOnce(() -> RobotState.elevatorHeight = () -> ElevatorConstants.L3_HEIGHT));
-    driveController
-        .x()
-        .onTrue(
-            Commands.runOnce(() -> RobotState.elevatorHeight = () -> ElevatorConstants.L2_HEIGHT));
-    driveController.y().onTrue(commandGroupFactory.removeAlgea());
-    driveController
-        .start()
-        .onTrue(
-            Commands.parallel(
-                disposer.moveToPositionCommand(DisposerConstants.HOME_POSITION),
-                elevator.resetCommand()));
-    testerController
-        .rightTrigger()
-        .whileTrue(
-            Commands.run(
-                () ->
-                    drive.runVelocity(
-                        new ChassisSpeeds(Units.inchesToMeters(1.8) * 200 * Math.PI, 0, 0)),
-                drive));
-
-    // goofy ahh drive shit
-    // // Lock to 0° when A button is held
-    // controller
-    // .a()
-    // .whileTrue(
-    // DriveCommands.joystickDriveAtAngle(
-    // drive,
-    // () -> -controller.getLeftY(),
-    // () -> -controller.getLeftX(),
-    // () -> new Rotation2d()));
-
-    // // Switch to X pattern when X button is pressed
-    // controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
-
+   
     // Reset gyro to 0° when B button is pressed
     driveController
         .rightBumper()
@@ -345,15 +175,6 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    // try {
-    //   driveController
-    //       .leftBumper()
-    //       .onTrue(AutoBuilder.followPath(PathPlannerPath.fromPathFile("rot")));
-    // } catch (FileVersionException | IOException | ParseException e) {
-    //   System.out.println("unalbe to follow given path!");
-    //   // TODO Auto-generated catch block
-    //   e.printStackTrace();
-    // }
   }
 
   /**
@@ -363,22 +184,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return autoChooser.get();
-  }
-
-  public Command changeSidesLeft() {
-    return Commands.runOnce(
-        () -> {
-          RobotState.rightReef = () -> false;
-          RobotState.algeaOut = () -> false;
-        });
-  }
-
-  public Command changeSidesRightAlgea() {
-    return Commands.runOnce(
-        () -> {
-          RobotState.rightReef = () -> true;
-          RobotState.algeaOut = () -> true;
-        });
   }
 
   public void periodic() {}
