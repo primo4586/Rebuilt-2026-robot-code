@@ -14,10 +14,6 @@ public class Elastic {
     displayRobotPose();
     displayTimer();
     displayField();
-    displayElevatorHeight();
-    displaySide();
-    displayRightHome();
-    displayRightReef();
   }
 
   public static void displayTimer() {
@@ -27,22 +23,6 @@ public class Elastic {
   public static void displayField() {
     // Do this in either robot or subsystem init
     SmartDashboard.putData("Field", m_field);
-  }
-
-  public static void displayElevatorHeight() {
-    SmartDashboard.putNumber("elevatorHeight", elevatorHeight.getAsDouble());
-  }
-
-  public static void displaySide() {
-    SmartDashboard.putNumber("side", side.getAsInt());
-  }
-
-  public static void displayRightHome() {
-    SmartDashboard.putBoolean("RightHome", rightHome);
-  }
-
-  public static void displayRightReef() {
-    SmartDashboard.putBoolean("RightReef", rightReef.getAsBoolean());
   }
 
   public static void displayRobotPose() {

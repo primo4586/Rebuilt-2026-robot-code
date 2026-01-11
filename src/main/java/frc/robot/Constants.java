@@ -7,9 +7,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
 
 /**
@@ -20,21 +17,6 @@ import edu.wpi.first.wpilibj.RobotBase;
 public final class Constants {
   public static final Mode simMode = Mode.SIM;
   public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : simMode;
-
-  // Pathfinding Constraints
-  public static final double PATHFINDER_MAX_VELOCITY = 2.0; // TODO: tune
-  public static final double PATHFINDER_MAX_ACCELRATION = 6.0;
-  public static final double PATHFINDER_MAX_ANGULAR_VELOCITY = Units.degreesToRadians(540);
-  public static final double PATHFINDER_MAX_ANGULAR_ACCELARATION = Units.degreesToRadians(720);
-
-  // positions
-  public static final Pose2d side1 = new Pose2d(1.9, 3.9, Rotation2d.fromDegrees(0));
-  public static final Pose2d side2 = new Pose2d(3.0, 6.5, Rotation2d.fromDegrees(300));
-  public static final Pose2d side3 = new Pose2d(5.6, 6.2, Rotation2d.fromDegrees(240));
-  public static final Pose2d side4 = new Pose2d(7.3, 4.0, Rotation2d.fromDegrees(180));
-  public static final Pose2d side5 = new Pose2d(5.8, 1.8, Rotation2d.fromDegrees(120));
-  public static final Pose2d side6 = new Pose2d(3.2, 1.8, Rotation2d.fromDegrees(60));
-  public static final Pose2d[] sides = {side1, side2, side3, side4, side5, side6};
 
   public static final String CAN_BUS_NAME = "canBus";
 
