@@ -1,0 +1,37 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.subsystems.shooter;
+
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+public class Shooter extends SubsystemBase {
+
+  private final ShooterIO io;
+  // private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
+
+  // singleton
+  private static Shooter instance;
+
+  public static Shooter getInstance(ShooterIO io) {
+    if (instance == null) {
+      instance = new Shooter(io);
+    }
+    return instance;
+  }
+
+  /** Creates a new Shooter. */
+  public Shooter(ShooterIO io) {
+    this.io = io;
+  }
+
+  // @Override
+  // public void periodic() {
+  //   io.updateInputs(inputs);
+  //   Logger.processInputs("Shooter", inputs);
+  // }
+
+  // Commands
+}
