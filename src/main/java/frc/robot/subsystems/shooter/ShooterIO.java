@@ -1,39 +1,26 @@
 package frc.robot.subsystems.shooter;
 
+import org.littletonrobotics.junction.AutoLog;
+
 public interface ShooterIO {
-  //   @AutoLog
-  //   public static class CannonIOInputs {
-  //     public double voltage = 0; // in volts
-  //     public double current = 0; // in amps
-  //   }
 
-  //   default void updateInputs(CannonIOInputs inputs) {
-  //     ifOk(motor, voltageSupplier, (value) -> inputs.voltage = value);
-  //     ifOk(motor, currentSupplier, (value) -> inputs.current = value);
-  //     inputs.opticalSensor = opticalSensorSupplier.getAsBoolean();
-  //   }
+  @AutoLog
+  public static class ShooterIOInputs {
+    public double voltage = 0; // in volts 
+    public double supplyCurrent = 0; // in amps
+    public double statorCurrent = 0; // in amps
+    public double velocity = 0; // in rps
+    public double acceleration = 0; // in rps^2
+  }
 
-  //   /**
-  //    * Sets the voltage of the motor. Note that we don't use the `motor.setVoltage` method
-  // because
-  // it
-  //    * doesn't seem to work properly with the sim. Instead, we convert the desired voltage to a
-  // motor
-  //    * output by dividing by the bus voltage. This is done to ensure that the sim works properly.
-  //    *
-  //    * @param voltage the desired voltage in volts
-  //    */
-  //   default void setVoltage(double voltage) {
-  //     // There is the motor.setVoltage method, but it seems like the sim wont work with it.
-  //     motor.set(voltage / motor.getBusVoltage());
-  //   }
+  public default void updateInputs(ShooterIOInputs inputs) {}
 
-  //   default void shoot() {
-  //     setVoltage(SHOOT_VOLTAGE);
-  //   }
+  public default void setVoltage(double voltage) {}
 
-  //   /** Disables the motor and stops the cannon from spinning. */
-  //   default void stop() {
-  //     motor.set(0);
-  //   }
+  public default void setCurrent(double current) {}
+
+  public default void setVelocity(double velocity){}
+
+  public default void stopMotor(double velocity){}
+
 }
