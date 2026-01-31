@@ -1,9 +1,9 @@
 package frc.robot.subsystems.intake.intakeRoller;
 
+import static frc.robot.subsystems.intake.intakeRoller.IntakeRollerConstants.*;
+
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
-
-import static frc.robot.subsystems.intake.intakeRoller.IntakeRollerConstants.*;
 
 public class IntakeRollerTalon implements IntakeRollerIO {
 
@@ -11,7 +11,7 @@ public class IntakeRollerTalon implements IntakeRollerIO {
 
     StatusCode statusCode = StatusCode.StatusCodeNotInitialized;
     for (int i = 0; i < 5; i++) {
-      _motor.getConfigurator().apply(realConfiguration);
+      _motor.getConfigurator().apply(configuration);
       if (statusCode.isOK()) {
         break;
       }
@@ -22,19 +22,12 @@ public class IntakeRollerTalon implements IntakeRollerIO {
   }
 
   @Override
-    public void updateInputs(IntakeRollerIOInputs inputs) {
+  public void updateInputs(IntakeRollerIOInputs inputs) {
     StatusSignal.refreshAll(
-        currentVoltage,
-        currentSupplyCurrent,
-        currentStatorCurrent,
-        currentVelocity,
-        currentAcceleration);
+        currentVoltage, currentSupplyCurrent, currentStatorCurrent, currentVelocity);
     inputs.voltage = currentVoltage.getValueAsDouble();
     inputs.statorCurrent = currentStatorCurrent.getValueAsDouble();
     inputs.supplyCurrent = currentSupplyCurrent.getValueAsDouble();
     inputs.velocity = currentVelocity.getValueAsDouble();
-    inputs.acceleration = currentAcceleration.getValueAsDouble();
   }
-
-
 }

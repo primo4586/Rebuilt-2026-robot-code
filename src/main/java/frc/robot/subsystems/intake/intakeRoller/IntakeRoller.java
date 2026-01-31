@@ -4,9 +4,9 @@
 
 package frc.robot.subsystems.intake.intakeRoller;
 
-import org.littletonrobotics.junction.Logger;
-
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.littletonrobotics.junction.Logger;
 
 public class IntakeRoller extends SubsystemBase {
 
@@ -33,5 +33,11 @@ public class IntakeRoller extends SubsystemBase {
   }
 
   // Commands
+  public Command setVoltage(double voltage) {
+    return runOnce(() -> io.setVoltage(voltage)).withName("IntakeRollerSetVoltage");
+  }
 
+  public Command setCurrent(double current) {
+    return runOnce(() -> io.setCurrent(current)).withName("IntakeRollerSetCurrent");
+  }
 }
