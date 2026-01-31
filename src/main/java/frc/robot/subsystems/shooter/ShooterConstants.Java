@@ -15,7 +15,7 @@ import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.Constants;
 import java.util.function.DoubleSupplier;
 
@@ -90,13 +90,49 @@ public class ShooterConstants {
   }
 
   public final class ShooterSimConstants {
+    public static final TalonFXConfiguration simConfigs = new TalonFXConfiguration();
+
+    static {
+
+      // peaks:
+      realConfigs.CurrentLimits.SupplyCurrentLimitEnable = false;
+      realConfigs.CurrentLimits.SupplyCurrentLimit = SUPPLY_CURRENT;
+
+      realConfigs.CurrentLimits.StatorCurrentLimitEnable = false;
+      realConfigs.CurrentLimits.StatorCurrentLimit = PEAK_CURRENT;
+
+      // settings
+      realConfigs.Feedback.SensorToMechanismRatio = GEAR_RATIO;
+      // TODO: tune motor modes
+      realConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+      realConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+
+      // PID
+      // TODO: tune PID
+      realConfigs.Slot0.kP = 10;
+      realConfigs.Slot0.kI = 0;
+      realConfigs.Slot0.kD = 0.03;
+
+      // feedforward
+      // TODO: tune FF
+      realConfigs.Slot0.kV = 0.16;
+      realConfigs.Slot0.kA = 0.02;
+      realConfigs.Slot0.kS = 0.17;
+
+      // MM
+      // TODO: tune MM
+      realConfigs.MotionMagic.MotionMagicCruiseVelocity = 1.5;
+      realConfigs.MotionMagic.MotionMagicAcceleration = 0;
+    }
+
     // phisics
     public static final double JKG = 0.5; // TODO: tune
 
     // sims
     public static final DCMotor motorModel = DCMotor.getKrakenX60(2);
     public static final TalonFXSimState simMotor = _masterMotor.getSimState();
-    public static final DCMotorSim sim =
-        new DCMotorSim(LinearSystemId.createDCMotorSystem(motorModel, JKG, GEAR_RATIO), motorModel);
+    public static final FlywheelSim sim =
+        new FlywheelSim(
+            LinearSystemId.createFlywheelSystem(motorModel, JKG, GEAR_RATIO), motorModel);
   }
 }
