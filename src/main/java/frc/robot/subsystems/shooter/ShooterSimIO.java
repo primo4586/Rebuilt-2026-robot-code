@@ -11,9 +11,11 @@ import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 
 public class ShooterSimIO implements ShooterIO {
 
-    public ShooterSimIO() {
-        _followerMotor.setControl(followerRequest);
-    }
+  public ShooterSimIO() {
+    _masterMotor.getConfigurator().apply(realConfigs); // ^ right now this is real configs
+    _followerMotor.setControl(followerRequest);
+  }
+
   @Override
   public void updateInputs(ShooterIOInputs inputs) {
     // gets deta
@@ -21,7 +23,7 @@ public class ShooterSimIO implements ShooterIO {
     sim.setInputVoltage(MathUtil.clamp(simMotor.getMotorVoltage(), -12.0, 12.0));
     sim.update(0.02);
 
-    simMotor.setRotorVelocity(sim.getAngularVelocityRadPerSec() * gearing);
+    simMotor.setRotorVelocity(sim.getAngularVelocityRadPerSec() / GEAR_RATIO);
     RoboRioSim.setVInVoltage(
         BatterySim.calculateDefaultBatteryLoadedVoltage(sim.getCurrentDrawAmps()));
 
@@ -34,7 +36,8 @@ public class ShooterSimIO implements ShooterIO {
     inputs.voltage = currentVoltage.getValueAsDouble();
     inputs.statorCurrent = currentStatorCurrent.getValueAsDouble();
     inputs.supplyCurrent = sim.getCurrentDrawAmps();
-    inputs.velocity = currentVelocity.getValueAsDouble();
+    inputs.velocity = currentVelocity.getValueAsDouble() * GEAR_RATIO;
     inputs.acceleration = currentAcceleration.getValueAsDouble();
+    inputs.wantedVelocity = targetVelocity;
   }
 }
