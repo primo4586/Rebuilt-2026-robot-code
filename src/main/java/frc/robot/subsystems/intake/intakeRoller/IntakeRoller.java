@@ -29,7 +29,7 @@ public class IntakeRoller extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    Logger.processInputs("Intake", inputs);
+    Logger.processInputs("IntakeRoller", inputs);
   }
 
   // Commands

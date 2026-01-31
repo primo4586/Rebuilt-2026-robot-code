@@ -26,6 +26,10 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.intake.intakeArm.IntakeArm;
+import frc.robot.subsystems.intake.intakeArm.IntakeArmIO;
+import frc.robot.subsystems.intake.intakeArm.IntakeArmSim;
+import frc.robot.subsystems.intake.intakeArm.IntakeArmTalon;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRoller;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRollerIO;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRollerSim;
@@ -45,6 +49,7 @@ public class RobotContainer {
   private final Vision vision;
   private final Drive drive;
   private final IntakeRoller intakeRoller;
+  private final IntakeArm intakeArm;
 
   // Controller
   private final CommandXboxController driveController = new CommandXboxController(0);
@@ -80,6 +85,7 @@ public class RobotContainer {
                 new VisionIOPhotonVision(cameraOPI, cameraOPITranslation),
                 new VisionIOPhotonVision(cameraElevator, cameraElevatorTranslation));
         intakeRoller = IntakeRoller.getInstance(new IntakeRollerTalon());
+        intakeArm = IntakeArm.getInstance(new IntakeArmTalon());
         break;
 
       case SIM:
@@ -98,6 +104,7 @@ public class RobotContainer {
                 new VisionIOPhotonVisionSim(
                     cameraElevator, cameraElevatorTranslation, drive::getPose));
         intakeRoller = IntakeRoller.getInstance(new IntakeRollerSim());
+        intakeArm = IntakeArm.getInstance(new IntakeArmSim());
         break;
 
       default:
@@ -111,6 +118,7 @@ public class RobotContainer {
                 new ModuleIO() {});
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
         intakeRoller = IntakeRoller.getInstance(new IntakeRollerIO() {});
+        intakeArm = IntakeArm.getInstance(new IntakeArmIO() {});
         break;
     }
 
@@ -149,8 +157,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    driveController.a().onTrue(intakeRoller.setVoltage(8));
-    driveController.b().onTrue(intakeRoller.setVoltage(0));
+    driveController.a().onTrue(intakeArm.setPosition(0.5));
+    driveController.b().onTrue(intakeArm.setPosition(0));
 
     // Default command, normal field-relative drive
     drive.setDefaultCommand(
