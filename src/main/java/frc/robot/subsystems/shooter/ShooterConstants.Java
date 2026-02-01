@@ -85,8 +85,7 @@ public class ShooterConstants {
 
     // MM
     // TODO: tune MM
-    realConfigs.MotionMagic.MotionMagicCruiseVelocity = 1.5;
-    realConfigs.MotionMagic.MotionMagicAcceleration = 0;
+    realConfigs.MotionMagic.MotionMagicAcceleration = 3;
   }
 
   public final class ShooterSimConstants {
@@ -95,34 +94,33 @@ public class ShooterConstants {
     static {
 
       // peaks:
-      realConfigs.CurrentLimits.SupplyCurrentLimitEnable = false;
-      realConfigs.CurrentLimits.SupplyCurrentLimit = SUPPLY_CURRENT;
+      simConfigs.CurrentLimits.SupplyCurrentLimitEnable = false;
+      simConfigs.CurrentLimits.SupplyCurrentLimit = SUPPLY_CURRENT;
 
-      realConfigs.CurrentLimits.StatorCurrentLimitEnable = false;
-      realConfigs.CurrentLimits.StatorCurrentLimit = PEAK_CURRENT;
+      simConfigs.CurrentLimits.StatorCurrentLimitEnable = false;
+      simConfigs.CurrentLimits.StatorCurrentLimit = PEAK_CURRENT;
 
       // settings
-      realConfigs.Feedback.SensorToMechanismRatio = GEAR_RATIO;
+      simConfigs.Feedback.SensorToMechanismRatio = GEAR_RATIO;
       // TODO: tune motor modes
-      realConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-      realConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+      simConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+      simConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
       // PID
       // TODO: tune PID
-      realConfigs.Slot0.kP = 10;
-      realConfigs.Slot0.kI = 0;
-      realConfigs.Slot0.kD = 0.03;
+      simConfigs.Slot0.kP = 10;
+      simConfigs.Slot0.kI = 0;
+      simConfigs.Slot0.kD = 0.03;
 
       // feedforward
       // TODO: tune FF
-      realConfigs.Slot0.kV = 0.16;
-      realConfigs.Slot0.kA = 0.02;
-      realConfigs.Slot0.kS = 0.17;
+      simConfigs.Slot0.kV = 0.16;
+      simConfigs.Slot0.kA = 0.02;
+      simConfigs.Slot0.kS = 0.17;
 
       // MM
-      // TODO: tune MM
-      realConfigs.MotionMagic.MotionMagicCruiseVelocity = 1.5;
-      realConfigs.MotionMagic.MotionMagicAcceleration = 0;
+      // TODO: tune MM;
+      simConfigs.MotionMagic.MotionMagicAcceleration = 3;
     }
 
     // phisics
