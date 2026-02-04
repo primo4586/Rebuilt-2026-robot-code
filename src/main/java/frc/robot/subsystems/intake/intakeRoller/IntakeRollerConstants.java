@@ -12,7 +12,7 @@ import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.Constants;
 
 public class IntakeRollerConstants {
@@ -35,36 +35,54 @@ public class IntakeRollerConstants {
   // configs
   public static final double STATOR_CURRENT = 100;
   public static final double SUPPLY_CURRENT = 50;
-  public static final double GEAR_RATIO = 5;
+  public static final double GEAR_RATIO = 3;
   public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Brake;
   public static final InvertedValue INVERTED = InvertedValue.Clockwise_Positive;
-  public static final double gearing = 0.5; // TODO: tune
 
   //  Real config declaration
-  public static final TalonFXConfiguration configuration = new TalonFXConfiguration();
+  public static final TalonFXConfiguration realConfigs = new TalonFXConfiguration();
 
   static {
 
     // peaks:
-    configuration.CurrentLimits.StatorCurrentLimitEnable = true;
-    configuration.CurrentLimits.StatorCurrentLimit = STATOR_CURRENT;
-    configuration.CurrentLimits.StatorCurrentLimitEnable = true;
-    configuration.CurrentLimits.SupplyCurrentLimit = SUPPLY_CURRENT;
+    realConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
+    realConfigs.CurrentLimits.StatorCurrentLimit = STATOR_CURRENT;
+    realConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
+    realConfigs.CurrentLimits.SupplyCurrentLimit = SUPPLY_CURRENT;
 
     // settings
-    configuration.Feedback.SensorToMechanismRatio = GEAR_RATIO;
-    configuration.MotorOutput.NeutralMode = NEUTRAL_MODE;
-    configuration.MotorOutput.Inverted = INVERTED;
+    realConfigs.Feedback.SensorToMechanismRatio = GEAR_RATIO;
+    realConfigs.MotorOutput.NeutralMode = NEUTRAL_MODE;
+    realConfigs.MotorOutput.Inverted = INVERTED;
   }
 
   public final class intakeRollerSimConstants {
+
+    //  sim config declaration
+    public static final TalonFXConfiguration simConfigs = new TalonFXConfiguration();
+
+    static {
+
+      // peaks:
+      simConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
+      simConfigs.CurrentLimits.StatorCurrentLimit = STATOR_CURRENT;
+      simConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
+      simConfigs.CurrentLimits.SupplyCurrentLimit = SUPPLY_CURRENT;
+
+      // settings
+      simConfigs.Feedback.SensorToMechanismRatio = GEAR_RATIO;
+      simConfigs.MotorOutput.NeutralMode = NEUTRAL_MODE;
+      simConfigs.MotorOutput.Inverted = INVERTED;
+    }
+
     // phisics
-    public static final double JKG = 0.25; // TODO: tune
+    public static final double JKG = 0.02; // TODO: tune
 
     // sims
     public static final DCMotor motorModel = DCMotor.getFalcon500(1);
     public static final TalonFXSimState simMotor = _motor.getSimState();
-    public static final DCMotorSim sim =
-        new DCMotorSim(LinearSystemId.createDCMotorSystem(motorModel, JKG, gearing), motorModel);
+    public static final FlywheelSim sim =
+        new FlywheelSim(
+            LinearSystemId.createFlywheelSystem(motorModel, JKG, GEAR_RATIO), motorModel);
   }
 }

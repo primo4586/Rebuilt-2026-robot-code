@@ -11,7 +11,7 @@ public class IntakeRollerTalon implements IntakeRollerIO {
 
     StatusCode statusCode = StatusCode.StatusCodeNotInitialized;
     for (int i = 0; i < 5; i++) {
-      _motor.getConfigurator().apply(configuration);
+      _motor.getConfigurator().apply(realConfigs);
       if (statusCode.isOK()) {
         break;
       }

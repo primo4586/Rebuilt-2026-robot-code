@@ -34,10 +34,12 @@ public class IntakeRoller extends SubsystemBase {
 
   // Commands
   public Command setVoltage(double voltage) {
-    return runOnce(() -> io.setVoltage(voltage)).withName("IntakeRollerSetVoltage");
+    return startEnd(() -> io.setVoltage(voltage), () -> io.stopMotor())
+        .withName("IntakeRollerSetVoltage");
   }
 
   public Command setCurrent(double current) {
-    return runOnce(() -> io.setCurrent(current)).withName("IntakeRollerSetCurrent");
+    return startEnd(() -> io.setCurrent(current), () -> io.stopMotor())
+        .withName("IntakeRollerSetCurrent");
   }
 }

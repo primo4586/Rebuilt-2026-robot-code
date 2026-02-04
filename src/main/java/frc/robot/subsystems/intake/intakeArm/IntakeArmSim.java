@@ -26,15 +26,15 @@ public class IntakeArmSim implements IntakeArmIO {
     // sim update rate
     armSim.update(0.02);
 
-    //Calculate Mechanism Position (The physical arm)
+    // Calculate Mechanism Position (The physical arm)
     double mechanismPosition = armSim.getAngleRads() / (2 * Math.PI);
     double mechanismVelocity = armSim.getVelocityRadPerSec() / (2 * Math.PI);
 
-    //Calculate Rotor Position (The motor shaft) -> MULTIPLY by Gear Ratio
+    // Calculate Rotor Position (The motor shaft) -> MULTIPLY by Gear Ratio
     double rotorPosition = mechanismPosition * GEAR_RATIO;
     double rotorVelocity = mechanismVelocity * GEAR_RATIO;
 
-    //Set Sim State (SimState always expects Rotor Rotations)
+    // Set Sim State (SimState always expects Rotor Rotations)
     simMotor.setRawRotorPosition(rotorPosition);
     simMotor.setRotorVelocity(rotorVelocity);
 

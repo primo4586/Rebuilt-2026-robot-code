@@ -3,42 +3,36 @@ package frc.robot.subsystems.intake.intakeRoller;
 import static frc.robot.subsystems.intake.intakeRoller.IntakeRollerConstants.*;
 import static frc.robot.subsystems.intake.intakeRoller.IntakeRollerConstants.intakeRollerSimConstants.*;
 
-import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.simulation.BatterySim;
-import edu.wpi.first.wpilibj.simulation.RoboRioSim;
+import com.ctre.phoenix6.StatusSignal;
 
 public class IntakeRollerSim implements IntakeRollerIO {
 
   public IntakeRollerSim() {
-    _motor.getConfigurator().apply(configuration);
+    _motor.getConfigurator().apply(simConfigs);
   }
 
   @Override
   public void updateInputs(IntakeRollerIOInputs inputs) {
 
     // supply voltage
-    simMotor.setSupplyVoltage(RobotController.getBatteryVoltage());
+    simMotor.setSupplyVoltage(12);
 
-    // stator voltage
-    sim.setInputVoltage(simMotor.getMotorVoltage());
-
-    // sim update rate
+    // update sim mechanism
+    sim.setInputVoltage(_motor.getMotorVoltage().getValueAsDouble());
     sim.update(0.02);
 
-    // calculate the motor's velocity
-    double velocity = sim.getAngularVelocityRadPerSec() / (2 * Math.PI) * GEAR_RATIO;
+    // update motor
+    simMotor.setRotorVelocity(sim.getAngularVelocity().times(GEAR_RATIO));
+    simMotor.setRotorAcceleration(sim.getAngularAcceleration().times(GEAR_RATIO));
 
-    // apply the values
-    simMotor.setRotorVelocity(velocity);
+    // update status ctre
+    StatusSignal.refreshAll(
+        currentVoltage, currentSupplyCurrent, currentStatorCurrent, currentVelocity);
 
-    // set sim roborio voltage
-    RoboRioSim.setVInVoltage(
-        BatterySim.calculateDefaultBatteryLoadedVoltage(sim.getCurrentDrawAmps()));
-
-    // update inputs
-    inputs.voltage = simMotor.getMotorVoltage();
-    inputs.statorCurrent = simMotor.getTorqueCurrent();
-    inputs.supplyCurrent = simMotor.getSupplyCurrent();
-    inputs.velocity = velocity;
+    // updates inputs
+    inputs.voltage = currentVoltage.getValueAsDouble();
+    inputs.statorCurrent = currentStatorCurrent.getValueAsDouble();
+    inputs.supplyCurrent = currentSupplyCurrent.getValueAsDouble();
+    inputs.velocity = currentVelocity.getValueAsDouble();
   }
 }

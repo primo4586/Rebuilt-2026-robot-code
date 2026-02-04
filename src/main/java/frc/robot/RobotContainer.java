@@ -157,8 +157,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    driveController.a().onTrue(intakeArm.setPosition(0.5));
-    driveController.b().onTrue(intakeArm.setPosition(0));
+    driveController.a().whileTrue(intakeRoller.setVoltage(6));
+    driveController.b().whileTrue(intakeRoller.setCurrent(-400));
 
     // Default command, normal field-relative drive
     drive.setDefaultCommand(
