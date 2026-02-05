@@ -26,6 +26,10 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.ShooterIO;
+import frc.robot.subsystems.shooter.ShooterRealIO;
+import frc.robot.subsystems.shooter.ShooterSimIO;
 import frc.robot.subsystems.vision.*;
 import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -40,6 +44,7 @@ public class RobotContainer {
   // Subsystems
   private final Vision vision;
   private final Drive drive;
+  private final Shooter shooter;
 
   // Controller
   private final CommandXboxController driveController = new CommandXboxController(0);
@@ -74,6 +79,7 @@ public class RobotContainer {
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVision(cameraOPI, cameraOPITranslation),
                 new VisionIOPhotonVision(cameraElevator, cameraElevatorTranslation));
+        shooter = new Shooter(new ShooterRealIO());
         break;
 
       case SIM:
@@ -91,6 +97,7 @@ public class RobotContainer {
                 new VisionIOPhotonVisionSim(cameraOPI, cameraOPITranslation, drive::getPose),
                 new VisionIOPhotonVisionSim(
                     cameraElevator, cameraElevatorTranslation, drive::getPose));
+        shooter = new Shooter(new ShooterSimIO());
         break;
 
       default:
@@ -103,6 +110,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
+        shooter = new Shooter(new ShooterIO() {});
         break;
     }
 
@@ -159,6 +167,8 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
                     drive)
                 .ignoringDisable(true));
+    testerController.a().whileTrue(shooter.passCommand());
+    testerController.b().whileTrue(shooter.setVoltageCommand(6));
   }
 
   /**
