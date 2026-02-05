@@ -27,12 +27,12 @@ public class IntakeRollerSim implements IntakeRollerIO {
 
     // update status ctre
     StatusSignal.refreshAll(
-        currentVoltage, currentSupplyCurrent, currentStatorCurrent, currentVelocity);
+        voltageSignal, supplyCurrentSignal, statorCurrentSignal, velocitySignal);
 
     // updates inputs
-    inputs.voltage = currentVoltage.getValueAsDouble();
-    inputs.statorCurrent = currentStatorCurrent.getValueAsDouble();
-    inputs.supplyCurrent = currentSupplyCurrent.getValueAsDouble();
-    inputs.velocity = currentVelocity.getValueAsDouble();
+    inputs.voltage = voltageSignal.getValueAsDouble();
+    inputs.statorCurrent = statorCurrentSignal.getValueAsDouble();
+    inputs.supplyCurrent = supplyCurrentSignal.getValueAsDouble();
+    inputs.velocity = velocitySignal.getValueAsDouble();
   }
 }

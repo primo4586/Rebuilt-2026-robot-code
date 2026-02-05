@@ -24,10 +24,10 @@ public class IntakeRollerConstants {
   public static final TalonFX _motor = new TalonFX(MOTOR_ID, Constants.CAN_BUS_NAME);
 
   // signals
-  public static final StatusSignal<Voltage> currentVoltage = _motor.getMotorVoltage();
-  public static final StatusSignal<Current> currentStatorCurrent = _motor.getStatorCurrent();
-  public static final StatusSignal<Current> currentSupplyCurrent = _motor.getSupplyCurrent();
-  public static final StatusSignal<AngularVelocity> currentVelocity = _motor.getVelocity();
+  public static final StatusSignal<Voltage> voltageSignal = _motor.getMotorVoltage();
+  public static final StatusSignal<Current> statorCurrentSignal = _motor.getStatorCurrent();
+  public static final StatusSignal<Current> supplyCurrentSignal = _motor.getSupplyCurrent();
+  public static final StatusSignal<AngularVelocity> velocitySignal = _motor.getVelocity();
 
   // request
   public static final TorqueCurrentFOC currentRequest = new TorqueCurrentFOC(0);
@@ -47,7 +47,7 @@ public class IntakeRollerConstants {
     // peaks:
     realConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
     realConfigs.CurrentLimits.StatorCurrentLimit = STATOR_CURRENT;
-    realConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
+    realConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
     realConfigs.CurrentLimits.SupplyCurrentLimit = SUPPLY_CURRENT;
 
     // settings

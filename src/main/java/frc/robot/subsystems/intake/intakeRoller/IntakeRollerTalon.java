@@ -17,17 +17,17 @@ public class IntakeRollerTalon implements IntakeRollerIO {
       }
     }
     if (statusCode.isError()) {
-      System.out.println("Cannon configs failed" + statusCode.toString());
+      System.out.println("intake roller configs failed" + statusCode.toString());
     }
   }
 
   @Override
   public void updateInputs(IntakeRollerIOInputs inputs) {
     StatusSignal.refreshAll(
-        currentVoltage, currentSupplyCurrent, currentStatorCurrent, currentVelocity);
-    inputs.voltage = currentVoltage.getValueAsDouble();
-    inputs.statorCurrent = currentStatorCurrent.getValueAsDouble();
-    inputs.supplyCurrent = currentSupplyCurrent.getValueAsDouble();
-    inputs.velocity = currentVelocity.getValueAsDouble();
+        voltageSignal, supplyCurrentSignal, statorCurrentSignal, velocitySignal);
+    inputs.voltage = voltageSignal.getValueAsDouble();
+    inputs.statorCurrent = statorCurrentSignal.getValueAsDouble();
+    inputs.supplyCurrent = supplyCurrentSignal.getValueAsDouble();
+    inputs.velocity = velocitySignal.getValueAsDouble();
   }
 }

@@ -28,11 +28,11 @@ public class IntakeArmConstants {
   public static final TalonFX _motor = new TalonFX(MOTOR_ID, Constants.CAN_BUS_NAME);
 
   // signals
-  public static final StatusSignal<Voltage> currentVoltage = _motor.getMotorVoltage();
-  public static final StatusSignal<Current> currentStatorCurrent = _motor.getStatorCurrent();
-  public static final StatusSignal<Current> currentSupplyCurrent = _motor.getSupplyCurrent();
-  public static final StatusSignal<AngularVelocity> currentVelocity = _motor.getVelocity();
-  public static final StatusSignal<Angle> currentPosition = _motor.getPosition();
+  public static final StatusSignal<Voltage> voltageSignal = _motor.getMotorVoltage();
+  public static final StatusSignal<Current> statorCurrentSignal = _motor.getStatorCurrent();
+  public static final StatusSignal<Current> supplyCurrentSignal = _motor.getSupplyCurrent();
+  public static final StatusSignal<AngularVelocity> velocitySignal = _motor.getVelocity();
+  public static final StatusSignal<Angle> positionSignal = _motor.getPosition();
 
   // request
   public static final TorqueCurrentFOC currentRequest = new TorqueCurrentFOC(0);
@@ -44,7 +44,6 @@ public class IntakeArmConstants {
   public static final double GEAR_RATIO = 5;
   public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Brake;
   public static final InvertedValue INVERTED = InvertedValue.CounterClockwise_Positive;
-  public static final double gearing = 0.5; // TODO: tune
 
   // config declaration
 
@@ -55,7 +54,7 @@ public class IntakeArmConstants {
     // peaks:
     realConfiguration.CurrentLimits.StatorCurrentLimitEnable = true;
     realConfiguration.CurrentLimits.StatorCurrentLimit = STATOR_CURRENT;
-    realConfiguration.CurrentLimits.StatorCurrentLimitEnable = true;
+    realConfiguration.CurrentLimits.SupplyCurrentLimitEnable = true;
     realConfiguration.CurrentLimits.SupplyCurrentLimit = SUPPLY_CURRENT;
 
     // settings
@@ -67,6 +66,11 @@ public class IntakeArmConstants {
     realConfiguration.Slot0.kP = 8; // TODO: tune
     realConfiguration.Slot0.kI = 0.0;
     realConfiguration.Slot0.kD = 1;
+
+    //feedforward
+    realConfiguration.Slot0.kS = 0; // TODO: tune
+    realConfiguration.Slot0.kV = 0; 
+    realConfiguration.Slot0.kA = 0; 
   }
 
   public static final TalonFXConfiguration simConfiguration = new TalonFXConfiguration();
@@ -88,9 +92,14 @@ public class IntakeArmConstants {
     simConfiguration.Slot0.kP = 10; // TODO: tune
     simConfiguration.Slot0.kI = 0.0;
     simConfiguration.Slot0.kD = 1;
+
+    //feedforward
+    simConfiguration.Slot0.kS = 0; // TODO: tune
+    simConfiguration.Slot0.kV = 0; 
+    simConfiguration.Slot0.kA = 0; 
   }
 
-  public static final double startingAngleRads = 0;
+  public static final double startingAngleRads = Math.toRadians(0);
 
   public class IntakeArmSimConstants {
     public static final TalonFXSimState simMotor = _motor.getSimState();
@@ -101,8 +110,8 @@ public class IntakeArmConstants {
     public static final double armLengthMeters = 0.56;
     // public static final double minAngleRads = Math.PI / 2;
     // public static final double maxAngleRads = 1.25 * Math.PI;
-    public static final double minAngleRads = Math.toRadians(90) * -100;
-    public static final double maxAngleRads = Math.toRadians(180) * 100;
+    public static final double minAngleRads = Math.toRadians(90);
+    public static final double maxAngleRads = Math.toRadians(180);
 
     public static final SingleJointedArmSim armSim =
         new SingleJointedArmSim(

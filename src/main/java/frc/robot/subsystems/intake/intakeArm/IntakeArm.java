@@ -34,11 +34,11 @@ public class IntakeArm extends SubsystemBase {
 
   // Commands
   public Command setVoltage(double voltage) {
-    return runOnce(() -> io.setVoltage(voltage)).withName("IntakeArmSetVoltage");
+    return startEnd(() -> io.setVoltage(voltage), io::stopMotor).withName("IntakeArmSetVoltage");
   }
 
   public Command setCurrent(double current) {
-    return runOnce(() -> io.setCurrent(current)).withName("IntakeArmSetCurrent");
+    return startEnd(() -> io.setCurrent(current), io::stopMotor).withName("IntakeArmSetCurrent");
   }
 
   public Command setPosition(double position) {
