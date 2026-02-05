@@ -22,17 +22,12 @@ public class ShooterRealIO implements ShooterIO {
 
   @Override
   public void updateInputs(ShooterIOInputs inputs) {
-    StatusSignal.refreshAll(
-        currentVoltage,
-        currentSupplyCurrent,
-        currentStatorCurrent,
-        currentVelocity,
-        currentAcceleration);
-    inputs.voltage = currentVoltage.getValueAsDouble();
-    inputs.statorCurrent = currentStatorCurrent.getValueAsDouble();
-    inputs.supplyCurrent = currentSupplyCurrent.getValueAsDouble();
-    inputs.velocity = currentVelocity.getValueAsDouble();
-    inputs.acceleration = currentAcceleration.getValueAsDouble();
-    inputs.wantedVelocity = targetVelocity;
+    statusCode = StatusSignal.refreshAll(voltageSignal, supplyCurrentSignal, statorCurrentSignal, velocitySignal, AccelerationSignal);
+
+    inputs.voltage = voltageSignal.getValueAsDouble();
+    inputs.statorCurrent = statorCurrentSignal.getValueAsDouble();
+    inputs.supplyCurrent = supplyCurrentSignal.getValueAsDouble();
+    inputs.velocity = velocitySignal.getValueAsDouble();
+    inputs.acceleration = AccelerationSignal.getValueAsDouble();
   }
 }

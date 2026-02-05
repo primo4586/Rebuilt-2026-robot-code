@@ -36,10 +36,15 @@ public interface ShooterIO {
     targetVelocity = velocity;
   }
 
+  /**
+   * Set the shooter to pass mode, which is a Constant velocity of about 20 RPM. This is for passing the
+   * ball.
+   */
   public default void pass() {
     _masterMotor.setControl(velocityRequest.withVelocity(PASS_RPS));
     targetVelocity = PASS_RPS;
   }
+
 
   public default void shoot() {
     _masterMotor.setControl(velocityRequest.withVelocity(shotVelocitySupplier.getAsDouble()));

@@ -30,11 +30,11 @@ public class ShooterConstants {
       new TalonFX(FOLLOWER_MOTOR_ID, Constants.CAN_BUS_NAME);
 
   // signals
-  public static final StatusSignal<Voltage> currentVoltage = _masterMotor.getMotorVoltage();
-  public static final StatusSignal<Current> currentStatorCurrent = _masterMotor.getStatorCurrent();
-  public static final StatusSignal<Current> currentSupplyCurrent = _masterMotor.getSupplyCurrent();
-  public static final StatusSignal<AngularVelocity> currentVelocity = _masterMotor.getVelocity();
-  public static final StatusSignal<AngularAcceleration> currentAcceleration =
+  public static final StatusSignal<Voltage> voltageSignal = _masterMotor.getMotorVoltage();
+  public static final StatusSignal<Current> statorCurrentSignal = _masterMotor.getStatorCurrent();
+  public static final StatusSignal<Current> supplyCurrentSignal = _masterMotor.getSupplyCurrent();
+  public static final StatusSignal<AngularVelocity> velocitySignal = _masterMotor.getVelocity();
+  public static final StatusSignal<AngularAcceleration> AccelerationSignal =
       _masterMotor.getAcceleration();
 
   // request
@@ -123,8 +123,8 @@ public class ShooterConstants {
       simConfigs.MotionMagic.MotionMagicAcceleration = 3;
     }
 
-    // phisics
-    public static final double JKG = 0.5; // TODO: tune
+    // physics
+    public static final double JKG = 0.05; // TODO: tune
 
     // sims
     public static final DCMotor motorModel = DCMotor.getKrakenX60(2);

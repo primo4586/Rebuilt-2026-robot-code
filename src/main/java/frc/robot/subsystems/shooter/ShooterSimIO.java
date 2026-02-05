@@ -21,17 +21,13 @@ public class ShooterSimIO implements ShooterIO {
     sim.update(0.02);
     simMotor.setRotorVelocity(sim.getAngularVelocity().times(GEAR_RATIO));
     simMotor.setRotorAcceleration(sim.getAngularAcceleration().times(GEAR_RATIO));
-    StatusSignal.refreshAll(
-        currentVoltage,
-        currentSupplyCurrent,
-        currentStatorCurrent,
-        currentVelocity,
-        currentAcceleration);
-    inputs.voltage = currentVoltage.getValueAsDouble();
-    inputs.statorCurrent = currentStatorCurrent.getValueAsDouble();
-    inputs.supplyCurrent = sim.getCurrentDrawAmps();
-    inputs.velocity = currentVelocity.getValueAsDouble();
-    inputs.acceleration = currentAcceleration.getValueAsDouble();
-    inputs.wantedVelocity = targetVelocity;
+
+    StatusSignal.refreshAll(voltageSignal, supplyCurrentSignal, statorCurrentSignal, velocitySignal, AccelerationSignal);
+
+    inputs.voltage = voltageSignal.getValueAsDouble();
+    inputs.statorCurrent = statorCurrentSignal.getValueAsDouble();
+    inputs.supplyCurrent = supplyCurrentSignal.getValueAsDouble();
+    inputs.velocity = velocitySignal.getValueAsDouble();
+    inputs.acceleration = AccelerationSignal.getValueAsDouble();
   }
 }
