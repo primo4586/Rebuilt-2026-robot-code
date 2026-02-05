@@ -20,7 +20,7 @@ public class ShooterSimIO implements ShooterIO {
     sim.setInputVoltage(MathUtil.clamp(simMotor.getMotorVoltage(), -12.0, 12.0));
     sim.update(0.02);
     simMotor.setRotorVelocity(sim.getAngularVelocity().times(GEAR_RATIO));
-
+    simMotor.setRotorAcceleration(sim.getAngularAcceleration().times(GEAR_RATIO));
     StatusSignal.refreshAll(
         currentVoltage,
         currentSupplyCurrent,
