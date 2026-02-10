@@ -84,7 +84,7 @@ public class FeederConstants {
     }
 
     // phisics
-    public static final double JKG = 0.02; // TODO: tune
+    public static final double JKG = 5; // TODO: tune
 
     // sims
     public static final DCMotor motorModel = DCMotor.getFalcon500(1);
