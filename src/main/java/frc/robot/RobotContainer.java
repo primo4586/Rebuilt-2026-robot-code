@@ -26,6 +26,10 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.feeder.Feeder;
+import frc.robot.subsystems.feeder.FeederIO;
+import frc.robot.subsystems.feeder.FeederSim;
+import frc.robot.subsystems.feeder.FeederTalonFX;
 import frc.robot.subsystems.vision.*;
 import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -40,6 +44,7 @@ public class RobotContainer {
   // Subsystems
   private final Vision vision;
   private final Drive drive;
+  private final Feeder feeder;
 
   // Controller
   private final CommandXboxController driveController = new CommandXboxController(0);
@@ -74,6 +79,7 @@ public class RobotContainer {
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVision(cameraOPI, cameraOPITranslation),
                 new VisionIOPhotonVision(cameraElevator, cameraElevatorTranslation));
+        feeder = new Feeder(new FeederTalonFX());
         break;
 
       case SIM:
@@ -91,6 +97,7 @@ public class RobotContainer {
                 new VisionIOPhotonVisionSim(cameraOPI, cameraOPITranslation, drive::getPose),
                 new VisionIOPhotonVisionSim(
                     cameraElevator, cameraElevatorTranslation, drive::getPose));
+        feeder = new Feeder(new FeederSim());
         break;
 
       default:
@@ -103,6 +110,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
+        feeder = new Feeder(new FeederIO() {});
         break;
     }
 
@@ -159,6 +167,8 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
                     drive)
                 .ignoringDisable(true));
+    testerController.a().whileTrue(feeder.feed());
+    testerController.b().whileTrue(feeder.setCurrent(30));
   }
 
   /**

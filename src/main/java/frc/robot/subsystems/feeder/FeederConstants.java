@@ -33,9 +33,10 @@ public class FeederConstants {
   public static final TorqueCurrentFOC currentRequest = new TorqueCurrentFOC(0);
 
   // configs
-  public static final double STATOR_CURRENT = 100;
-  public static final double SUPPLY_CURRENT = 50;
-  public static final double GEAR_RATIO = 3;
+  public static final double STATOR_CURRENT = 60; // TODO: tune current
+  public static final double SUPPLY_CURRENT = 30;
+  public static final double VOLTAGE_LIMIT = 0;
+  public static final double GEAR_RATIO = 3; // TODO: set gear ratio
   public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Brake;
   public static final InvertedValue INVERTED = InvertedValue.Clockwise_Positive;
 
@@ -49,12 +50,18 @@ public class FeederConstants {
     realConfigs.CurrentLimits.StatorCurrentLimit = STATOR_CURRENT;
     realConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
     realConfigs.CurrentLimits.SupplyCurrentLimit = SUPPLY_CURRENT;
+    realConfigs.Voltage.PeakForwardVoltage = VOLTAGE_LIMIT;
+    realConfigs.Voltage.PeakReverseVoltage = VOLTAGE_LIMIT;
 
     // settings
     realConfigs.Feedback.SensorToMechanismRatio = GEAR_RATIO;
     realConfigs.MotorOutput.NeutralMode = NEUTRAL_MODE;
     realConfigs.MotorOutput.Inverted = INVERTED;
   }
+
+  // Default Values
+  public static final double FEED_VOLTAGE = 6; // TODO: set voltage
+  public static final double FEED_CURRENT = 30;
 
   public final class FeederSimConstants {
 
@@ -64,11 +71,12 @@ public class FeederConstants {
     static {
 
       // peaks:
-      simConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
+      simConfigs.CurrentLimits.StatorCurrentLimitEnable = false;
       simConfigs.CurrentLimits.StatorCurrentLimit = STATOR_CURRENT;
-      simConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
+      simConfigs.CurrentLimits.SupplyCurrentLimitEnable = false;
       simConfigs.CurrentLimits.SupplyCurrentLimit = SUPPLY_CURRENT;
-
+      simConfigs.Voltage.PeakForwardVoltage = VOLTAGE_LIMIT;
+      simConfigs.Voltage.PeakReverseVoltage = VOLTAGE_LIMIT;
       // settings
       simConfigs.Feedback.SensorToMechanismRatio = GEAR_RATIO;
       simConfigs.MotorOutput.NeutralMode = NEUTRAL_MODE;

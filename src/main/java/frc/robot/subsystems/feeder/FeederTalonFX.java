@@ -5,9 +5,9 @@ import static frc.robot.subsystems.feeder.FeederConstants.*;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
 
-public class FeederTalon implements FeederIO {
+public class FeederTalonFX implements FeederIO {
 
-  public FeederTalon() {
+  public FeederTalonFX() {
 
     StatusCode statusCode = StatusCode.StatusCodeNotInitialized;
     for (int i = 0; i < 5; i++) {
