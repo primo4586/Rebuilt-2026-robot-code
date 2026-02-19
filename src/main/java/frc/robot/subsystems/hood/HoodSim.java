@@ -50,6 +50,6 @@ public class HoodSim implements HoodIO {
 
     // Mechanism 2d (Visualizer expects degrees of the arm)
     arm.setAngle(mechanismPosition * 360);
-    SmartDashboard.putData("Mech2d", mech2d);
+    SmartDashboard.putData("Hood Mech2d", mech2d);
   }
 }
