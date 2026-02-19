@@ -39,7 +39,7 @@ public class IntakeRollerConstants {
   public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Brake;
   public static final InvertedValue INVERTED = InvertedValue.Clockwise_Positive;
 
-  //  Real config declaration
+  // Real config declaration
   public static final TalonFXConfiguration realConfigs = new TalonFXConfiguration();
 
   static {
@@ -58,7 +58,7 @@ public class IntakeRollerConstants {
 
   public final class intakeRollerSimConstants {
 
-    //  sim config declaration
+    // sim config declaration
     public static final TalonFXConfiguration simConfigs = new TalonFXConfiguration();
 
     static {
@@ -81,8 +81,7 @@ public class IntakeRollerConstants {
     // sims
     public static final DCMotor motorModel = DCMotor.getFalcon500(1);
     public static final TalonFXSimState simMotor = _motor.getSimState();
-    public static final FlywheelSim sim =
-        new FlywheelSim(
-            LinearSystemId.createFlywheelSystem(motorModel, JKG, GEAR_RATIO), motorModel);
+    public static final FlywheelSim sim = new FlywheelSim(
+        LinearSystemId.createFlywheelSystem(motorModel, JKG, GEAR_RATIO), motorModel);
   }
 }

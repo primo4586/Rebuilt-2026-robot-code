@@ -22,7 +22,12 @@ public class ShooterSimIO implements ShooterIO {
     simMotor.setRotorVelocity(sim.getAngularVelocity().times(GEAR_RATIO));
     simMotor.setRotorAcceleration(sim.getAngularAcceleration().times(GEAR_RATIO));
 
-    StatusSignal.refreshAll(voltageSignal, supplyCurrentSignal, statorCurrentSignal, velocitySignal, AccelerationSignal);
+    StatusSignal.refreshAll(
+        voltageSignal,
+        supplyCurrentSignal,
+        statorCurrentSignal,
+        velocitySignal,
+        AccelerationSignal);
 
     inputs.voltage = voltageSignal.getValueAsDouble();
     inputs.statorCurrent = statorCurrentSignal.getValueAsDouble();

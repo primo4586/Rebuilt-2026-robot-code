@@ -67,10 +67,10 @@ public class IntakeArmConstants {
     realConfiguration.Slot0.kI = 0.0;
     realConfiguration.Slot0.kD = 1;
 
-    //feedforward
+    // feedforward
     realConfiguration.Slot0.kS = 0; // TODO: tune
-    realConfiguration.Slot0.kV = 0; 
-    realConfiguration.Slot0.kA = 0; 
+    realConfiguration.Slot0.kV = 0;
+    realConfiguration.Slot0.kA = 0;
   }
 
   public static final TalonFXConfiguration simConfiguration = new TalonFXConfiguration();
@@ -93,10 +93,10 @@ public class IntakeArmConstants {
     simConfiguration.Slot0.kI = 0.0;
     simConfiguration.Slot0.kD = 1;
 
-    //feedforward
+    // feedforward
     simConfiguration.Slot0.kS = 0; // TODO: tune
-    simConfiguration.Slot0.kV = 0; 
-    simConfiguration.Slot0.kA = 0; 
+    simConfiguration.Slot0.kV = 0;
+    simConfiguration.Slot0.kA = 0;
   }
 
   public static final double startingAngleRads = Math.toRadians(0);
@@ -113,21 +113,19 @@ public class IntakeArmConstants {
     public static final double minAngleRads = Math.toRadians(90);
     public static final double maxAngleRads = Math.toRadians(180);
 
-    public static final SingleJointedArmSim armSim =
-        new SingleJointedArmSim(
-            GEARBOX,
-            GEAR_RATIO,
-            jKgMetersSquared,
-            armLengthMeters,
-            minAngleRads,
-            maxAngleRads,
-            false,
-            startingAngleRads);
+    public static final SingleJointedArmSim armSim = new SingleJointedArmSim(
+        GEARBOX,
+        GEAR_RATIO,
+        jKgMetersSquared,
+        armLengthMeters,
+        minAngleRads,
+        maxAngleRads,
+        false,
+        startingAngleRads);
   }
 
   // Mech2d
   public static final Mechanism2d mech2d = new Mechanism2d(150, 150);
   public static final MechanismRoot2d root = mech2d.getRoot("root", 75, 75);
-  public static final MechanismLigament2d arm =
-      root.append(new MechanismLigament2d("arm", 65, startingAngleRads));
+  public static final MechanismLigament2d arm = root.append(new MechanismLigament2d("arm", 65, startingAngleRads));
 }
