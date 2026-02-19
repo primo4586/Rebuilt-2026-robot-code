@@ -51,6 +51,6 @@ public class IntakeArmSim implements IntakeArmIO {
 
     // Mechanism 2d (Visualizer expects degrees of the arm)
     arm.setAngle(mechanismPosition * 360);
-    SmartDashboard.putData("Mech2d", mech2d);
+    SmartDashboard.putData("Intake Arm Mech2d", mech2d);
   }
 }
