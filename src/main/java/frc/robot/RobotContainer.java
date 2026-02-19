@@ -26,6 +26,10 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.feeder.Feeder;
+import frc.robot.subsystems.feeder.FeederIO;
+import frc.robot.subsystems.feeder.FeederSim;
+import frc.robot.subsystems.feeder.FeederTalonFX;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIO;
 import frc.robot.subsystems.shooter.ShooterRealIO;
@@ -52,6 +56,7 @@ public class RobotContainer {
   // Subsystems
   private final Vision vision;
   private final Drive drive;
+  private final Feeder feeder;
   private final Shooter shooter;
   private final IntakeRoller intakeRoller;
   private final IntakeArm intakeArm;
@@ -89,6 +94,7 @@ public class RobotContainer {
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVision(cameraOPI, cameraOPITranslation),
                 new VisionIOPhotonVision(cameraElevator, cameraElevatorTranslation));
+        feeder = new Feeder(new FeederTalonFX());
         shooter = new Shooter(new ShooterRealIO());
         intakeRoller = IntakeRoller.getInstance(new IntakeRollerTalon());
         intakeArm = IntakeArm.getInstance(new IntakeArmTalon());
@@ -109,6 +115,7 @@ public class RobotContainer {
                 new VisionIOPhotonVisionSim(cameraOPI, cameraOPITranslation, drive::getPose),
                 new VisionIOPhotonVisionSim(
                     cameraElevator, cameraElevatorTranslation, drive::getPose));
+        feeder = new Feeder(new FeederSim());
         shooter = new Shooter(new ShooterSimIO());
         intakeRoller = IntakeRoller.getInstance(new IntakeRollerSim());
         intakeArm = IntakeArm.getInstance(new IntakeArmSim());
@@ -124,6 +131,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
+        feeder = new Feeder(new FeederIO() {});
         shooter = new Shooter(new ShooterIO() {});
         intakeRoller = IntakeRoller.getInstance(new IntakeRollerIO() {});
         intakeArm = IntakeArm.getInstance(new IntakeArmIO() {});
@@ -187,8 +195,7 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
                     drive)
                 .ignoringDisable(true));
-    testerController.a().whileTrue(shooter.passCommand());
-    testerController.b().whileTrue(shooter.setVoltageCommand(6));
+
   }
 
   /**
