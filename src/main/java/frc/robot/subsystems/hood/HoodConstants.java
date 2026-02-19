@@ -109,7 +109,7 @@ public class HoodConstants {
     public static final TalonFXSimState simMotor = _motor.getSimState();
 
     // sim constants
-    public static final DCMotor GEARBOX = DCMotor.getFalcon500(1);
+    public static final DCMotor GEARBOX = DCMotor.getFalcon500(2);
     public static final double jKgMetersSquared = 0.14;
     public static final double armLengthMeters = 0.56;
     // public static final double minAngleRads = Math.PI / 2;
