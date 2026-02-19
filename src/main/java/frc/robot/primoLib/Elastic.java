@@ -1,7 +1,5 @@
 package frc.robot.primoLib;
 
-import static frc.robot.RobotState.*;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
