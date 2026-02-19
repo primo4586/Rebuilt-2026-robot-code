@@ -30,6 +30,14 @@ import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIO;
 import frc.robot.subsystems.shooter.ShooterRealIO;
 import frc.robot.subsystems.shooter.ShooterSimIO;
+import frc.robot.subsystems.intake.intakeArm.IntakeArm;
+import frc.robot.subsystems.intake.intakeArm.IntakeArmIO;
+import frc.robot.subsystems.intake.intakeArm.IntakeArmSim;
+import frc.robot.subsystems.intake.intakeArm.IntakeArmTalon;
+import frc.robot.subsystems.intake.intakeRoller.IntakeRoller;
+import frc.robot.subsystems.intake.intakeRoller.IntakeRollerIO;
+import frc.robot.subsystems.intake.intakeRoller.IntakeRollerSim;
+import frc.robot.subsystems.intake.intakeRoller.IntakeRollerTalon;
 import frc.robot.subsystems.vision.*;
 import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -45,6 +53,8 @@ public class RobotContainer {
   private final Vision vision;
   private final Drive drive;
   private final Shooter shooter;
+  private final IntakeRoller intakeRoller;
+  private final IntakeArm intakeArm;
 
   // Controller
   private final CommandXboxController driveController = new CommandXboxController(0);
@@ -80,6 +90,8 @@ public class RobotContainer {
                 new VisionIOPhotonVision(cameraOPI, cameraOPITranslation),
                 new VisionIOPhotonVision(cameraElevator, cameraElevatorTranslation));
         shooter = new Shooter(new ShooterRealIO());
+        intakeRoller = IntakeRoller.getInstance(new IntakeRollerTalon());
+        intakeArm = IntakeArm.getInstance(new IntakeArmTalon());
         break;
 
       case SIM:
@@ -98,6 +110,8 @@ public class RobotContainer {
                 new VisionIOPhotonVisionSim(
                     cameraElevator, cameraElevatorTranslation, drive::getPose));
         shooter = new Shooter(new ShooterSimIO());
+        intakeRoller = IntakeRoller.getInstance(new IntakeRollerSim());
+        intakeArm = IntakeArm.getInstance(new IntakeArmSim());
         break;
 
       default:
@@ -111,6 +125,8 @@ public class RobotContainer {
                 new ModuleIO() {});
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
         shooter = new Shooter(new ShooterIO() {});
+        intakeRoller = IntakeRoller.getInstance(new IntakeRollerIO() {});
+        intakeArm = IntakeArm.getInstance(new IntakeArmIO() {});
         break;
     }
 
@@ -148,6 +164,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
+    driveController.a().whileTrue(intakeRoller.setVoltage(6));
+    driveController.b().whileTrue(intakeRoller.setCurrent(-400));
+
     // Default command, normal field-relative drive
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
