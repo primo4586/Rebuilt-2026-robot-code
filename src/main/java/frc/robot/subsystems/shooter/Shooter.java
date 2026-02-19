@@ -6,13 +6,20 @@ package frc.robot.subsystems.shooter;
 
 import static frc.robot.subsystems.shooter.ShooterConstants.TOLERANCE;
 
+import static edu.wpi.first.units.Units.*;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+
 import org.littletonrobotics.junction.Logger;
 
 public class Shooter extends SubsystemBase {
+
   private final ShooterIO io;
   private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
+
+    private final SysIdRoutine sysId;
 
   // singleton
   private static Shooter instance;
@@ -27,6 +34,16 @@ public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
   public Shooter(ShooterIO io) {
     this.io = io;
+
+        // Create the SysId routine
+        sysId = new SysIdRoutine(
+          new SysIdRoutine.Config(
+              null, null, null, // Use default config
+              (state) -> Logger.recordOutput("SysIdTestState", state.toString())),
+          new SysIdRoutine.Mechanism(
+              (voltage) -> this.setVoltageNoStop(voltage.in(Volts)), 
+              null, // No log consumer, since data is recorded by AdvantageKit
+              this));
   }
 
   @Override
@@ -46,6 +63,10 @@ public class Shooter extends SubsystemBase {
   public Command setVoltageCommand(double voltage) {
     return startEnd(() -> io.setVoltage(voltage), io::stopMotor)
         .withName(getName() + " Set Voltage");
+  }
+
+  public Command setVoltageNoStop(double voltage) {
+    return startEnd(() -> io.setVoltage(voltage), io::stopMotor).withName("hood set voltage");
   }
 
   /**
@@ -105,5 +126,15 @@ public class Shooter extends SubsystemBase {
 
   public boolean readyToShoot() {
     return Math.abs(getVelocity() - getWantedVelocity()) < TOLERANCE;
+  }
+
+  //sysId Commands
+  
+  public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
+    return sysId.quasistatic(direction);
+  }
+
+  public Command sysIdDynamic(SysIdRoutine.Direction direction) {
+    return sysId.dynamic(direction);
   }
 }

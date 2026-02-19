@@ -6,14 +6,20 @@ package frc.robot.subsystems.hood;
 
 import static frc.robot.subsystems.hood.HoodConstants.targetPosition;
 
+import static edu.wpi.first.units.Units.*;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+
 import org.littletonrobotics.junction.Logger;
 
 public class Hood extends SubsystemBase {
 
   private final HoodIO io;
   private final HoodIOInputsAutoLogged inputs = new HoodIOInputsAutoLogged();
+
+  private final SysIdRoutine sysId;
 
   private static Hood instance;
 
@@ -26,6 +32,17 @@ public class Hood extends SubsystemBase {
 
   public Hood(HoodIO io) {
     this.io = io;
+
+    // Create the SysId routine
+    sysId = new SysIdRoutine(
+        new SysIdRoutine.Config(
+            null, null, null, // Use default config
+            (state) -> Logger.recordOutput("SysIdTestState", state.toString())),
+        new SysIdRoutine.Mechanism(
+            (voltage) -> this.setVoltageNoStop(voltage.in(Volts)), 
+            null, // No log consumer, since data is recorded by AdvantageKit
+            this));
+
   }
 
   @Override
@@ -36,6 +53,10 @@ public class Hood extends SubsystemBase {
 
   // Commands
   public Command setVoltage(double voltage) {
+    return startEnd(() -> io.setVoltage(voltage), io::stopMotor).withName("hood set voltage");
+  }
+  
+  public Command setVoltageNoStop(double voltage) {
     return startEnd(() -> io.setVoltage(voltage), io::stopMotor).withName("hood set voltage");
   }
 
@@ -51,4 +72,15 @@ public class Hood extends SubsystemBase {
     return run(() -> io.setPosition(targetPosition.getAsDouble()))
         .withName("hood follow target position");
   }
+
+  // sysid commands
+  public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
+    return sysId.quasistatic(direction);
+  }
+
+  // sysid commands
+  public Command sysIdDynamic(SysIdRoutine.Direction direction) {
+    return sysId.dynamic(direction);
+  }
+
 }
