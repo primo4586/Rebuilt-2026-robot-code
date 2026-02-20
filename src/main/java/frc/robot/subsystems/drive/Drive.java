@@ -50,6 +50,27 @@ import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 public class Drive extends SubsystemBase {
+
+    // singleton
+    private static Drive instance;
+
+    public static Drive getInstance(
+      GyroIO gyroIO,
+      ModuleIO flModuleIO,
+      ModuleIO frModuleIO,
+      ModuleIO blModuleIO,
+      ModuleIO brModuleIO) {
+      if (instance == null) {
+        instance = new Drive(      
+        GyroIO gyroIO,
+        ModuleIO flModuleIO,
+        ModuleIO frModuleIO,
+        ModuleIO blModuleIO,
+        ModuleIO brModuleIO);
+      }
+      return instance;
+    }
+
   // TunerConstants doesn't include these constants, so they are declared locally
   static final double ODOMETRY_FREQUENCY =
       new CANBus(TunerConstants.DrivetrainConstants.CANBusName).isNetworkFD() ? 250.0 : 100.0;
