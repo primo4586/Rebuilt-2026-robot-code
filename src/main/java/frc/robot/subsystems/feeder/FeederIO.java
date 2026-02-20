@@ -14,8 +14,7 @@ public interface FeederIO {
     public double velocity = 0; // in rps
   }
 
-  public default void updateInputs(FeederIOInputs inputs) {
-  }
+  public default void updateInputs(FeederIOInputs inputs) {}
 
   public default void setVoltage(double voltage) {
     _motor.set(voltage / _motor.getSupplyVoltage().getValueAsDouble());

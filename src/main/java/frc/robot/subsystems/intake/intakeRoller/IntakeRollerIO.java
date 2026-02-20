@@ -14,8 +14,7 @@ public interface IntakeRollerIO {
     public double velocity = 0; // in rps
   }
 
-  public default void updateInputs(IntakeRollerIOInputs inputs) {
-  }
+  public default void updateInputs(IntakeRollerIOInputs inputs) {}
 
   public default void setVoltage(double voltage) {
     _motor.set(voltage / _motor.getSupplyVoltage().getValueAsDouble());

@@ -81,7 +81,8 @@ public class IntakeRollerConstants {
     // sims
     public static final DCMotor motorModel = DCMotor.getFalcon500(2);
     public static final TalonFXSimState simMotor = _motor.getSimState();
-    public static final FlywheelSim sim = new FlywheelSim(
-        LinearSystemId.createFlywheelSystem(motorModel, JKG, GEAR_RATIO), motorModel);
+    public static final FlywheelSim sim =
+        new FlywheelSim(
+            LinearSystemId.createFlywheelSystem(motorModel, JKG, GEAR_RATIO), motorModel);
   }
 }

@@ -113,19 +113,21 @@ public class IntakeArmConstants {
     public static final double minAngleRads = Math.toRadians(90);
     public static final double maxAngleRads = Math.toRadians(180);
 
-    public static final SingleJointedArmSim armSim = new SingleJointedArmSim(
-        GEARBOX,
-        GEAR_RATIO,
-        jKgMetersSquared,
-        armLengthMeters,
-        minAngleRads,
-        maxAngleRads,
-        false,
-        startingAngleRads);
+    public static final SingleJointedArmSim armSim =
+        new SingleJointedArmSim(
+            GEARBOX,
+            GEAR_RATIO,
+            jKgMetersSquared,
+            armLengthMeters,
+            minAngleRads,
+            maxAngleRads,
+            false,
+            startingAngleRads);
   }
 
   // Mech2d
   public static final Mechanism2d mech2d = new Mechanism2d(150, 150);
   public static final MechanismRoot2d root = mech2d.getRoot("root", 75, 75);
-  public static final MechanismLigament2d arm = root.append(new MechanismLigament2d("arm", 65, startingAngleRads));
+  public static final MechanismLigament2d arm =
+      root.append(new MechanismLigament2d("arm", 65, startingAngleRads));
 }

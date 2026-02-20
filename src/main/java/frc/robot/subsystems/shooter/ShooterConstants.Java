@@ -17,34 +17,46 @@ import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.Constants;
+import frc.robot.util.interpolation.InterpolationMap;
+
 import java.util.function.DoubleSupplier;
 
 public class ShooterConstants {
-  
+
   // ids
   public static final int MASTER_MOTOR_ID = 30;
   public static final int FOLLOWER_MOTOR_ID = 31;
 
   // devices
   public static final TalonFX _masterMotor = new TalonFX(MASTER_MOTOR_ID, Constants.CAN_BUS_NAME);
-  public static final TalonFX _followerMotor = new TalonFX(FOLLOWER_MOTOR_ID, Constants.CAN_BUS_NAME);
+  public static final TalonFX _followerMotor =
+      new TalonFX(FOLLOWER_MOTOR_ID, Constants.CAN_BUS_NAME);
 
   // signals
   public static final StatusSignal<Voltage> voltageSignal = _masterMotor.getMotorVoltage();
   public static final StatusSignal<Current> statorCurrentSignal = _masterMotor.getStatorCurrent();
   public static final StatusSignal<Current> supplyCurrentSignal = _masterMotor.getSupplyCurrent();
   public static final StatusSignal<AngularVelocity> velocitySignal = _masterMotor.getVelocity();
-  public static final StatusSignal<AngularAcceleration> AccelerationSignal = _masterMotor.getAcceleration();
+  public static final StatusSignal<AngularAcceleration> AccelerationSignal =
+      _masterMotor.getAcceleration();
 
   // request
   public static final TorqueCurrentFOC currentRequest = new TorqueCurrentFOC(0);
-  public static final MotionMagicVelocityVoltage velocityRequest = new MotionMagicVelocityVoltage(0); // rps
+  public static final MotionMagicVelocityVoltage velocityRequest =
+      new MotionMagicVelocityVoltage(0); // rps
   public static final Follower followerRequest = new Follower(MASTER_MOTOR_ID, true);
 
   // targets values
   public static final double PASS_RPS = 20;
   public static double targetVelocity = 0;
   public static final DoubleSupplier shotVelocitySupplier = () -> 0; // TODO: find equation
+
+  // Interpolation Map
+  public static final InterpolationMap SHOOTER_INTERPOLATION_MAP =
+      new InterpolationMap()
+      .put(2.577, 100)
+      .put(2.124, 100)
+      .put(3.2, 100); //TODO: Find points
 
   // configs
   public static final double GEAR_RATIO = 0.5; // TODO: tune
@@ -127,7 +139,8 @@ public class ShooterConstants {
     // sims
     public static final DCMotor motorModel = DCMotor.getKrakenX60(2);
     public static final TalonFXSimState simMotor = _masterMotor.getSimState();
-    public static final FlywheelSim sim = new FlywheelSim(
-        LinearSystemId.createFlywheelSystem(motorModel, JKG, GEAR_RATIO), motorModel);
+    public static final FlywheelSim sim =
+        new FlywheelSim(
+            LinearSystemId.createFlywheelSystem(motorModel, JKG, GEAR_RATIO), motorModel);
   }
 }
