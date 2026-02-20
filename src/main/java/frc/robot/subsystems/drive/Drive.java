@@ -62,11 +62,11 @@ public class Drive extends SubsystemBase {
       ModuleIO brModuleIO) {
       if (instance == null) {
         instance = new Drive(      
-        GyroIO gyroIO,
-        ModuleIO flModuleIO,
-        ModuleIO frModuleIO,
-        ModuleIO blModuleIO,
-        ModuleIO brModuleIO);
+        gyroIO,
+        flModuleIO,
+        frModuleIO,
+        blModuleIO,
+        brModuleIO);
       }
       return instance;
     }
