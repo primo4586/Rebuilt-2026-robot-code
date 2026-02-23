@@ -53,24 +53,24 @@ public class Hood extends SubsystemBase {
 
   // Commands
   public Command setVoltage(double voltage) {
-    return startEnd(() -> io.setVoltage(voltage), io::stopMotor).withName("hood set voltage");
+    return startEnd(() -> io.setVoltage(voltage), io::stopMotor).withName(getName() + "Set voltage");
   }
 
   public Command setVoltageNoStop(double voltage) {
-    return startEnd(() -> io.setVoltage(voltage), io::stopMotor).withName("hood set voltage");
+    return startEnd(() -> io.setVoltage(voltage), io::stopMotor).withName(getName() + "Set voltage-noStop");
   }
 
   public Command setCurrent(double current) {
-    return startEnd(() -> io.setCurrent(current), io::stopMotor).withName("hood set current");
+    return startEnd(() -> io.setCurrent(current), io::stopMotor).withName(getName() + "Set current");
   }
 
   public Command setPosition(double position) {
-    return runOnce(() -> io.setPosition(position)).withName("hood set position");
+    return runOnce(() -> io.setPosition(position)).withName(getName() + "Set position");
   }
 
   public Command followTargetPosition() { // todo: check if position is updated
     return run(() -> io.setPosition(targetPosition.getAsDouble()))
-        .withName("hood follow target position");
+        .withName(getName() + "Follow target position");
   }
 
   // sysid commands

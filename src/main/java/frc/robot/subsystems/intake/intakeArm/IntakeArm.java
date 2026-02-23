@@ -29,6 +29,7 @@ public class IntakeArm extends SubsystemBase {
 
   public IntakeArm(IntakeArmIO io) {
     this.io = io;
+    resetPosition();
 
     // Create the SysId routine
     sysId =
@@ -37,7 +38,7 @@ public class IntakeArm extends SubsystemBase {
                 null,
                 null,
                 null, // Use default config
-                (state) -> Logger.recordOutput("SysIdTestState", state.toString())),
+                (state) -> Logger.recordOutput("ShooterSysIdTestState", state.toString())),
             new SysIdRoutine.Mechanism(
                 (voltage) -> this.setVoltageNoStop(voltage.in(Volts)),
                 null, // No log consumer, since data is recorded by AdvantageKit
@@ -50,21 +51,24 @@ public class IntakeArm extends SubsystemBase {
     Logger.processInputs("IntakeArm", inputs);
   }
 
+  public void resetPosition() {
+    io.resetPosition();
+  }
   // Commands
   public Command setVoltage(double voltage) {
-    return startEnd(() -> io.setVoltage(voltage), io::stopMotor).withName("IntakeArmSetVoltage");
+    return startEnd(() -> io.setVoltage(voltage), io::stopMotor).withName( getName() + "Set voltage");
   }
 
   public Command setVoltageNoStop(double voltage) {
-    return startEnd(() -> io.setVoltage(voltage), io::stopMotor).withName("hood set voltage");
+    return startEnd(() -> io.setVoltage(voltage), io::stopMotor).withName(getName() + "Set voltage");
   }
 
   public Command setCurrent(double current) {
-    return startEnd(() -> io.setCurrent(current), io::stopMotor).withName("IntakeArmSetCurrent");
+    return startEnd(() -> io.setCurrent(current), io::stopMotor).withName(getName() + "Set current");
   }
 
   public Command setPosition(double position) {
-    return runOnce(() -> io.setPosition(position)).withName("IntakeArmSetPosition");
+    return runOnce(() -> io.setPosition(position)).withName(getName() + "Set position");
   }
 
   // sysId Commands
@@ -73,7 +77,6 @@ public class IntakeArm extends SubsystemBase {
     return sysId.quasistatic(direction);
   }
 
-  // sysid commands
   public Command sysIdDynamic(SysIdRoutine.Direction direction) {
     return sysId.dynamic(direction);
   }

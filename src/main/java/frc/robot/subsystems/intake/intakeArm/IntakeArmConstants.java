@@ -73,35 +73,36 @@ public class IntakeArmConstants {
     realConfiguration.Slot0.kA = 0;
   }
 
-  public static final TalonFXConfiguration simConfiguration = new TalonFXConfiguration();
-
-  static {
-
-    // peaks:
-    simConfiguration.CurrentLimits.StatorCurrentLimitEnable = true;
-    simConfiguration.CurrentLimits.StatorCurrentLimit = STATOR_CURRENT;
-    simConfiguration.CurrentLimits.StatorCurrentLimitEnable = true;
-    simConfiguration.CurrentLimits.SupplyCurrentLimit = SUPPLY_CURRENT;
-
-    // settings
-    simConfiguration.Feedback.SensorToMechanismRatio = GEAR_RATIO;
-    simConfiguration.MotorOutput.NeutralMode = NEUTRAL_MODE;
-    simConfiguration.MotorOutput.Inverted = INVERTED;
-
-    // PID
-    simConfiguration.Slot0.kP = 10; // TODO: tune
-    simConfiguration.Slot0.kI = 0.0;
-    simConfiguration.Slot0.kD = 1;
-
-    // feedforward
-    simConfiguration.Slot0.kS = 0; // TODO: tune
-    simConfiguration.Slot0.kV = 0;
-    simConfiguration.Slot0.kA = 0;
-  }
-
-  public static final double startingAngleRads = Math.toRadians(0);
+  // values
+  public static final double STARTING_ANGLE = Math.toRadians(90);
 
   public class IntakeArmSimConstants {
+    public static final TalonFXConfiguration simConfiguration = new TalonFXConfiguration();
+
+    static {
+
+      // peaks:
+      simConfiguration.CurrentLimits.StatorCurrentLimitEnable = false;
+      simConfiguration.CurrentLimits.StatorCurrentLimit = STATOR_CURRENT;
+      simConfiguration.CurrentLimits.StatorCurrentLimitEnable = false;
+      simConfiguration.CurrentLimits.SupplyCurrentLimit = SUPPLY_CURRENT;
+
+      // settings
+      simConfiguration.Feedback.SensorToMechanismRatio = GEAR_RATIO;
+      simConfiguration.MotorOutput.NeutralMode = NEUTRAL_MODE;
+      simConfiguration.MotorOutput.Inverted = INVERTED;
+
+      // PID
+      simConfiguration.Slot0.kP = 10; // TODO: tune
+      simConfiguration.Slot0.kI = 0.0;
+      simConfiguration.Slot0.kD = 1;
+
+      // feedforward
+      simConfiguration.Slot0.kS = 0; // TODO: tune
+      simConfiguration.Slot0.kV = 0;
+      simConfiguration.Slot0.kA = 0;
+    }
+
     public static final TalonFXSimState simMotor = _motor.getSimState();
 
     // sim constants
@@ -122,12 +123,13 @@ public class IntakeArmConstants {
             minAngleRads,
             maxAngleRads,
             false,
-            startingAngleRads);
+            STARTING_ANGLE);
   }
 
   // Mech2d
+  // TODO: change this code to apply to the intake arm 
   public static final Mechanism2d mech2d = new Mechanism2d(150, 150);
   public static final MechanismRoot2d root = mech2d.getRoot("root", 75, 75);
   public static final MechanismLigament2d arm =
-      root.append(new MechanismLigament2d("arm", 65, startingAngleRads));
+      root.append(new MechanismLigament2d("intake arm", 65, STARTING_ANGLE));
 }

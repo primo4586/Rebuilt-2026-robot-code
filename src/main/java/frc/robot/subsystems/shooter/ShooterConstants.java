@@ -18,7 +18,6 @@ import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.Constants;
 import frc.robot.util.interpolation.InterpolationMap;
-
 import java.util.function.DoubleSupplier;
 
 public class ShooterConstants {
@@ -53,10 +52,7 @@ public class ShooterConstants {
 
   // Interpolation Map
   public static final InterpolationMap SHOOTER_INTERPOLATION_MAP =
-      new InterpolationMap()
-      .put(2.577, 100)
-      .put(2.124, 100)
-      .put(3.2, 100); //TODO: Find points
+      new InterpolationMap().put(2.577, 100).put(2.124, 100).put(3.2, 100); // TODO: Find points
 
   // configs
   public static final double GEAR_RATIO = 0.5; // TODO: tune

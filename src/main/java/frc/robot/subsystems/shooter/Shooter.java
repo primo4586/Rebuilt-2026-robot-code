@@ -10,8 +10,6 @@ import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.util.interpolation.InterpolateUtil;
-
 import org.littletonrobotics.junction.Logger;
 
 public class Shooter extends SubsystemBase {
@@ -36,16 +34,17 @@ public class Shooter extends SubsystemBase {
     this.io = io;
 
     // Create the SysId routine
-    sysId = new SysIdRoutine(
-        new SysIdRoutine.Config(
-            null,
-            null,
-            null, // Use default config
-            (state) -> Logger.recordOutput("SysIdTestState", state.toString())),
-        new SysIdRoutine.Mechanism(
-            (voltage) -> this.setVoltageNoStop(voltage.in(Volts)),
-            null, // No log consumer, since data is recorded by AdvantageKit
-            this));
+    sysId =
+        new SysIdRoutine(
+            new SysIdRoutine.Config(
+                null,
+                null,
+                null, // Use default config
+                (state) -> Logger.recordOutput("SysIdTestState", state.toString())),
+            new SysIdRoutine.Mechanism(
+                (voltage) -> this.setVoltageNoStop(voltage.in(Volts)),
+                null, // No log consumer, since data is recorded by AdvantageKit
+                this));
   }
 
   @Override
@@ -60,8 +59,7 @@ public class Shooter extends SubsystemBase {
    * Set the shooter motors to the given voltage.
    *
    * @param voltage the voltage to set the motor to (in volts)
-   * @return a command which sets the voltage and then stops the motor when
-   *         finished
+   * @return a command which sets the voltage and then stops the motor when finished
    */
   public Command setVoltageCommand(double voltage) {
     return startEnd(() -> io.setVoltage(voltage), io::stopMotor)
@@ -69,15 +67,14 @@ public class Shooter extends SubsystemBase {
   }
 
   public Command setVoltageNoStop(double voltage) {
-    return startEnd(() -> io.setVoltage(voltage), io::stopMotor).withName("hood set voltage");
+    return startEnd(() -> io.setVoltage(voltage), io::stopMotor).withName(getName() + "set voltage");
   }
 
   /**
    * Set the shooter motors to the given current.
    *
    * @param current the current to set the motor to (in amps)
-   * @return a command which sets the current and then stops the motor when
-   *         finished
+   * @return a command which sets the current and then stops the motor when finished
    */
   public Command setCurrentCommand(double current) {
     return startEnd(() -> io.setCurrent(current), io::stopMotor)
@@ -88,8 +85,7 @@ public class Shooter extends SubsystemBase {
    * Set the shooter motors to the given velocity.
    *
    * @param velocity the velocity to set the motor to (in radians per second)
-   * @return a command which sets the velocity and then stops the motor when
-   *         finished
+   * @return a command which sets the velocity and then stops the motor when finished
    */
   public Command setVelocityCommand(double velocity) {
     return startEnd(() -> io.setVelocity(velocity), io::stopMotor)
@@ -97,11 +93,9 @@ public class Shooter extends SubsystemBase {
   }
 
   /**
-   * A command which sets the shooter to pass mode and then stops the motor when
-   * finished.
+   * A command which sets the shooter to pass mode and then stops the motor when finished.
    *
-   * @return a command which sets the shooter to pass mode and then stops the
-   *         motor when finished
+   * @return a command which sets the shooter to pass mode and then stops the motor when finished
    */
   public Command passCommand() {
     return startEnd(io::pass, io::stopMotor).withName(getName() + " Pass");

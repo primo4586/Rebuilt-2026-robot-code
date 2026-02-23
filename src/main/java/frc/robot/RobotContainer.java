@@ -68,8 +68,12 @@ public class RobotContainer {
   // SlowMode
   // private final DoubleSupplier slowSpeed =
   // () -> driveController.leftTrigger().getAsBoolean() ? 0.5 : 0.8;
+
+  //suppliers 
   private final DoubleSupplier slowSpeed =
       () -> driveController.leftBumper().getAsBoolean() ? 0.5 : 0.8;
+
+  private final DoubleSupplier rotionionSpeed = () -> 
 
   // operator pathplanner values
   // TODO: move to robot state
@@ -93,7 +97,7 @@ public class RobotContainer {
             new Vision(
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVision(cameraOPI, cameraOPITranslation),
-                new VisionIOPhotonVision(cameraElevator, cameraElevatorTranslation));
+                new VisionIOPhotonVision(cameraElevator, cameraElevatorTranslation)); //TODO: change for current camera
         feeder = new Feeder(new FeederTalonFX());
         shooter = new Shooter(new ShooterRealIO());
         intakeRoller = IntakeRoller.getInstance(new IntakeRollerTalon());
@@ -114,7 +118,7 @@ public class RobotContainer {
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVisionSim(cameraOPI, cameraOPITranslation, drive::getPose),
                 new VisionIOPhotonVisionSim(
-                    cameraElevator, cameraElevatorTranslation, drive::getPose));
+                    cameraElevator, cameraElevatorTranslation, drive::getPose)); 
         feeder = new Feeder(new FeederSim());
         shooter = new Shooter(new ShooterSimIO());
         intakeRoller = IntakeRoller.getInstance(new IntakeRollerSim());

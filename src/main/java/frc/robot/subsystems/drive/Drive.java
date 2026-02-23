@@ -51,46 +51,42 @@ import org.littletonrobotics.junction.Logger;
 
 public class Drive extends SubsystemBase {
 
-    // singleton
-    private static Drive instance;
+  // singleton
+  private static Drive instance;
 
-    public static Drive getInstance(
+  public static Drive getInstance(
       GyroIO gyroIO,
       ModuleIO flModuleIO,
       ModuleIO frModuleIO,
       ModuleIO blModuleIO,
       ModuleIO brModuleIO) {
-      if (instance == null) {
-        instance = new Drive(      
-        gyroIO,
-        flModuleIO,
-        frModuleIO,
-        blModuleIO,
-        brModuleIO);
-      }
-      return instance;
+    if (instance == null) {
+      instance = new Drive(gyroIO, flModuleIO, frModuleIO, blModuleIO, brModuleIO);
     }
+    return instance;
+  }
 
-    public static Drive getInstance(boolean real) {
-      if(instance == null)
-        if (real) {
-          instance = new Drive(      
-            new GyroIOPigeon2(),
-            new ModuleIOTalonFX(TunerConstants.FrontLeft),
-            new ModuleIOTalonFX(TunerConstants.FrontRight),
-            new ModuleIOTalonFX(TunerConstants.BackLeft),
-            new ModuleIOTalonFX(TunerConstants.BackRight));
-        }
-        else {
-          instance = new Drive(      
-            new GyroIO() {},
-            new ModuleIOSim(TunerConstants.FrontLeft),
-            new ModuleIOSim(TunerConstants.FrontRight),
-            new ModuleIOSim(TunerConstants.BackLeft),
-            new ModuleIOSim(TunerConstants.BackRight));
-        }
-      return instance;
-    }
+  public static Drive getInstance(boolean real) {
+    if (instance == null)
+      if (real) {
+        instance =
+            new Drive(
+                new GyroIOPigeon2(),
+                new ModuleIOTalonFX(TunerConstants.FrontLeft),
+                new ModuleIOTalonFX(TunerConstants.FrontRight),
+                new ModuleIOTalonFX(TunerConstants.BackLeft),
+                new ModuleIOTalonFX(TunerConstants.BackRight));
+      } else {
+        instance =
+            new Drive(
+                new GyroIO() {},
+                new ModuleIOSim(TunerConstants.FrontLeft),
+                new ModuleIOSim(TunerConstants.FrontRight),
+                new ModuleIOSim(TunerConstants.BackLeft),
+                new ModuleIOSim(TunerConstants.BackRight));
+      }
+    return instance;
+  }
 
   // TunerConstants doesn't include these constants, so they are declared locally
   static final double ODOMETRY_FREQUENCY =

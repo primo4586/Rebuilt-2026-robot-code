@@ -32,4 +32,8 @@ public interface HoodIO {
   public default void stopMotor() {
     _motor.stopMotor();
   }
+
+  public default void resetPosition() {
+    _motor.setPosition(STARTING_ANGLE / 2 / Math.PI);
+  }
 }

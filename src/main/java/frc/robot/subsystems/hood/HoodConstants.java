@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import frc.robot.Constants;
 import frc.robot.util.interpolation.InterpolationMap;
-
 import java.util.function.DoubleSupplier;
 
 public class HoodConstants {
@@ -45,12 +44,13 @@ public class HoodConstants {
   public static final PositionVoltage positionRequest = new PositionVoltage(0);
 
   // Interpolation Map
-  public static InterpolationMap HOOD_ANGLE_INTERPOLATION_MAP = new InterpolationMap() //TODO: find points
-  .put(2.9, 62)
-  .put(2.52 , 55)
-  .put(2.15 , 50)
-  .put(3.59, 63)
-  .put(3.04, 56);
+  public static InterpolationMap HOOD_ANGLE_INTERPOLATION_MAP =
+      new InterpolationMap() // TODO: find points
+          .put(2.9, 62)
+          .put(2.52, 55)
+          .put(2.15, 50)
+          .put(3.59, 63)
+          .put(3.04, 56);
 
   // configs
   public static final double STATOR_CURRENT = 100;
@@ -86,36 +86,34 @@ public class HoodConstants {
     realConfiguration.Slot0.kV = 0;
     realConfiguration.Slot0.kA = 0;
   }
-
-  public static final TalonFXConfiguration simConfiguration = new TalonFXConfiguration();
-
-  static {
-
-    // peaks:
-    simConfiguration.CurrentLimits.StatorCurrentLimitEnable = true;
-    simConfiguration.CurrentLimits.StatorCurrentLimit = STATOR_CURRENT;
-    simConfiguration.CurrentLimits.StatorCurrentLimitEnable = true;
-    simConfiguration.CurrentLimits.SupplyCurrentLimit = SUPPLY_CURRENT;
-
-    // settings
-    simConfiguration.Feedback.SensorToMechanismRatio = GEAR_RATIO;
-    simConfiguration.MotorOutput.NeutralMode = NEUTRAL_MODE;
-    simConfiguration.MotorOutput.Inverted = INVERTED;
-
-    // PID
-    simConfiguration.Slot0.kP = 10; // TODO: tune
-    simConfiguration.Slot0.kI = 0.0;
-    simConfiguration.Slot0.kD = 1;
-
-    // feedforward
-    simConfiguration.Slot0.kS = 0; // TODO: tune
-    simConfiguration.Slot0.kV = 0;
-    simConfiguration.Slot0.kA = 0;
-  }
-
-  public static final double startingAngleRads = Math.toRadians(0);
+  public static final double STARTING_ANGLE = Math.toRadians(0);
 
   public class HoodSimConstants {
+    public static final TalonFXConfiguration simConfiguration = new TalonFXConfiguration();
+
+    static {
+  
+      // peaks:
+      simConfiguration.CurrentLimits.StatorCurrentLimitEnable = true;
+      simConfiguration.CurrentLimits.StatorCurrentLimit = STATOR_CURRENT;
+      simConfiguration.CurrentLimits.StatorCurrentLimitEnable = true;
+      simConfiguration.CurrentLimits.SupplyCurrentLimit = SUPPLY_CURRENT;
+  
+      // settings
+      simConfiguration.Feedback.SensorToMechanismRatio = GEAR_RATIO;
+      simConfiguration.MotorOutput.NeutralMode = NEUTRAL_MODE;
+      simConfiguration.MotorOutput.Inverted = INVERTED;
+  
+      // PID
+      simConfiguration.Slot0.kP = 10; // TODO: tune
+      simConfiguration.Slot0.kI = 0.0;
+      simConfiguration.Slot0.kD = 1;
+  
+      // feedforward
+      simConfiguration.Slot0.kS = 0; // TODO: tune
+      simConfiguration.Slot0.kV = 0;
+      simConfiguration.Slot0.kA = 0;
+    }
     public static final TalonFXSimState simMotor = _motor.getSimState();
 
     // sim constants
@@ -136,12 +134,13 @@ public class HoodConstants {
             minAngleRads,
             maxAngleRads,
             false,
-            startingAngleRads);
+            STARTING_ANGLE);
   }
 
   // Mech2d
+  //TODO: change this code to apply for hood 
   public static final Mechanism2d mech2d = new Mechanism2d(150, 150);
   public static final MechanismRoot2d root = mech2d.getRoot("root", 75, 75);
   public static final MechanismLigament2d arm =
-      root.append(new MechanismLigament2d("arm", 65, startingAngleRads));
+      root.append(new MechanismLigament2d("Hood", 65, STARTING_ANGLE));
 }
