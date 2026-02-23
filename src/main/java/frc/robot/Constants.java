@@ -18,6 +18,8 @@ public final class Constants {
   public static final Mode simMode = Mode.SIM;
   public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : simMode;
 
+  public static final double HUB_ANGLE_RADS_THRESHOLD = 0.1;
+
   public static final String CAN_BUS_NAME = "canBus";
 
   public static enum Mode {

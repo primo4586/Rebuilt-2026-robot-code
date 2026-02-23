@@ -10,6 +10,7 @@ import static frc.robot.subsystems.hood.HoodConstants.targetPosition;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.primoLib.PrimoCalc;
 import org.littletonrobotics.junction.Logger;
 
 public class Hood extends SubsystemBase {
@@ -69,6 +70,10 @@ public class Hood extends SubsystemBase {
 
   public Command setPosition(double position) {
     return runOnce(() -> io.setPosition(position)).withName(getName() + "Set position");
+  }
+
+  public Command setPositionWithInterpolation() {
+    return setPosition(PrimoCalc.hubHoodInterpolate());
   }
 
   public Command followTargetPosition() { // todo: check if position is updated

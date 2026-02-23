@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.commands.CommandGroupFactory;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.primoLib.PrimoCalc;
@@ -177,8 +178,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    driveController.a().whileTrue(intakeRoller.setVoltage(6));
-    driveController.b().whileTrue(intakeRoller.setCurrent(-400));
+    driveController.a().whileTrue(CommandGroupFactory.shootCommand());
 
     // Default command, normal field-relative drive
     drive.setDefaultCommand(

@@ -10,6 +10,7 @@ import static frc.robot.subsystems.shooter.ShooterConstants.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.primoLib.PrimoCalc;
 import org.littletonrobotics.junction.Logger;
 
 public class Shooter extends SubsystemBase {
@@ -71,6 +72,10 @@ public class Shooter extends SubsystemBase {
         .withName(getName() + "set voltage");
   }
 
+  public Command shootWithInterpolation() {
+    return setVoltageCommand(PrimoCalc.hubShooterInterpolate());
+  }
+
   /**
    * Set the shooter motors to the given current.
    *
@@ -91,6 +96,10 @@ public class Shooter extends SubsystemBase {
   public Command setVelocityCommand(double velocity) {
     return startEnd(() -> io.setVelocity(velocity), io::stopMotor)
         .withName(getName() + " Set Velocity");
+  }
+
+  public Command shoot() {
+    return runOnce(() -> io.setVelocity(SHOOT_RPS)).withName(getName() + " Set Velocity");
   }
 
   /**
