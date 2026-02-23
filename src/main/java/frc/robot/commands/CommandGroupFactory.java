@@ -1,8 +1,4 @@
 package frc.robot.commands;
-
-import static frc.robot.Constants.*;
-import static frc.robot.RobotState.*;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -46,7 +42,7 @@ public class CommandGroupFactory {
    * @return System.out.println as a command
    * @param s string to print
    */
-  public static Command printCommand(String s) {
-    return Commands.runOnce(() -> System.out.println(s));
+  public static Command printCommand(String output) { 
+    return Commands.runOnce(() -> System.out.println(output));
   }
 }

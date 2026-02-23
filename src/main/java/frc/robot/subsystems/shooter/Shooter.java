@@ -67,7 +67,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public Command setVoltageNoStop(double voltage) {
-    return startEnd(() -> io.setVoltage(voltage), io::stopMotor).withName(getName() + "set voltage");
+    return startEnd(() -> io.setVoltage(voltage), io::stopMotor)
+        .withName(getName() + "set voltage");
   }
 
   /**

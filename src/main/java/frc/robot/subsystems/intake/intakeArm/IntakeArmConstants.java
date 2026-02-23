@@ -127,7 +127,7 @@ public class IntakeArmConstants {
   }
 
   // Mech2d
-  // TODO: change this code to apply to the intake arm 
+  // TODO: change this code to apply to the intake arm
   public static final Mechanism2d mech2d = new Mechanism2d(150, 150);
   public static final MechanismRoot2d root = mech2d.getRoot("root", 75, 75);
   public static final MechanismLigament2d arm =

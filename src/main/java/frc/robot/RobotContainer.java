@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
+import frc.robot.primoLib.PrimoCalc;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -69,11 +70,9 @@ public class RobotContainer {
   // private final DoubleSupplier slowSpeed =
   // () -> driveController.leftTrigger().getAsBoolean() ? 0.5 : 0.8;
 
-  //suppliers 
+  // suppliers
   private final DoubleSupplier slowSpeed =
       () -> driveController.leftBumper().getAsBoolean() ? 0.5 : 0.8;
-
-  private final DoubleSupplier rotionionSpeed = () -> 
 
   // operator pathplanner values
   // TODO: move to robot state
@@ -97,7 +96,8 @@ public class RobotContainer {
             new Vision(
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVision(cameraOPI, cameraOPITranslation),
-                new VisionIOPhotonVision(cameraElevator, cameraElevatorTranslation)); //TODO: change for current camera
+                new VisionIOPhotonVision(
+                    cameraElevator, cameraElevatorTranslation)); // TODO: change for current camera
         feeder = new Feeder(new FeederTalonFX());
         shooter = new Shooter(new ShooterRealIO());
         intakeRoller = IntakeRoller.getInstance(new IntakeRollerTalon());
@@ -118,7 +118,7 @@ public class RobotContainer {
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVisionSim(cameraOPI, cameraOPITranslation, drive::getPose),
                 new VisionIOPhotonVisionSim(
-                    cameraElevator, cameraElevatorTranslation, drive::getPose)); 
+                    cameraElevator, cameraElevatorTranslation, drive::getPose));
         feeder = new Feeder(new FeederSim());
         shooter = new Shooter(new ShooterSimIO());
         intakeRoller = IntakeRoller.getInstance(new IntakeRollerSim());
@@ -188,6 +188,17 @@ public class RobotContainer {
                 () -> -driveController.getLeftX() * slowSpeed.getAsDouble(),
                 () -> -driveController.getRightX() * slowSpeed.getAsDouble())
             .withName("Drive"));
+    driveController
+        .rightStick()
+        .whileTrue(
+            DriveCommands.joystickDriveAtAngle(
+                    drive,
+                    () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
+                    () -> -driveController.getLeftX() * slowSpeed.getAsDouble(),
+                    () ->
+                        new Rotation2d(
+                            Math.toRadians(PrimoCalc.bumpAngle(drive.getRotation().getDegrees()))))
+                .withName("Drive At Angle"));
 
     // Reset gyro to 0° when B button is pressed
     driveController
