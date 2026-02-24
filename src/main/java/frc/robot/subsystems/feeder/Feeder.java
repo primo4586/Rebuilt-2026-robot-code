@@ -58,10 +58,19 @@ public class Feeder extends SubsystemBase {
         .withName("feeder set current");
   }
 
-  /**
-   * @return a command that sets voltage to FEED_VOLTAGE (FeederConstants)
+  
+    /**
+   * @return a command that sets voltage to FEED_VOLTAGE (FeederConstants) and stops the motor when interupted
    */
   public Command feed() {
+    return startEnd(() -> io.setVoltage(FEED_VOLTAGE), () -> io.stopMotor())
+        .withName("feeder voltage feed");
+  }
+
+    /**
+   * @return a command that sets voltage to FEED_VOLTAGE (FeederConstants)
+   */
+  public Command feedNoStop() {
     return runOnce(() -> io.setVoltage(FEED_VOLTAGE))
         .withName("feeder voltage feed");
   }

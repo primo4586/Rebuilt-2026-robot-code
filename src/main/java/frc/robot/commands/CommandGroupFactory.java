@@ -36,7 +36,7 @@ public class CommandGroupFactory {
                         drive, () -> 0, () -> 0, () -> (new Rotation2d(PrimoCalc.getRadsToHub())))
                     .repeatedly())),
         Commands.parallel(
-            Commands.runOnce(() -> drive.stopWithX()), feeder.feed()));
+            Commands.runOnce(() -> drive.stopWithX()), feeder.feedNoStop()));
   }
 
   /**
