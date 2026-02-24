@@ -98,6 +98,9 @@ public class Shooter extends SubsystemBase {
         .withName(getName() + " Set Velocity");
   }
 
+  /**
+   * @return a command that sets velocity with SHOOT_RPS constant
+   */
   public Command shoot() {
     return runOnce(() -> io.setVelocity(SHOOT_RPS)).withName(getName() + " Set Velocity");
   }

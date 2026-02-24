@@ -53,29 +53,52 @@ public class Hood extends SubsystemBase {
   }
 
   // Commands
+
+/** 
+ * @param voltage in volts
+ * @return a command that sets voltage until interupted, then stops the motor
+ */
   public Command setVoltage(double voltage) {
     return startEnd(() -> io.setVoltage(voltage), io::stopMotor)
         .withName(getName() + "Set voltage");
   }
 
+  /** 
+ * @param voltage in volts
+ * @return a command that sets voltage, without stopping the motor
+ */
   public Command setVoltageNoStop(double voltage) {
     return startEnd(() -> io.setVoltage(voltage), io::stopMotor)
         .withName(getName() + "Set voltage-noStop");
   }
 
+  /** 
+ * @param current in amps
+ * @return a command that sets current until interupted, then stops the motor
+ */
   public Command setCurrent(double current) {
     return startEnd(() -> io.setCurrent(current), io::stopMotor)
         .withName(getName() + "Set current");
   }
 
+  /** 
+ * @param position in rotations
+ * @return a command that moves the motor to a position 
+ */
   public Command setPosition(double position) {
     return runOnce(() -> io.setPosition(position)).withName(getName() + "Set position");
   }
 
+  /**
+   * @return a command that sets the hood position to the interpolated value 
+   */
   public Command setPositionWithInterpolation() {
     return setPosition(PrimoCalc.hubHoodInterpolate());
   }
 
+  /** 
+ * @return a command that moves the motor to a position determined by the targetPosition DoubleSupplier in HoodConstants 
+ */
   public Command followTargetPosition() { // todo: check if position is updated
     return run(() -> io.setPosition(targetPosition.getAsDouble()))
         .withName(getName() + "Follow target position");

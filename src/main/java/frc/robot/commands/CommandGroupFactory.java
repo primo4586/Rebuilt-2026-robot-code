@@ -21,6 +21,9 @@ public class CommandGroupFactory {
   public static final Feeder feeder =
       Feeder.getInstance(RobotBase.isReal() ? new FeederTalonFX() : new FeederSim());
 
+  /**
+   * turn to hub, stop with x, and shoot with interpolation
+   */
   public static Command shootCommand() {
     return Commands.sequence(
         Commands.parallel(
@@ -33,7 +36,7 @@ public class CommandGroupFactory {
                         drive, () -> 0, () -> 0, () -> (new Rotation2d(PrimoCalc.getRadsToHub())))
                     .repeatedly())),
         Commands.parallel(
-            Commands.runOnce(() -> drive.stopWithX()), shooter.shootWithInterpolation()));
+            Commands.runOnce(() -> drive.stopWithX()), feeder.feed()));
   }
 
   /**
