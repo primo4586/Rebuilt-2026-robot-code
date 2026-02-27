@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import org.littletonrobotics.junction.Logger;
+import static frc.robot.subsystems.intake.intakeArm.IntakeArmConstants.*;
 
 public class IntakeArm extends SubsystemBase {
 
@@ -72,6 +73,10 @@ public class IntakeArm extends SubsystemBase {
 
   public Command setPosition(double position) {
     return runOnce(() -> io.setPosition(position)).withName(getName() + "Set position");
+  }
+
+  public Command resetPositionCommand(){
+    return setVoltage(RESET_VOLTAGE).finallyDo(() -> setPosition(0));
   }
 
   // sysId Commands

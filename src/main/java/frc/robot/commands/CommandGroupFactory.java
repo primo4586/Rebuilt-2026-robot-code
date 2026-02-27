@@ -11,6 +11,7 @@ import frc.robot.subsystems.hood.*;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterRealIO;
 import frc.robot.subsystems.shooter.ShooterSimIO;
+import java.util.function.DoubleSupplier;
 
 public class CommandGroupFactory {
   private static final Drive drive = Drive.getInstance(RobotBase.isReal());
@@ -21,22 +22,22 @@ public class CommandGroupFactory {
   public static final Feeder feeder =
       Feeder.getInstance(RobotBase.isReal() ? new FeederTalonFX() : new FeederSim());
 
-  /**
-   * turn to hub, stop with x, and shoot with interpolation
-   */
+  /** turn to hub, stop with x, and shoot with interpolation */
   public static Command shootCommand() {
     return Commands.sequence(
-        Commands.parallel(
-            hood.setPositionWithInterpolation(),
-            shooter.shoot(),
             Commands.deadline(
-                Commands.waitUntil(PrimoCalc.isFacingHub()),
-                printCommand(PrimoCalc.getRadsToHub()).repeatedly(),
+                Commands.sequence(
+                    Commands.waitSeconds(0.02),
+                    Commands.waitUntil(
+                        () ->
+                            PrimoCalc.isFacingHub().getAsBoolean()
+                                && shooter.readyToShoot().getAsBoolean())),
+                hood.setPositionWithInterpolation(),
+                shooter.shoot(),
                 DriveCommands.joystickDriveAtAngle(
-                        drive, () -> 0, () -> 0, () -> (new Rotation2d(PrimoCalc.getRadsToHub())))
-                    .repeatedly())),
-        Commands.parallel(
-            Commands.runOnce(() -> drive.stopWithX()), feeder.feedNoStop()));
+                    drive, () -> 0.0, () -> 0.0, () -> new Rotation2d(PrimoCalc.getRadsToHub()))),
+            Commands.parallel(feeder.feed(), Commands.run(() -> drive.stopWithX())))
+        .finallyDo(() -> shooter.rest());
   }
 
   /**
@@ -55,7 +56,7 @@ public class CommandGroupFactory {
    * @return System.out.println as a command
    * @param d double to print
    */
-  public static Command printCommand(double output) {
-    return Commands.runOnce(() -> System.out.println(output));
+  public static Command printCommand(DoubleSupplier output) {
+    return Commands.runOnce(() -> System.out.println(output.getAsDouble()));
   }
 }

@@ -26,6 +26,9 @@ public class HoodConstants {
   // targetposition
   public static final DoubleSupplier targetPosition = () -> 0.0; // todo: make targetposition func
 
+  //values
+  public static final double RESET_VOLTAGE = -3;
+
   // ids
   public static final int MOTOR_ID = 21;
 

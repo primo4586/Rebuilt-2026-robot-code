@@ -5,6 +5,7 @@
 package frc.robot.subsystems.hood;
 
 import static edu.wpi.first.units.Units.*;
+import static frc.robot.subsystems.hood.HoodConstants.RESET_VOLTAGE;
 import static frc.robot.subsystems.hood.HoodConstants.targetPosition;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -54,51 +55,63 @@ public class Hood extends SubsystemBase {
 
   // Commands
 
-/** 
- * @param voltage in volts
- * @return a command that sets voltage until interupted, then stops the motor
- */
+  /**
+   * @param voltage in volts
+   * @return a command that sets voltage until interupted, then stops the motor
+   */
   public Command setVoltage(double voltage) {
     return startEnd(() -> io.setVoltage(voltage), io::stopMotor)
         .withName(getName() + "Set voltage");
   }
 
-  /** 
- * @param voltage in volts
- * @return a command that sets voltage, without stopping the motor
- */
+  /**
+   * @param voltage in volts
+   * @return a command that sets voltage, without stopping the motor
+   */
   public Command setVoltageNoStop(double voltage) {
     return startEnd(() -> io.setVoltage(voltage), io::stopMotor)
         .withName(getName() + "Set voltage-noStop");
   }
 
-  /** 
- * @param current in amps
- * @return a command that sets current until interupted, then stops the motor
- */
+  /**
+   * @param current in amps
+   * @return a command that sets current until interupted, then stops the motor
+   */
   public Command setCurrent(double current) {
     return startEnd(() -> io.setCurrent(current), io::stopMotor)
         .withName(getName() + "Set current");
   }
 
-  /** 
- * @param position in rotations
- * @return a command that moves the motor to a position 
- */
+
+  /**
+   * A command that sets the hood motor to the reset voltage until the command is interrupted,
+   * and then sets the hood position to 0. This command is useful for
+   * resetting the hood position to a known state.
+   * @return a command that resets the hood position
+   */
+  public Command resetPositionCommand(){
+    return setVoltage(RESET_VOLTAGE).finallyDo(() -> setPosition(0));
+  }
+
+  /**
+   * @param position in rotations
+   * @return a command that moves the motor to a position
+   */
   public Command setPosition(double position) {
     return runOnce(() -> io.setPosition(position)).withName(getName() + "Set position");
   }
 
   /**
-   * @return a command that sets the hood position to the interpolated value 
+   * @return a command that sets the hood position to the interpolated value
    */
   public Command setPositionWithInterpolation() {
     return setPosition(PrimoCalc.hubHoodInterpolate());
   }
 
-  /** 
- * @return a command that moves the motor to a position determined by the targetPosition DoubleSupplier in HoodConstants 
- */
+  /**
+   * @return a command that moves the motor to a position determined by the targetPosition
+   *     DoubleSupplier in HoodConstants
+   */
   public Command followTargetPosition() { // todo: check if position is updated
     return run(() -> io.setPosition(targetPosition.getAsDouble()))
         .withName(getName() + "Follow target position");

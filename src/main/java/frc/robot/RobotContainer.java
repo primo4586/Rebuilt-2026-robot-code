@@ -179,6 +179,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     driveController.a().whileTrue(CommandGroupFactory.shootCommand());
+    driveController.y().whileTrue(Commands.run(() -> drive.stopWithX(), drive));
 
     // Default command, normal field-relative drive
     drive.setDefaultCommand(

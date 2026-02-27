@@ -34,5 +34,6 @@ public class ShooterSimIO implements ShooterIO {
     inputs.supplyCurrent = supplyCurrentSignal.getValueAsDouble();
     inputs.velocity = velocitySignal.getValueAsDouble();
     inputs.acceleration = AccelerationSignal.getValueAsDouble();
+    inputs.wantedVelocity = targetVelocity;
   }
 }

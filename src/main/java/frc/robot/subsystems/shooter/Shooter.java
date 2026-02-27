@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.primoLib.PrimoCalc;
+import java.util.function.BooleanSupplier;
 import org.littletonrobotics.junction.Logger;
 
 public class Shooter extends SubsystemBase {
@@ -73,7 +74,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public Command shootWithInterpolation() {
-    return setVoltageCommand(PrimoCalc.hubShooterInterpolate());
+    return setVelocityCommand(PrimoCalc.hubShooterInterpolate());
   }
 
   /**
@@ -91,11 +92,10 @@ public class Shooter extends SubsystemBase {
    * Set the shooter motors to the given velocity.
    *
    * @param velocity the velocity to set the motor to (in radians per second)
-   * @return a command which sets the velocity and then stops the motor when finished
+   * @return a command which sets the velocity and then dont stops the motor when finished
    */
   public Command setVelocityCommand(double velocity) {
-    return startEnd(() -> io.setVelocity(velocity), io::stopMotor)
-        .withName(getName() + " Set Velocity");
+    return runOnce(() -> io.setVelocity(velocity)).withName(getName() + " Set Velocity");
   }
 
   /**
@@ -103,6 +103,11 @@ public class Shooter extends SubsystemBase {
    */
   public Command shoot() {
     return runOnce(() -> io.setVelocity(SHOOT_RPS)).withName(getName() + " Set Velocity");
+  }
+  /** sets velocity with REST_VELOCITY constant */
+  public void rest() {
+    io.setVelocity(REST_VELOCITY);
+    System.out.println("resting");
   }
 
   /**
@@ -138,8 +143,8 @@ public class Shooter extends SubsystemBase {
     return inputs.acceleration;
   }
 
-  public boolean readyToShoot() {
-    return Math.abs(getVelocity() - getWantedVelocity()) < TOLERANCE;
+  public BooleanSupplier readyToShoot() {
+    return () -> Math.abs(getVelocity() - getWantedVelocity()) < TOLERANCE;
   }
 
   // sysId Commands

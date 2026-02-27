@@ -47,7 +47,8 @@ public class ShooterConstants {
 
   // targets values
   public static final double PASS_RPS = 20;
-  public static final double SHOOT_RPS = 50; // TODO: tune
+  public static final double REST_VELOCITY = 10;
+  public static final double SHOOT_RPS = 20; // TODO: tune
   public static double targetVelocity = 0;
   public static final DoubleSupplier shotVelocitySupplier = () -> 0; // TODO: find equation
 

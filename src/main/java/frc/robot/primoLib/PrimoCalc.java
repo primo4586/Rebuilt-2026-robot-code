@@ -45,7 +45,9 @@ public class PrimoCalc {
   }
 
   public static BooleanSupplier isFacingHub() {
-    return () -> Math.abs(getRadsToHub()) < Constants.HUB_ANGLE_RADS_THRESHOLD;
+    return () ->
+        Math.abs(getRadsToHub() - drive.getRotation().getRadians())
+            < Constants.HUB_ANGLE_RADS_THRESHOLD;
   }
 
   public static double getDistance(Pose2d a, Pose2d b) {

@@ -75,6 +75,7 @@ public class IntakeArmConstants {
 
   // values
   public static final double STARTING_ANGLE = Math.toRadians(90);
+  public static final double RESET_VOLTAGE = -3;
 
   public class IntakeArmSimConstants {
     public static final TalonFXConfiguration simConfiguration = new TalonFXConfiguration();
