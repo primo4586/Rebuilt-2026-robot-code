@@ -15,22 +15,14 @@ import edu.wpi.first.math.geometry.Transform3d;
 public class VisionConstants {
   // AprilTag layout
   public static AprilTagFieldLayout aprilTagLayout =
-      AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeAndyMark);
+      AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltAndymark);
 
   // Camera names, must match names configured on coprocessor
-  public static String cameraOPI = "OPI Camera"; // 0
-  public static String cameraElevator = "Elevator Camera"; // 1
+    public static String fowordCameraName = "fowordCamera";
 
   // Robot to camera transforms
-  // This Right Camera
-  private static Rotation3d cameraOPIRotation = new Rotation3d(0.0, Math.toRadians(-20 /*70 */), 0);
-  private static Rotation3d cameraElevatorRotation =
-      new Rotation3d(0.0, Math.toRadians(45), Math.toRadians(-2));
-  public static Transform3d cameraElevatorTranslation =
-      new Transform3d(0.202, 0.035, 0.65, cameraElevatorRotation);
-  // This Left Camera
-  public static Transform3d cameraOPITranslation =
-      new Transform3d(0.04, 0.255, 0.18, cameraOPIRotation);
+  public static Rotation3d fowordRotation = new Rotation3d(0,Math.toRadians(15),0);
+  public static Transform3d fowordTransform = new Transform3d(0.405,0,4.785,fowordRotation);
 
   // Basic filtering thresholds
   public static double maxAmbiguity = 0.3;
@@ -46,7 +38,6 @@ public class VisionConstants {
   public static double[] cameraStdDevFactors =
       new double[] {
         1.0, // Camera 0
-        1.0 // Camera 1
       };
 
   // Multipliers to apply for MegaTag 2 observations

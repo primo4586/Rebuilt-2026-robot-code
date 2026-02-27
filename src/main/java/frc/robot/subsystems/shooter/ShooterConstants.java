@@ -7,6 +7,7 @@ import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.TorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.sim.TalonFXSimState;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -43,7 +44,7 @@ public class ShooterConstants {
   public static final TorqueCurrentFOC currentRequest = new TorqueCurrentFOC(0);
   public static final MotionMagicVelocityVoltage velocityRequest =
       new MotionMagicVelocityVoltage(0); // rps
-  public static final Follower followerRequest = new Follower(MASTER_MOTOR_ID, true);
+  public static final Follower followerRequest = new Follower(FOLLOWER_MOTOR_ID, MotorAlignmentValue.valueOf(1));
 
   // targets values
   public static final double PASS_RPS = 20;

@@ -96,9 +96,7 @@ public class RobotContainer {
         vision =
             new Vision(
                 drive::addVisionMeasurement,
-                new VisionIOPhotonVision(cameraOPI, cameraOPITranslation),
-                new VisionIOPhotonVision(
-                    cameraElevator, cameraElevatorTranslation)); // TODO: change for current camera
+                new VisionIOPhotonVision(VisionConstants.fowordCameraName, VisionConstants.fowordTransform));
         feeder = new Feeder(new FeederTalonFX());
         shooter = new Shooter(new ShooterRealIO());
         intakeRoller = IntakeRoller.getInstance(new IntakeRollerTalon());
@@ -117,9 +115,7 @@ public class RobotContainer {
         vision =
             new Vision(
                 drive::addVisionMeasurement,
-                new VisionIOPhotonVisionSim(cameraOPI, cameraOPITranslation, drive::getPose),
-                new VisionIOPhotonVisionSim(
-                    cameraElevator, cameraElevatorTranslation, drive::getPose));
+                new VisionIOPhotonVisionSim(VisionConstants.fowordCameraName, VisionConstants.fowordTransform, drive::getPose));
         feeder = new Feeder(new FeederSim());
         shooter = new Shooter(new ShooterSimIO());
         intakeRoller = IntakeRoller.getInstance(new IntakeRollerSim());
