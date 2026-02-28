@@ -39,12 +39,11 @@ public class ShooterConstants {
   public static final StatusSignal<AngularVelocity> velocitySignal = _masterMotor.getVelocity();
   public static final StatusSignal<AngularAcceleration> AccelerationSignal =
       _masterMotor.getAcceleration();
-
   // request
   public static final TorqueCurrentFOC currentRequest = new TorqueCurrentFOC(0);
   public static final MotionMagicVelocityVoltage velocityRequest =
       new MotionMagicVelocityVoltage(0); // rps
-  public static final Follower followerRequest = new Follower(FOLLOWER_MOTOR_ID, MotorAlignmentValue.valueOf(1));
+  public static final Follower followerRequest = new Follower(MASTER_MOTOR_ID, MotorAlignmentValue.valueOf(1));
 
   // targets values
   public static final double PASS_RPS = 20;
