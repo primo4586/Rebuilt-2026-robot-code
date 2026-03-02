@@ -143,6 +143,7 @@ public class RobotContainer {
 
     // named commands
     NamedCommands.registerCommand("shoot", CommandGroupFactory.shootCommand());
+    NamedCommands.registerCommand("shoot with timeout", CommandGroupFactory.shootCommand().withTimeout(Constants.SHOOT_TIMEOUT_SECONDS));
     NamedCommands.registerCommand("open intake", intakeArm.open());
     NamedCommands.registerCommand("intake", intakeRoller.intake());
 

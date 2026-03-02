@@ -6,7 +6,10 @@
     "Close Paths",
     "Far Paths"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "Close Autos",
+    "Far Autos"
+  ],
   "defaultMaxVel": 5.0,
   "defaultMaxAccel": 9.0,
   "defaultMaxAngVel": 700.0,

@@ -11,9 +11,27 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "intake"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "RBump reverse"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot with timeout"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RBump reverse to Fuck Everybody"
           }
         },
         {
@@ -26,6 +44,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Close Autos",
+  "folder": "Far Autos",
   "choreoAuto": false
 }

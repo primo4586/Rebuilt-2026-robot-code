@@ -4,6 +4,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
 import frc.robot.primoLib.PrimoCalc;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.feeder.*;
@@ -39,6 +41,7 @@ public class CommandGroupFactory {
             Commands.parallel(feeder.feed(), Commands.run(() -> drive.stopWithX())))
         .finallyDo(() -> shooter.rest());
   }
+
 
   /**
    * @return Command that shoots + feed + hood interpolation
