@@ -30,7 +30,7 @@ public class HoodConstants {
   public static final double RESET_VOLTAGE = -3;
 
   // ids
-  public static final int MOTOR_ID = 21;
+  public static final int MOTOR_ID = 33;
 
   // devices
   public static final TalonFX _motor = new TalonFX(MOTOR_ID, Constants.CAN_BUS_NAME);

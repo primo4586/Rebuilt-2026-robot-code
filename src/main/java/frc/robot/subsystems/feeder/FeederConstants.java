@@ -18,7 +18,7 @@ import frc.robot.Constants;
 public class FeederConstants {
 
   // ids
-  public static final int MOTOR_ID = 20;
+  public static final int MOTOR_ID = 22;
 
   // devices
   public static final TalonFX _motor = new TalonFX(MOTOR_ID, Constants.CAN_BUS_NAME);
