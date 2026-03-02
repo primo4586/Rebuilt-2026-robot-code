@@ -75,6 +75,10 @@ public class IntakeArm extends SubsystemBase {
     return runOnce(() -> io.setPosition(position)).withName(getName() + "Set position");
   }
 
+  public Command open(){
+    return setPosition(OPEN_POSITION);
+  }
+
   public Command resetPositionCommand(){
     return setVoltage(RESET_VOLTAGE).finallyDo(() -> setPosition(0));
   }

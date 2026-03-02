@@ -41,6 +41,13 @@ public class CommandGroupFactory {
   }
 
   /**
+   * @return Command that shoots + feed + hood interpolation
+   */
+  public static Command instantShoot(){
+    return Commands.parallel(shooter.shoot(), feeder.feed(), hood.setPositionWithInterpolation());
+  }
+
+  /**
    * returns System.out.println as a command
    *
    * @return System.out.println as a command
