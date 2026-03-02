@@ -10,6 +10,12 @@ import frc.robot.primoLib.PrimoCalc;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.feeder.*;
 import frc.robot.subsystems.hood.*;
+import frc.robot.subsystems.intake.intakeArm.IntakeArm;
+import frc.robot.subsystems.intake.intakeArm.IntakeArmSim;
+import frc.robot.subsystems.intake.intakeArm.IntakeArmTalon;
+import frc.robot.subsystems.intake.intakeRoller.IntakeRoller;
+import frc.robot.subsystems.intake.intakeRoller.IntakeRollerSim;
+import frc.robot.subsystems.intake.intakeRoller.IntakeRollerTalon;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterRealIO;
 import frc.robot.subsystems.shooter.ShooterSimIO;
@@ -23,6 +29,10 @@ public class CommandGroupFactory {
       Hood.getInstance(RobotBase.isReal() ? new HoodTalon() : new HoodSim());
   public static final Feeder feeder =
       Feeder.getInstance(RobotBase.isReal() ? new FeederTalonFX() : new FeederSim());
+  public static final IntakeArm intakeArm =
+    IntakeArm.getInstance(RobotBase.isReal() ? new IntakeArmTalon() : new IntakeArmSim());
+  public static final IntakeRoller intakeRoller =
+    IntakeRoller.getInstance(RobotBase.isReal() ? new IntakeRollerTalon() : new IntakeRollerSim());
 
   /** turn to hub, stop with x, and shoot with interpolation */
   public static Command shootCommand() {
@@ -42,6 +52,13 @@ public class CommandGroupFactory {
         .finallyDo(() -> shooter.rest());
   }
 
+  public static Command stopAll(){
+    return Commands.parallel(
+        intakeArm.setVoltage(0), 
+        intakeRoller.setVoltage(0), 
+        shooter.restCommand(),
+        feeder.setVoltage(0));
+  }
 
   /**
    * @return Command that shoots + feed + hood interpolation

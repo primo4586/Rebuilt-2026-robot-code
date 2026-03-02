@@ -110,6 +110,10 @@ public class Shooter extends SubsystemBase {
     System.out.println("resting");
   }
 
+  public Command restCommand(){
+    return runOnce(this::rest).withName(getName() + " Rest");
+  }
+
   /**
    * A command which sets the shooter to pass mode and then stops the motor when finished.
    *

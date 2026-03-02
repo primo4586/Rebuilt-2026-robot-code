@@ -21,7 +21,7 @@ import frc.robot.Constants;
 
 public class IntakeArmConstants {
 
-  public static final double OPEN_POSITION = 0; //TODO: tune
+  public static final double OPEN_POSITION = 0.5; //TODO: tune
   
   // ids
   public static final int MOTOR_ID = 21;

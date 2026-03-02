@@ -145,7 +145,9 @@ public class RobotContainer {
     NamedCommands.registerCommand("shoot", CommandGroupFactory.shootCommand());
     NamedCommands.registerCommand("shoot with timeout", CommandGroupFactory.shootCommand().withTimeout(Constants.SHOOT_TIMEOUT_SECONDS));
     NamedCommands.registerCommand("open intake", intakeArm.open());
-    NamedCommands.registerCommand("intake", intakeRoller.intake());
+    NamedCommands.registerCommand("intake", intakeRoller.intakeNoStop());
+    NamedCommands.registerCommand("stop intake", intakeRoller.setVoltage(0));
+    NamedCommands.registerCommand("stop all", CommandGroupFactory.stopAll());
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
