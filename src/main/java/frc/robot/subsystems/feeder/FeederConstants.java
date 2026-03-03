@@ -7,6 +7,9 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.sim.TalonFXSimState;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -19,9 +22,11 @@ public class FeederConstants {
 
   // ids
   public static final int MOTOR_ID = 22;
+  public static final int SparkMaxID = 23;
 
   // devices
-  public static final TalonFX _motor = new TalonFX(MOTOR_ID, Constants.CAN_BUS_NAME);
+  public static final TalonFX _motor = new TalonFX(MOTOR_ID);
+  public static final SparkMax _SparkMax = new SparkMax(SparkMaxID, MotorType.kBrushless);
 
   // signals
   public static final StatusSignal<Voltage> voltageSignal = _motor.getMotorVoltage();

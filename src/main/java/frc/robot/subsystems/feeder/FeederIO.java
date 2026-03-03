@@ -18,6 +18,7 @@ public interface FeederIO {
 
   public default void setVoltage(double voltage) {
     _motor.set(voltage / _motor.getSupplyVoltage().getValueAsDouble());
+    
   }
 
   public default void setCurrent(double current) {

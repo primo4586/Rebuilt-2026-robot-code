@@ -14,6 +14,7 @@ public interface ShooterIO {
     public double velocity = 0; // in rps
     public double wantedVelocity = 0; // in rps
     public double acceleration = 0; // in rps^2
+    public double position = 0; // r
   }
 
   public default void updateInputs(ShooterIOInputs inputs) {}

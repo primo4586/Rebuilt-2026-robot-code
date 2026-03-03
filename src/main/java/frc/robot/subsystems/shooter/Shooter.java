@@ -40,11 +40,11 @@ public class Shooter extends SubsystemBase {
         new SysIdRoutine(
             new SysIdRoutine.Config(
                 null,
-                null,
+                Volts.of(4),
                 null, // Use default config
                 (state) -> Logger.recordOutput("SysIdTestState", state.toString())),
             new SysIdRoutine.Mechanism(
-                (voltage) -> this.setVoltageNoStop(voltage.in(Volts)),
+                (voltage) -> io.setVoltage(voltage.in(Volts)),
                 null, // No log consumer, since data is recorded by AdvantageKit
                 this));
   }

@@ -182,6 +182,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
+    //tester
+    testerController.a().whileTrue(feeder.feed());
+    testerController.rightBumper().whileTrue(shooter.setVelocityCommand(20).finallyDo(() -> shooter.rest()));
+
     driveController.a().whileTrue(CommandGroupFactory.shootCommand());
     driveController.y().whileTrue(Commands.run(() -> drive.stopWithX(), drive));
 

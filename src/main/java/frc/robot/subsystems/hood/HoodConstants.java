@@ -33,7 +33,7 @@ public class HoodConstants {
   public static final int MOTOR_ID = 33;
 
   // devices
-  public static final TalonFX _motor = new TalonFX(MOTOR_ID, Constants.CAN_BUS_NAME);
+  public static final TalonFX _motor = new TalonFX(MOTOR_ID);
 
   // signals
   public static final StatusSignal<Voltage> voltageSignal = _motor.getMotorVoltage();

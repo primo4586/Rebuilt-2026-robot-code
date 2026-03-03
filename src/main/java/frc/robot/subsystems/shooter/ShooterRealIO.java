@@ -28,7 +28,7 @@ public class ShooterRealIO implements ShooterIO {
             supplyCurrentSignal,
             statorCurrentSignal,
             velocitySignal,
-            AccelerationSignal);
+            AccelerationSignal, positionSignal);
 
     inputs.voltage = voltageSignal.getValueAsDouble();
     inputs.statorCurrent = statorCurrentSignal.getValueAsDouble();
@@ -36,5 +36,6 @@ public class ShooterRealIO implements ShooterIO {
     inputs.velocity = velocitySignal.getValueAsDouble();
     inputs.acceleration = AccelerationSignal.getValueAsDouble();
     inputs.wantedVelocity = targetVelocity;
+    inputs.position = positionSignal.getValueAsDouble();
   }
 }

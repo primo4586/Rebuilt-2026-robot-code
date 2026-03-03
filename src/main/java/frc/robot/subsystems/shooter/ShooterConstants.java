@@ -12,6 +12,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.sim.TalonFXSimState;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
@@ -37,6 +38,7 @@ public class ShooterConstants {
   public static final StatusSignal<Current> statorCurrentSignal = _masterMotor.getStatorCurrent();
   public static final StatusSignal<Current> supplyCurrentSignal = _masterMotor.getSupplyCurrent();
   public static final StatusSignal<AngularVelocity> velocitySignal = _masterMotor.getVelocity();
+  public static final StatusSignal<Angle> positionSignal = _masterMotor.getPosition();
   public static final StatusSignal<AngularAcceleration> AccelerationSignal =
       _masterMotor.getAcceleration();
   // request
@@ -57,10 +59,10 @@ public class ShooterConstants {
       new InterpolationMap().put(2.577, 100).put(2.124, 100).put(3.2, 100); // TODO: Find points
 
   // configs
-  public static final double GEAR_RATIO = 0.5; // TODO: tune
+  public static final double GEAR_RATIO = 28/18; // TODO: tune
   public static final double PEAK_CURRENT = 80; // TODO: tune
   public static final double SUPPLY_CURRENT = 50; // TODO: tune
-  public static final double TOLERANCE = 1; // TODO: tune
+  public static final double TOLERANCE = 0.435;
 
   public static final TalonFXConfiguration realConfigs = new TalonFXConfiguration();
 
@@ -80,16 +82,14 @@ public class ShooterConstants {
     realConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
     // PID
-    // TODO: tune PID
-    realConfigs.Slot0.kP = 10;
+    realConfigs.Slot0.kP = 0.039049;
     realConfigs.Slot0.kI = 0;
-    realConfigs.Slot0.kD = 0.03;
+    realConfigs.Slot0.kD = 0; //TODO: maybe add D 
 
-    // feedforward
-    // TODO: tune FF
-    realConfigs.Slot0.kV = 0.16;
-    realConfigs.Slot0.kA = 0.02;
-    realConfigs.Slot0.kS = 0.17;
+    // feedforward 
+    realConfigs.Slot0.kV = 0.1128;
+    realConfigs.Slot0.kA = 0.0058218;
+    realConfigs.Slot0.kS = 0.15801;
 
     // MM
     // TODO: tune MM
