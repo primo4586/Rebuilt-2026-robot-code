@@ -58,7 +58,7 @@ public class HoodConstants {
   // configs
   public static final double STATOR_CURRENT = 100;
   public static final double SUPPLY_CURRENT = 50;
-  public static final double GEAR_RATIO = 5;
+  public static final double GEAR_RATIO = 67.7778;
   public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Brake;
   public static final InvertedValue INVERTED = InvertedValue.CounterClockwise_Positive;
 
@@ -80,9 +80,9 @@ public class HoodConstants {
     realConfiguration.MotorOutput.Inverted = INVERTED;
 
     // PID
-    realConfiguration.Slot0.kP = 8; // TODO: tune
+    realConfiguration.Slot0.kP = 300; // TODO: tune
     realConfiguration.Slot0.kI = 0.0;
-    realConfiguration.Slot0.kD = 1;
+    realConfiguration.Slot0.kD = 20;
 
     // feedforward
     realConfiguration.Slot0.kS = 0; // TODO: tune
