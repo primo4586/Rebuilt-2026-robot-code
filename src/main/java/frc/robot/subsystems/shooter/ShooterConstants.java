@@ -79,7 +79,7 @@ public class ShooterConstants {
     realConfigs.Feedback.SensorToMechanismRatio = GEAR_RATIO;
     // TODO: tune motor modes
     realConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-    realConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    realConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
     // PID
     realConfigs.Slot0.kP = 0.039049;
@@ -93,7 +93,7 @@ public class ShooterConstants {
 
     // MM
     // TODO: tune MM
-    realConfigs.MotionMagic.MotionMagicAcceleration = 3;
+    realConfigs.MotionMagic.MotionMagicAcceleration = 1000;
   }
 
   public final class ShooterSimConstants {
