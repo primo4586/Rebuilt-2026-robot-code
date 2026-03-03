@@ -18,7 +18,7 @@ public interface FeederIO {
 
   public default void setVoltage(double voltage) {
     _motor.set(voltage / _motor.getSupplyVoltage().getValueAsDouble());
-    
+    _SparkMax.set((voltage/3) / _SparkMax.getBusVoltage());
   }
 
   public default void setCurrent(double current) {
@@ -27,5 +27,6 @@ public interface FeederIO {
 
   public default void stopMotor() {
     _motor.stopMotor();
+    _SparkMax.stopMotor();
   }
 }

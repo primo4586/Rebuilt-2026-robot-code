@@ -8,6 +8,8 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.sim.TalonFXSimState;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -44,7 +46,11 @@ public class FeederConstants {
   public static final double GEAR_RATIO = 3; // TODO: set gear ratio
   public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Brake;
   public static final InvertedValue INVERTED = InvertedValue.Clockwise_Positive;
-
+  // SPARKMAX configs
+  public static final int SPARKMAX_MAX_CURRENT = 80;
+  public static final IdleMode SPARKMAX_IDLE_MODE = IdleMode.kCoast;
+  public static final boolean SPARKMAX_INVERTED = true;
+  public static final SparkMaxConfig SPARKMAX_configs = new SparkMaxConfig();
   // Real config declaration
   public static final TalonFXConfiguration realConfigs = new TalonFXConfiguration();
 
@@ -65,7 +71,7 @@ public class FeederConstants {
   }
 
   // Default Values
-  public static final double FEED_VOLTAGE = 6; // TODO: set voltage
+  public static final double FEED_VOLTAGE = 10; // TODO: set voltage
   public static final double FEED_CURRENT = 30;
 
   public final class FeederSimConstants {
