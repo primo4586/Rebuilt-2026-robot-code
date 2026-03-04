@@ -1,6 +1,9 @@
 package frc.robot.subsystems.feeder;
 
 import static frc.robot.subsystems.feeder.FeederConstants.*;
+import static frc.robot.util.SparkUtil.*;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
@@ -8,7 +11,7 @@ import com.ctre.phoenix6.StatusSignal;
 public class FeederTalonFX implements FeederIO {
 
   public FeederTalonFX() {
-
+    
     StatusCode statusCode = StatusCode.StatusCodeNotInitialized;
     for (int i = 0; i < 5; i++) {
       _motor.getConfigurator().apply(realConfigs);
@@ -19,6 +22,14 @@ public class FeederTalonFX implements FeederIO {
     if (statusCode.isError()) {
       System.out.println("intake roller configs failed" + statusCode.toString());
     }
+      SPARKMAX_configs.smartCurrentLimit(SPARKMAX_MAX_CURRENT).idleMode(SPARKMAX_IDLE_MODE).inverted(SPARKMAX_INVERTED);
+
+    tryUntilOk(
+        _SparkMax,
+        5,
+        () ->
+          _SparkMax.configure(
+                SPARKMAX_configs, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters));
   }
 
   @Override

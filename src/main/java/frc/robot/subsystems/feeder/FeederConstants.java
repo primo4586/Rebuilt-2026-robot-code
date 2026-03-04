@@ -7,6 +7,11 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.sim.TalonFXSimState;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -18,10 +23,12 @@ import frc.robot.Constants;
 public class FeederConstants {
 
   // ids
-  public static final int MOTOR_ID = 20;
+  public static final int MOTOR_ID = 22;
+  public static final int SparkMaxID = 23;
 
   // devices
-  public static final TalonFX _motor = new TalonFX(MOTOR_ID, Constants.CAN_BUS_NAME);
+  public static final TalonFX _motor = new TalonFX(MOTOR_ID);
+  public static final SparkMax _SparkMax = new SparkMax(SparkMaxID, MotorType.kBrushless);
 
   // signals
   public static final StatusSignal<Voltage> voltageSignal = _motor.getMotorVoltage();
@@ -39,7 +46,11 @@ public class FeederConstants {
   public static final double GEAR_RATIO = 3; // TODO: set gear ratio
   public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Brake;
   public static final InvertedValue INVERTED = InvertedValue.Clockwise_Positive;
-
+  // SPARKMAX configs
+  public static final int SPARKMAX_MAX_CURRENT = 80;
+  public static final IdleMode SPARKMAX_IDLE_MODE = IdleMode.kCoast;
+  public static final boolean SPARKMAX_INVERTED = true;
+  public static final SparkMaxConfig SPARKMAX_configs = new SparkMaxConfig();
   // Real config declaration
   public static final TalonFXConfiguration realConfigs = new TalonFXConfiguration();
 
@@ -60,7 +71,7 @@ public class FeederConstants {
   }
 
   // Default Values
-  public static final double FEED_VOLTAGE = 6; // TODO: set voltage
+  public static final double FEED_VOLTAGE = 10; // TODO: set voltage
   public static final double FEED_CURRENT = 30;
 
   public final class FeederSimConstants {

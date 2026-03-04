@@ -33,7 +33,7 @@ public class Robot extends LoggedRobot {
   private RobotContainer robotContainer;
 
   public Robot() {
-    SmartDashboard.putData(CommandScheduler.getInstance());
+    SmartDashboard.putData("CommandScheduler" ,CommandScheduler.getInstance());
     // Record metadata
     // Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
     // Logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
@@ -89,7 +89,7 @@ public class Robot extends LoggedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    SmartDashboard.putData(CommandScheduler.getInstance());
+    SmartDashboard.putData("CommandScheduler",CommandScheduler.getInstance());
     Elastic.displayAll();
     robotContainer.periodic();
   }

@@ -34,6 +34,10 @@ import frc.robot.subsystems.feeder.Feeder;
 import frc.robot.subsystems.feeder.FeederIO;
 import frc.robot.subsystems.feeder.FeederSim;
 import frc.robot.subsystems.feeder.FeederTalonFX;
+import frc.robot.subsystems.hood.Hood;
+import frc.robot.subsystems.hood.HoodIO;
+import frc.robot.subsystems.hood.HoodSim;
+import frc.robot.subsystems.hood.HoodTalon;
 import frc.robot.subsystems.intake.intakeArm.IntakeArm;
 import frc.robot.subsystems.intake.intakeArm.IntakeArmIO;
 import frc.robot.subsystems.intake.intakeArm.IntakeArmSim;
@@ -64,7 +68,7 @@ public class RobotContainer {
   private final Shooter shooter;
   private final IntakeRoller intakeRoller;
   private final IntakeArm intakeArm;
-
+  private final Hood hood;
   // Controller
   private final CommandXboxController driveController = new CommandXboxController(0);
   private final CommandXboxController testerController = new CommandXboxController(1);
@@ -103,6 +107,7 @@ public class RobotContainer {
         shooter = new Shooter(new ShooterRealIO());
         intakeRoller = IntakeRoller.getInstance(new IntakeRollerTalon());
         intakeArm = IntakeArm.getInstance(new IntakeArmTalon());
+        hood = Hood.getInstance(new HoodTalon());
         break;
 
       case SIM:
@@ -122,6 +127,7 @@ public class RobotContainer {
         shooter = new Shooter(new ShooterSimIO());
         intakeRoller = IntakeRoller.getInstance(new IntakeRollerSim());
         intakeArm = IntakeArm.getInstance(new IntakeArmSim());
+        hood = Hood.getInstance(new HoodSim());
         break;
 
       default:
@@ -138,6 +144,7 @@ public class RobotContainer {
         shooter = new Shooter(new ShooterIO() {});
         intakeRoller = IntakeRoller.getInstance(new IntakeRollerIO() {});
         intakeArm = IntakeArm.getInstance(new IntakeArmIO() {});
+        hood = Hood.getInstance(new HoodIO() {});
         break;
     }
 
@@ -181,6 +188,14 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
+    //tester
+    testerController.a().whileTrue(feeder.feed());
+    testerController.rightBumper().onTrue(shooter.setVelocityCommand(60));
+    testerController.leftBumper().onTrue(shooter.restCommand());
+    testerController.leftTrigger().whileTrue(shooter.setVoltageCommand(12));
+    testerController.b().onTrue(hood.setPosition(0.02));
+    testerController.y().onTrue(hood.setPosition(0.08));
 
     driveController.a().whileTrue(CommandGroupFactory.shootCommand());
     driveController.y().whileTrue(Commands.run(() -> drive.stopWithX(), drive));
