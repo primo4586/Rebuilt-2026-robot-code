@@ -17,6 +17,8 @@ import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 import com.pathplanner.lib.util.PathPlannerLogging;
+import com.techhounds.houndutil.houndlib.ChassisAccelerations;
+
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
@@ -87,6 +89,12 @@ public class Drive extends SubsystemBase {
       }
     return instance;
   }
+
+    /**
+     * Local variable to track the field relative velocities from the previous loop.
+     * Used to calculate the acceleration of the robot.
+     */
+    private ChassisSpeeds prevFieldRelVelocities = new ChassisSpeeds();
 
   // TunerConstants doesn't include these constants, so they are declared locally
   static final double ODOMETRY_FREQUENCY =
@@ -192,6 +200,9 @@ public class Drive extends SubsystemBase {
 
   @Override
   public void periodic() {
+
+    prevFieldRelVelocities = getFieldRelativeSpeeds();
+
     odometryLock.lock(); // Prevents odometry updates while reading data
     gyroIO.updateInputs(gyroInputs);
     Logger.processInputs("Drive/Gyro", gyroInputs);
@@ -397,4 +408,13 @@ public class Drive extends SubsystemBase {
       new Translation2d(TunerConstants.BackRight.LocationX, TunerConstants.BackRight.LocationY)
     };
   }
+
+  public ChassisSpeeds getFieldRelativeSpeeds() {
+    return ChassisSpeeds.fromRobotRelativeSpeeds(kinematics.toChassisSpeeds(getModuleStates()), getRotation());
+}
+
+    public ChassisAccelerations getFieldRelativeAccelerations() {
+        return new ChassisAccelerations(getFieldRelativeSpeeds(), prevFieldRelVelocities, 0.020);
+    }
+    
 }
