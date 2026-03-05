@@ -199,6 +199,12 @@ public class RobotContainer {
 
     driveController.a().whileTrue(CommandGroupFactory.shootCommand());
     driveController.y().whileTrue(Commands.run(() -> drive.stopWithX(), drive));
+    driveController.x().whileTrue(CommandGroupFactory.shootOnTheMoveCommand(
+        DriveCommands.joystickDriveAtAngle(
+        drive,
+        () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
+        () -> -driveController.getLeftX() * slowSpeed.getAsDouble(),
+        () -> new Rotation2d(PrimoCalc.getRadsToHub()))));
 
     // Default command, normal field-relative drive
     drive.setDefaultCommand(

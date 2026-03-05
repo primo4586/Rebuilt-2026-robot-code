@@ -1,5 +1,7 @@
 package frc.robot.subsystems.shootOnTheMove;
 
+import java.util.function.DoubleSupplier;
+
 import com.techhounds.houndutil.houndlib.ChassisAccelerations;
 import com.techhounds.houndutil.houndlib.ShootOnTheFlyCalculator;
 import com.techhounds.houndutil.houndlib.ShootOnTheFlyCalculator.InterceptSolution;
@@ -20,7 +22,21 @@ import frc.robot.subsystems.shooter.ShooterConstants;
 // stores current target and actively computes effective target
 @LoggedObject
 public class ShotCalculator extends SubsystemBase {
-  private Drive drivetrain;
+    
+    private Drive drivetrain = Drive.getInstance(RobotBase.isReal());
+
+    //singleton
+    private static ShotCalculator instance;
+    public static ShotCalculator getInstance(){
+        if(instance == null){
+            instance = new ShotCalculator(Drive.getInstance(RobotBase.isReal()));
+        }
+        return instance;
+    }
+
+
+ 
+
 
     @Log
     private Pose3d currentEffectiveTargetPose = Pose3d.kZero;
@@ -51,7 +67,7 @@ public class ShotCalculator extends SubsystemBase {
         targetDistance = drivetrainPose.getTranslation().getDistance(targetLocation.toPose2d().getTranslation());
         targetSpeedRps = ShooterConstants.SHOOTER_INTERPOLATION_MAP.get(targetDistance);
 
-        Pose3d shooterPose = new Pose3d(drivetrainPose).plus(new Transform3d()); //TODO: add shooter offset 
+        Pose3d shooterPose = new Pose3d(drivetrainPose).plus(new Transform3d()); 
 
         ChassisSpeeds drivetrainSpeeds = drivetrain.getFieldRelativeSpeeds();
         ChassisAccelerations drivetrainAccelerations = drivetrain.getFieldRelativeAccelerations();

@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.primoLib.PrimoCalc;
 import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+
 import org.littletonrobotics.junction.Logger;
 
 public class Shooter extends SubsystemBase {
@@ -96,6 +98,16 @@ public class Shooter extends SubsystemBase {
    */
   public Command setVelocityCommand(double velocity) {
     return runOnce(() -> io.setVelocity(velocity)).withName(getName() + " Set Velocity");
+  }
+
+    /**
+   * Set the shooter motors to the given velocity repeatedly.
+   *
+   * @param velocity the velocity to set the motor to (in radians per second)
+   * @return a command which sets the velocity and then dont stops the motor when finished
+   */
+  public Command setVelocityCommand(DoubleSupplier velocity) {
+    return run(() -> io.setVelocity(velocity)).withName(getName() + " Set Velocity");
   }
 
   /**

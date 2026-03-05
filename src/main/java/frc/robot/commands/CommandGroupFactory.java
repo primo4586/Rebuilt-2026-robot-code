@@ -16,7 +16,9 @@ import frc.robot.subsystems.intake.intakeArm.IntakeArmTalon;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRoller;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRollerSim;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRollerTalon;
+import frc.robot.subsystems.shootOnTheMove.ShotCalculator;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.ShooterConstants;
 import frc.robot.subsystems.shooter.ShooterRealIO;
 import frc.robot.subsystems.shooter.ShooterSimIO;
 import java.util.function.DoubleSupplier;
@@ -33,6 +35,11 @@ public class CommandGroupFactory {
     IntakeArm.getInstance(RobotBase.isReal() ? new IntakeArmTalon() : new IntakeArmSim());
   public static final IntakeRoller intakeRoller =
     IntakeRoller.getInstance(RobotBase.isReal() ? new IntakeRollerTalon() : new IntakeRollerSim());
+  public static final ShotCalculator shotCalculator = ShotCalculator.getInstance();
+
+  public static final DoubleSupplier distanceSotmSupplier = () -> drive.getPose().getTranslation()
+    .getDistance(shotCalculator.getCurrentEffectiveTargetPose().getTranslation().toTranslation2d());
+
 
   /** turn to hub, stop with x, and shoot with interpolation */
   public static Command shootCommand() {
@@ -52,6 +59,15 @@ public class CommandGroupFactory {
         .finallyDo(() -> shooter.rest());
   }
 
+    /** Shoot on the move*/
+    public static Command shootOnTheMoveCommand(Command driveCommand) {
+      return Commands.parallel(
+        targetHubSotmCommand(),
+        feeder.feed(),
+        driveCommand
+      ).finallyDo(() -> shooter.rest());
+    }
+
   public static Command stopAll(){
     return Commands.parallel(
         intakeArm.setVoltage(0), 
@@ -59,6 +75,20 @@ public class CommandGroupFactory {
         shooter.restCommand(),
         feeder.setVoltage(0));
   }
+
+  public static Command targetHubSotmCommand() {
+    return Commands.parallel(
+            shooter.setVelocityCommand(
+                    () -> ShooterConstants.SHOOTER_INTERPOLATION_MAP.get(distanceSotmSupplier.getAsDouble())).asProxy(),
+            hood.setPositionRepeatedly(
+                    () -> HoodConstants.HOOD_ANGLE_INTERPOLATION_MAP.get(distanceSotmSupplier.getAsDouble())).asProxy())
+            .andThen(useRequirement());
+}
+
+public static Command useRequirement() {
+  return Commands.runOnce(() -> {
+  });
+}
 
   /**
    * @return Command that shoots + feed + hood interpolation

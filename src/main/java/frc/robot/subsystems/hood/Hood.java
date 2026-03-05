@@ -8,6 +8,8 @@ import static edu.wpi.first.units.Units.*;
 import static frc.robot.subsystems.hood.HoodConstants.RESET_VOLTAGE;
 import static frc.robot.subsystems.hood.HoodConstants.targetPosition;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -116,6 +118,10 @@ public class Hood extends SubsystemBase {
     return run(() -> io.setPosition(targetPosition.getAsDouble()))
         .withName(getName() + "Follow target position");
   }
+
+  public Command setPositionRepeatedly(DoubleSupplier position) {
+  return run(() -> io.setPosition(position.getAsDouble())).withName("hood Set Velocity");
+}
 
   // sysid commands
   public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {

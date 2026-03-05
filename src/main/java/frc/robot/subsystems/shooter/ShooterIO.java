@@ -2,6 +2,8 @@ package frc.robot.subsystems.shooter;
 
 import static frc.robot.subsystems.shooter.ShooterConstants.*;
 
+import java.util.function.DoubleSupplier;
+
 import org.littletonrobotics.junction.AutoLog;
 
 public interface ShooterIO {
@@ -35,6 +37,11 @@ public interface ShooterIO {
   public default void setVelocity(double velocity) {
     _masterMotor.setControl(velocityRequest.withVelocity(velocity));
     targetVelocity = velocity;
+  }
+
+  public default void setVelocity(DoubleSupplier velocity) {
+    _masterMotor.setControl(velocityRequest.withVelocity(velocity.getAsDouble()));
+    targetVelocity = velocity.getAsDouble();
   }
 
   /**
