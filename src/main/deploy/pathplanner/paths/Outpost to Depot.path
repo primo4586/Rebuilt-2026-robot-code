@@ -91,7 +91,7 @@
   "folder": "Close Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -179.32032999557336
   },
   "useDefaultConstraints": false
 }

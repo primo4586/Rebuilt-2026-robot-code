@@ -56,7 +56,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -179.62182971088262
   },
   "reversed": false,
   "folder": "Close Paths",
