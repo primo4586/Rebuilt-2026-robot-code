@@ -32,32 +32,32 @@
     },
     {
       "anchor": {
-        "x": 7.921153846153846,
-        "y": 1.0375071225071235
+        "x": 7.133019943019943,
+        "y": 2.510413105413106
       },
       "prevControl": {
-        "x": 7.77275652529614,
-        "y": 0.36147488304423836
+        "x": 6.88040798363937,
+        "y": 2.257801146032532
       },
       "nextControl": {
-        "x": 8.037435897435897,
-        "y": 1.5672364672364676
+        "x": 7.352663817663816,
+        "y": 2.7300569800569803
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.58522792022792,
-        "y": 3.6215527065527073
+        "x": 7.701509971509971,
+        "y": 3.2856267806267816
       },
       "prevControl": {
-        "x": 8.102037037037038,
-        "y": 3.4019088319088326
+        "x": 7.869472934472933,
+        "y": 3.027222222222224
       },
       "nextControl": {
-        "x": 7.091910457368775,
-        "y": 3.831212628267844
+        "x": 7.4093843186482395,
+        "y": 3.735050861952524
       },
       "isLocked": false,
       "linkedName": null
@@ -114,19 +114,15 @@
       "rotationDegrees": 37.979220854798776
     },
     {
-      "waypointRelativePos": 2,
-      "rotationDegrees": 93.36646066343002
+      "waypointRelativePos": 3.0,
+      "rotationDegrees": 90.0
     },
     {
-      "waypointRelativePos": 3,
-      "rotationDegrees": 109.09349200048565
-    },
-    {
-      "waypointRelativePos": 4,
+      "waypointRelativePos": 4.0,
       "rotationDegrees": 45.46580908276503
     },
     {
-      "waypointRelativePos": 5,
+      "waypointRelativePos": 5.0,
       "rotationDegrees": 39.957548930829034
     }
   ],
@@ -159,7 +155,7 @@
     },
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 1.8636056718434022,
+      "minWaypointRelativePos": 1.45,
       "maxWaypointRelativePos": 3.030384875084403,
       "constraints": {
         "maxVelocity": 2.5,
@@ -183,7 +179,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -1.6602823689828252
+    "rotation": -1.6602823689828254
   },
   "reversed": false,
   "folder": "Far Paths",

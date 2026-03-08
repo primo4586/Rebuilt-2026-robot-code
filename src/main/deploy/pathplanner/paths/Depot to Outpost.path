@@ -21,7 +21,7 @@
       },
       "prevControl": {
         "x": 2.4284880952380963,
-        "y": 1.8646785714285725
+        "y": 1.864678571428573
       },
       "nextControl": null,
       "isLocked": false,
@@ -62,7 +62,7 @@
   "folder": "Close Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 179.68148602694882
   },
   "useDefaultConstraints": false
 }

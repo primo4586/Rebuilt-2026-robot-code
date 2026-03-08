@@ -36,8 +36,8 @@
         "y": 5.946178571428573
       },
       "prevControl": {
-        "x": 1.078785714285715,
-        "y": 5.95697619047619
+        "x": 0.840868945868946,
+        "y": 5.947193732193732
       },
       "nextControl": null,
       "isLocked": false,
@@ -85,7 +85,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -178.18824048212497
   },
   "reversed": false,
   "folder": "Close Paths",
