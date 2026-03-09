@@ -22,10 +22,10 @@ import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 
 public class ClimbConstants {
   // ids
-  public static final int id = 0; // TODO: find Id
+  public static final int MOTOR_ID = 40;
 
   // devices
-  public static final TalonFX _motor = new TalonFX(id);
+  public static final TalonFX _motor = new TalonFX(MOTOR_ID);
 
   // signals
   public static final StatusSignal<Voltage> voltageSignal = _motor.getMotorVoltage();
@@ -43,7 +43,9 @@ public class ClimbConstants {
   // configs
   public static final double STATOR_CURRENT = 100; // TODO: TUNE
   public static final double SUPPLY_CURRENT = 50; // TODO: TUNE
-  public static final double GEAR_RATIO = 1; // TODO: TUNE
+  public static final double GEAR_RATIO = 100;
+  public static final double FORWARD_LIMIT = 10;
+  public static final double REVERSE_LIMIT = 0;
   public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Brake; // TODO: TUNE
   public static final InvertedValue INVERTED = InvertedValue.CounterClockwise_Positive; // TODO: TUNE
 
@@ -57,6 +59,14 @@ public class ClimbConstants {
     realConfiguration.CurrentLimits.StatorCurrentLimit = STATOR_CURRENT;
     realConfiguration.CurrentLimits.SupplyCurrentLimitEnable = true;
     realConfiguration.CurrentLimits.SupplyCurrentLimit = SUPPLY_CURRENT;
+
+    //SoftwareLimitSwitch
+    realConfiguration.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+    realConfiguration.SoftwareLimitSwitch.ForwardSoftLimitThreshold = FORWARD_LIMIT;
+    realConfiguration.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+    realConfiguration.SoftwareLimitSwitch.ReverseSoftLimitThreshold = REVERSE_LIMIT;
+
+
 
     // settings
     realConfiguration.Feedback.SensorToMechanismRatio = GEAR_RATIO;
@@ -89,6 +99,12 @@ public class ClimbConstants {
         simConfiguration.Feedback.SensorToMechanismRatio = GEAR_RATIO;
         simConfiguration.MotorOutput.NeutralMode = NEUTRAL_MODE;
         simConfiguration.MotorOutput.Inverted = INVERTED;
+
+        //SoftwareLimitSwitch
+      simConfiguration.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+      simConfiguration.SoftwareLimitSwitch.ForwardSoftLimitThreshold = FORWARD_LIMIT;
+      simConfiguration.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+      simConfiguration.SoftwareLimitSwitch.ReverseSoftLimitThreshold = REVERSE_LIMIT;
 
         // PID
         simConfiguration.Slot0.kP = 10; // TODO: tune
