@@ -19,6 +19,9 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
+import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 
 public class ClimbConstants {
   // ids
@@ -31,7 +34,7 @@ public class ClimbConstants {
   public static final StatusSignal<Voltage> voltageSignal = _motor.getMotorVoltage();
   public static final StatusSignal<Current> statorCurrentSignal = _motor.getStatorCurrent();
   public static final StatusSignal<Current> supplyCurrentSignal = _motor.getSupplyCurrent();
-  public static final StatusSignal<Angle> postiton = _motor.getPosition();
+  public static final StatusSignal<Angle> positionSignal = _motor.getPosition();
   public static final StatusSignal<AngularVelocity> velocitySignal = _motor.getVelocity();
   public static final StatusSignal<AngularAcceleration> AccelerationSignal = _motor.getAcceleration();
 
@@ -134,4 +137,11 @@ public class ClimbConstants {
           DOGRAVITY,
           0);
     }
+
+    
+  // mech2d
+  public static final Mechanism2d mech2d = new Mechanism2d(3, 3);
+  private static final MechanismRoot2d root = mech2d.getRoot("root", 1.5, 0);
+  public static final MechanismLigament2d climb2d =
+      root.append(new MechanismLigament2d("climb", 0, 90));
   }
