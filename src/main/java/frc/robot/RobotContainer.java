@@ -7,7 +7,9 @@
 
 package frc.robot;
 
-import static frc.robot.subsystems.vision.VisionConstants.*;
+import java.util.function.DoubleSupplier;
+
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -50,9 +52,11 @@ import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIO;
 import frc.robot.subsystems.shooter.ShooterRealIO;
 import frc.robot.subsystems.shooter.ShooterSimIO;
-import frc.robot.subsystems.vision.*;
-import java.util.function.DoubleSupplier;
-import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import frc.robot.subsystems.vision.Vision;
+import frc.robot.subsystems.vision.VisionConstants;
+import frc.robot.subsystems.vision.VisionIO;
+import frc.robot.subsystems.vision.VisionIOPhotonVision;
+import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -191,11 +195,17 @@ public class RobotContainer {
 
     //tester
     testerController.a().whileTrue(feeder.feed());
-    testerController.rightBumper().onTrue(shooter.setVelocityCommand(60));
-    testerController.leftBumper().onTrue(shooter.restCommand());
-    testerController.leftTrigger().whileTrue(shooter.setVoltageCommand(12));
-    testerController.b().onTrue(hood.setPosition(0.02));
-    testerController.y().onTrue(hood.setPosition(0.08));
+    testerController.rightBumper().onTrue(shooter.setVelocityCommand(10));
+    testerController.leftBumper().onTrue(shooter.setVelocityCommand(20));
+    // testerController.leftBumper().onTrue(shooter.restCommand());
+    // testerController.leftTrigger().whileTrue(shooter.setVoltageCommand(12));
+    // testerController.b().onTrue(hood.setPosition(0.02));
+    // testerController.y().onTrue(hood.setPosition(0.08));
+
+    // testerController.a().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    // testerController.b().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    // testerController.x().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    // testerController.y().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     driveController.a().whileTrue(CommandGroupFactory.shootCommand());
     driveController.y().whileTrue(Commands.run(() -> drive.stopWithX(), drive));
