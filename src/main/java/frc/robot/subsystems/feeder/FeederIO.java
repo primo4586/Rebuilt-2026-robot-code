@@ -14,11 +14,12 @@ public interface FeederIO {
     public double velocity = 0; // in rps
   }
 
-  public default void updateInputs(FeederIOInputs inputs) {}
+  public default void updateInputs(FeederIOInputs inputs) {
+  }
 
   public default void setVoltage(double voltage) {
     _motor.set(voltage / _motor.getSupplyVoltage().getValueAsDouble());
-    _SparkMax.set((voltage/3) / _SparkMax.getBusVoltage());
+    _SparkMax.set((voltage / 3) / _SparkMax.getBusVoltage());
   }
 
   public default void setCurrent(double current) {

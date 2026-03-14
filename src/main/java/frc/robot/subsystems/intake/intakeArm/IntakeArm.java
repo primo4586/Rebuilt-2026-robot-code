@@ -33,17 +33,16 @@ public class IntakeArm extends SubsystemBase {
     resetPosition();
 
     // Create the SysId routine
-    sysId =
-        new SysIdRoutine(
-            new SysIdRoutine.Config(
-                null,
-                null,
-                null, // Use default config
-                (state) -> Logger.recordOutput("ShooterSysIdTestState", state.toString())),
-            new SysIdRoutine.Mechanism(
-                (voltage) -> this.setVoltageNoStop(voltage.in(Volts)),
-                null, // No log consumer, since data is recorded by AdvantageKit
-                this));
+    sysId = new SysIdRoutine(
+        new SysIdRoutine.Config(
+            null,
+            null,
+            null, // Use default config
+            (state) -> Logger.recordOutput("ShooterSysIdTestState", state.toString())),
+        new SysIdRoutine.Mechanism(
+            (voltage) -> this.setVoltageNoStop(voltage.in(Volts)),
+            null, // No log consumer, since data is recorded by AdvantageKit
+            this));
   }
 
   @Override
@@ -55,6 +54,7 @@ public class IntakeArm extends SubsystemBase {
   public void resetPosition() {
     io.resetPosition();
   }
+
   // Commands
   public Command setVoltage(double voltage) {
     return startEnd(() -> io.setVoltage(voltage), io::stopMotor)
@@ -75,11 +75,11 @@ public class IntakeArm extends SubsystemBase {
     return runOnce(() -> io.setPosition(position)).withName(getName() + "Set position");
   }
 
-  public Command open(){
+  public Command open() {
     return setPosition(OPEN_POSITION);
   }
 
-  public Command resetPositionCommand(){
+  public Command resetPositionCommand() {
     return setVoltage(RESET_VOLTAGE).finallyDo(() -> setPosition(0));
   }
 

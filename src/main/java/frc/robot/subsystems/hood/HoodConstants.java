@@ -26,7 +26,7 @@ public class HoodConstants {
   // targetposition
   public static final DoubleSupplier targetPosition = () -> 0.0; // todo: make targetposition func
 
-  //values
+  // values
   public static final double RESET_VOLTAGE = -3;
 
   // ids
@@ -47,13 +47,12 @@ public class HoodConstants {
   public static final PositionVoltage positionRequest = new PositionVoltage(0);
 
   // Interpolation Map
-  public static InterpolationMap HOOD_ANGLE_INTERPOLATION_MAP =
-      new InterpolationMap() // TODO: find points
-          .put(2.9, 62)
-          .put(2.52, 55)
-          .put(2.15, 50)
-          .put(3.59, 63)
-          .put(3.04, 56);
+  public static InterpolationMap HOOD_ANGLE_INTERPOLATION_MAP = new InterpolationMap() // TODO: find points
+      .put(2.9, 62)
+      .put(2.52, 55)
+      .put(2.15, 50)
+      .put(3.59, 63)
+      .put(3.04, 56);
 
   // configs
   public static final double STATOR_CURRENT = 100;
@@ -130,22 +129,20 @@ public class HoodConstants {
     public static final double minAngleRads = Math.toRadians(90);
     public static final double maxAngleRads = Math.toRadians(180);
 
-    public static final SingleJointedArmSim armSim =
-        new SingleJointedArmSim(
-            GEARBOX,
-            GEAR_RATIO,
-            jKgMetersSquared,
-            armLengthMeters,
-            minAngleRads,
-            maxAngleRads,
-            false,
-            STARTING_ANGLE);
+    public static final SingleJointedArmSim armSim = new SingleJointedArmSim(
+        GEARBOX,
+        GEAR_RATIO,
+        jKgMetersSquared,
+        armLengthMeters,
+        minAngleRads,
+        maxAngleRads,
+        false,
+        STARTING_ANGLE);
   }
 
   // Mech2d
   // TODO: change this code to apply for hood
   public static final Mechanism2d mech2d = new Mechanism2d(150, 150);
   public static final MechanismRoot2d root = mech2d.getRoot("root", 75, 75);
-  public static final MechanismLigament2d arm =
-      root.append(new MechanismLigament2d("Hood", 65, STARTING_ANGLE));
+  public static final MechanismLigament2d arm = root.append(new MechanismLigament2d("Hood", 65, STARTING_ANGLE));
 }

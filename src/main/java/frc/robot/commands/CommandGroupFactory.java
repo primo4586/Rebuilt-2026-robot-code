@@ -23,39 +23,36 @@ import java.util.function.DoubleSupplier;
 
 public class CommandGroupFactory {
   private static final Drive drive = Drive.getInstance(RobotBase.isReal());
-  private static final Shooter shooter =
-      Shooter.getInstance(RobotBase.isReal() ? new ShooterRealIO() : new ShooterSimIO());
-  private static final Hood hood =
-      Hood.getInstance(RobotBase.isReal() ? new HoodTalon() : new HoodSim());
-  public static final Feeder feeder =
-      Feeder.getInstance(RobotBase.isReal() ? new FeederTalonFX() : new FeederSim());
-  public static final IntakeArm intakeArm =
-    IntakeArm.getInstance(RobotBase.isReal() ? new IntakeArmTalon() : new IntakeArmSim());
-  public static final IntakeRoller intakeRoller =
-    IntakeRoller.getInstance(RobotBase.isReal() ? new IntakeRollerTalon() : new IntakeRollerSim());
+  private static final Shooter shooter = Shooter
+      .getInstance(RobotBase.isReal() ? new ShooterRealIO() : new ShooterSimIO());
+  private static final Hood hood = Hood.getInstance(RobotBase.isReal() ? new HoodTalon() : new HoodSim());
+  public static final Feeder feeder = Feeder.getInstance(RobotBase.isReal() ? new FeederTalonFX() : new FeederSim());
+  public static final IntakeArm intakeArm = IntakeArm
+      .getInstance(RobotBase.isReal() ? new IntakeArmTalon() : new IntakeArmSim());
+  public static final IntakeRoller intakeRoller = IntakeRoller
+      .getInstance(RobotBase.isReal() ? new IntakeRollerTalon() : new IntakeRollerSim());
 
   /** turn to hub, stop with x, and shoot with interpolation */
   public static Command shootCommand() {
     return Commands.sequence(
-            Commands.deadline(
-                Commands.sequence(
-                    Commands.waitSeconds(0.02),
-                    Commands.waitUntil(
-                        () ->
-                            PrimoCalc.isFacingHub().getAsBoolean()
-                                && shooter.readyToShoot().getAsBoolean())),
-                hood.setPositionWithInterpolation(),
-                shooter.shoot(),
-                DriveCommands.joystickDriveAtAngle(
-                    drive, () -> 0.0, () -> 0.0, () -> new Rotation2d(PrimoCalc.getRadsToHub()))),
-            Commands.parallel(feeder.feed(), Commands.run(() -> drive.stopWithX())))
+        Commands.deadline(
+            Commands.sequence(
+                Commands.waitSeconds(0.02),
+                Commands.waitUntil(
+                    () -> PrimoCalc.isFacingHub().getAsBoolean()
+                        && shooter.readyToShoot().getAsBoolean())),
+            hood.setPositionWithInterpolation(),
+            shooter.shoot(),
+            DriveCommands.joystickDriveAtAngle(
+                drive, () -> 0.0, () -> 0.0, () -> new Rotation2d(PrimoCalc.getRadsToHub()))),
+        Commands.parallel(feeder.feed(), Commands.run(() -> drive.stopWithX())))
         .finallyDo(() -> shooter.rest());
   }
 
-  public static Command stopAll(){
+  public static Command stopAll() {
     return Commands.parallel(
-        intakeArm.setVoltage(0), 
-        intakeRoller.setVoltage(0), 
+        intakeArm.setVoltage(0),
+        intakeRoller.setVoltage(0),
         shooter.restCommand(),
         feeder.setVoltage(0));
   }
@@ -63,7 +60,7 @@ public class CommandGroupFactory {
   /**
    * @return Command that shoots + feed + hood interpolation
    */
-  public static Command instantShoot(){
+  public static Command instantShoot() {
     return Commands.parallel(shooter.shoot(), feeder.feed(), hood.setPositionWithInterpolation());
   }
 
