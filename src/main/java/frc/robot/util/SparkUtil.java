@@ -19,8 +19,7 @@ public class SparkUtil {
   public static boolean sparkStickyFault = false;
 
   /**
-   * Prints the last error and sets the sticky fault flag for the given
-   * {@link SparkBase}.
+   * Prints the last error and sets the sticky fault flag for the given {@link SparkBase}.
    *
    * @param spark the {@link SparkBase} with the error
    */

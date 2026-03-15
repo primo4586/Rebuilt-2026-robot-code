@@ -8,6 +8,8 @@ import static edu.wpi.first.units.Units.*;
 import static frc.robot.subsystems.hood.HoodConstants.RESET_VOLTAGE;
 import static frc.robot.subsystems.hood.HoodConstants.targetPosition;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -34,16 +36,17 @@ public class Hood extends SubsystemBase {
     this.io = io;
 
     // Create the SysId routine
-    sysId = new SysIdRoutine(
-        new SysIdRoutine.Config(
-            null,
-            null,
-            null, // Use default config
-            (state) -> Logger.recordOutput("SysIdTestState", state.toString())),
-        new SysIdRoutine.Mechanism(
-            (voltage) -> this.setVoltageNoStop(voltage.in(Volts)),
-            null, // No log consumer, since data is recorded by AdvantageKit
-            this));
+    sysId =
+        new SysIdRoutine(
+            new SysIdRoutine.Config(
+                null,
+                null,
+                null, // Use default config
+                (state) -> Logger.recordOutput("SysIdTestState", state.toString())),
+            new SysIdRoutine.Mechanism(
+                (voltage) -> this.setVoltageNoStop(voltage.in(Volts)),
+                null, // No log consumer, since data is recorded by AdvantageKit
+                this));
   }
 
   @Override
@@ -81,15 +84,14 @@ public class Hood extends SubsystemBase {
         .withName(getName() + "Set current");
   }
 
+
   /**
-   * A command that sets the hood motor to the reset voltage until the command is
-   * interrupted,
+   * A command that sets the hood motor to the reset voltage until the command is interrupted,
    * and then sets the hood position to 0. This command is useful for
    * resetting the hood position to a known state.
-   * 
    * @return a command that resets the hood position
    */
-  public Command resetPositionCommand() {
+  public Command resetPositionCommand(){
     return setVoltage(RESET_VOLTAGE).finallyDo(() -> setPosition(0));
   }
 
@@ -109,14 +111,17 @@ public class Hood extends SubsystemBase {
   }
 
   /**
-   * @return a command that moves the motor to a position determined by the
-   *         targetPosition
-   *         DoubleSupplier in HoodConstants
+   * @return a command that moves the motor to a position determined by the targetPosition
+   *     DoubleSupplier in HoodConstants
    */
   public Command followTargetPosition() { // todo: check if position is updated
     return run(() -> io.setPosition(targetPosition.getAsDouble()))
         .withName(getName() + "Follow target position");
   }
+
+  public Command setPositionRepeatedly(DoubleSupplier position) {
+  return run(() -> io.setPosition(position.getAsDouble())).withName("hood Set Velocity");
+}
 
   // sysid commands
   public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {

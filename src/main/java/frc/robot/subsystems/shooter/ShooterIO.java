@@ -2,6 +2,8 @@ package frc.robot.subsystems.shooter;
 
 import static frc.robot.subsystems.shooter.ShooterConstants.*;
 
+import java.util.function.DoubleSupplier;
+
 import org.littletonrobotics.junction.AutoLog;
 
 public interface ShooterIO {
@@ -17,8 +19,7 @@ public interface ShooterIO {
     public double position = 0; // r
   }
 
-  public default void updateInputs(ShooterIOInputs inputs) {
-  }
+  public default void updateInputs(ShooterIOInputs inputs) {}
 
   public default void setVoltage(double voltage) {
     _masterMotor.set(
@@ -38,9 +39,13 @@ public interface ShooterIO {
     targetVelocity = velocity;
   }
 
+  public default void setVelocity(DoubleSupplier velocity) {
+    _masterMotor.setControl(velocityRequest.withVelocity(velocity.getAsDouble()));
+    targetVelocity = velocity.getAsDouble();
+  }
+
   /**
-   * Set the shooter to pass mode, which is a Constant velocity of about 20 RPM.
-   * This is for passing
+   * Set the shooter to pass mode, which is a Constant velocity of about 20 RPM. This is for passing
    * the ball.
    */
   public default void pass() {

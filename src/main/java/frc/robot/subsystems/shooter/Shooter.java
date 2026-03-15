@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.primoLib.PrimoCalc;
 import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+
 import org.littletonrobotics.junction.Logger;
 
 public class Shooter extends SubsystemBase {
@@ -36,16 +38,17 @@ public class Shooter extends SubsystemBase {
     this.io = io;
 
     // Create the SysId routine
-    sysId = new SysIdRoutine(
-        new SysIdRoutine.Config(
-            null,
-            Volts.of(4),
-            null, // Use default config
-            (state) -> Logger.recordOutput("SysIdTestState", state.toString())),
-        new SysIdRoutine.Mechanism(
-            (voltage) -> io.setVoltage(voltage.in(Volts)),
-            null, // No log consumer, since data is recorded by AdvantageKit
-            this));
+    sysId =
+        new SysIdRoutine(
+            new SysIdRoutine.Config(
+                null,
+                Volts.of(4),
+                null, // Use default config
+                (state) -> Logger.recordOutput("SysIdTestState", state.toString())),
+            new SysIdRoutine.Mechanism(
+                (voltage) -> io.setVoltage(voltage.in(Volts)),
+                null, // No log consumer, since data is recorded by AdvantageKit
+                this));
   }
 
   @Override
@@ -60,8 +63,7 @@ public class Shooter extends SubsystemBase {
    * Set the shooter motors to the given voltage.
    *
    * @param voltage the voltage to set the motor to (in volts)
-   * @return a command which sets the voltage and then stops the motor when
-   *         finished
+   * @return a command which sets the voltage and then stops the motor when finished
    */
   public Command setVoltageCommand(double voltage) {
     return startEnd(() -> io.setVoltage(voltage), io::stopMotor)
@@ -81,8 +83,7 @@ public class Shooter extends SubsystemBase {
    * Set the shooter motors to the given current.
    *
    * @param current the current to set the motor to (in amps)
-   * @return a command which sets the current and then stops the motor when
-   *         finished
+   * @return a command which sets the current and then stops the motor when finished
    */
   public Command setCurrentCommand(double current) {
     return startEnd(() -> io.setCurrent(current), io::stopMotor)
@@ -93,11 +94,20 @@ public class Shooter extends SubsystemBase {
    * Set the shooter motors to the given velocity.
    *
    * @param velocity the velocity to set the motor to (in radians per second)
-   * @return a command which sets the velocity and then dont stops the motor when
-   *         finished
+   * @return a command which sets the velocity and then dont stops the motor when finished
    */
   public Command setVelocityCommand(double velocity) {
     return runOnce(() -> io.setVelocity(velocity)).withName(getName() + " Set Velocity");
+  }
+
+    /**
+   * Set the shooter motors to the given velocity repeatedly.
+   *
+   * @param velocity the velocity to set the motor to (in radians per second)
+   * @return a command which sets the velocity and then dont stops the motor when finished
+   */
+  public Command setVelocityCommand(DoubleSupplier velocity) {
+    return run(() -> io.setVelocity(velocity)).withName(getName() + " Set Velocity");
   }
 
   /**
@@ -106,23 +116,20 @@ public class Shooter extends SubsystemBase {
   public Command shoot() {
     return runOnce(() -> io.setVelocity(SHOOT_RPS)).withName(getName() + " Set Velocity");
   }
-
   /** sets velocity with REST_VELOCITY constant */
   public void rest() {
     io.setVelocity(REST_VELOCITY);
     System.out.println("resting");
   }
 
-  public Command restCommand() {
+  public Command restCommand(){
     return runOnce(this::rest).withName(getName() + " Rest");
   }
 
   /**
-   * A command which sets the shooter to pass mode and then stops the motor when
-   * finished.
+   * A command which sets the shooter to pass mode and then stops the motor when finished.
    *
-   * @return a command which sets the shooter to pass mode and then stops the
-   *         motor when finished
+   * @return a command which sets the shooter to pass mode and then stops the motor when finished
    */
   public Command passCommand() {
     return startEnd(io::pass, io::stopMotor).withName(getName() + " Pass");

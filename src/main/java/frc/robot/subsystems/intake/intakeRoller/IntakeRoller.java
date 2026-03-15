@@ -43,7 +43,7 @@ public class IntakeRoller extends SubsystemBase {
         .withName(getName() + "Set voltage no stop");
   }
 
-  public Command intakeNoStop() {
+  public Command intakeNoStop(){
     return setVoltageNoStop(IntakeRollerConstants.INTAKE_VOLTAGE);
   }
 

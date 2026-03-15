@@ -16,51 +16,84 @@ import frc.robot.subsystems.intake.intakeArm.IntakeArmTalon;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRoller;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRollerSim;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRollerTalon;
+import frc.robot.subsystems.shootOnTheMove.ShotCalculator;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.ShooterConstants;
 import frc.robot.subsystems.shooter.ShooterRealIO;
 import frc.robot.subsystems.shooter.ShooterSimIO;
 import java.util.function.DoubleSupplier;
 
 public class CommandGroupFactory {
   private static final Drive drive = Drive.getInstance(RobotBase.isReal());
-  private static final Shooter shooter = Shooter
-      .getInstance(RobotBase.isReal() ? new ShooterRealIO() : new ShooterSimIO());
-  private static final Hood hood = Hood.getInstance(RobotBase.isReal() ? new HoodTalon() : new HoodSim());
-  public static final Feeder feeder = Feeder.getInstance(RobotBase.isReal() ? new FeederTalonFX() : new FeederSim());
-  public static final IntakeArm intakeArm = IntakeArm
-      .getInstance(RobotBase.isReal() ? new IntakeArmTalon() : new IntakeArmSim());
-  public static final IntakeRoller intakeRoller = IntakeRoller
-      .getInstance(RobotBase.isReal() ? new IntakeRollerTalon() : new IntakeRollerSim());
+  private static final Shooter shooter =
+      Shooter.getInstance(RobotBase.isReal() ? new ShooterRealIO() : new ShooterSimIO());
+  private static final Hood hood =
+      Hood.getInstance(RobotBase.isReal() ? new HoodTalon() : new HoodSim());
+  public static final Feeder feeder =
+      Feeder.getInstance(RobotBase.isReal() ? new FeederTalonFX() : new FeederSim());
+  public static final IntakeArm intakeArm =
+    IntakeArm.getInstance(RobotBase.isReal() ? new IntakeArmTalon() : new IntakeArmSim());
+  public static final IntakeRoller intakeRoller =
+    IntakeRoller.getInstance(RobotBase.isReal() ? new IntakeRollerTalon() : new IntakeRollerSim());
+  public static final ShotCalculator shotCalculator = ShotCalculator.getInstance();
+
+  public static final DoubleSupplier distanceSotmSupplier = () -> drive.getPose().getTranslation()
+    .getDistance(shotCalculator.getCurrentEffectiveTargetPose().getTranslation().toTranslation2d());
+
 
   /** turn to hub, stop with x, and shoot with interpolation */
   public static Command shootCommand() {
     return Commands.sequence(
-        Commands.deadline(
-            Commands.sequence(
-                Commands.waitSeconds(0.02),
-                Commands.waitUntil(
-                    () -> PrimoCalc.isFacingHub().getAsBoolean()
-                        && shooter.readyToShoot().getAsBoolean())),
-            hood.setPositionWithInterpolation(),
-            shooter.shoot(),
-            DriveCommands.joystickDriveAtAngle(
-                drive, () -> 0.0, () -> 0.0, () -> new Rotation2d(PrimoCalc.getRadsToHub()))),
-        Commands.parallel(feeder.feed(), Commands.run(() -> drive.stopWithX())))
+            Commands.deadline(
+                Commands.sequence(
+                    Commands.waitSeconds(0.02),
+                    Commands.waitUntil(
+                        () ->
+                            PrimoCalc.isFacingHub().getAsBoolean()
+                                && shooter.readyToShoot().getAsBoolean())),
+                hood.setPositionWithInterpolation(),
+                shooter.shoot(),
+                DriveCommands.joystickDriveAtAngle(
+                    drive, () -> 0.0, () -> 0.0, () -> new Rotation2d(PrimoCalc.getRadsToHub()))),
+            Commands.parallel(feeder.feed(), Commands.run(() -> drive.stopWithX())))
         .finallyDo(() -> shooter.rest());
   }
 
-  public static Command stopAll() {
+    /** Shoot on the move*/
+    public static Command shootOnTheMoveCommand(Command driveCommand) {
+      return Commands.parallel(
+        targetHubSotmCommand(),
+        feeder.feed(),
+        driveCommand
+      ).finallyDo(() -> shooter.rest());
+    }
+
+  public static Command stopAll(){
     return Commands.parallel(
-        intakeArm.setVoltage(0),
-        intakeRoller.setVoltage(0),
+        intakeArm.setVoltage(0), 
+        intakeRoller.setVoltage(0), 
         shooter.restCommand(),
         feeder.setVoltage(0));
   }
 
+  public static Command targetHubSotmCommand() {
+    return Commands.parallel(
+            shooter.setVelocityCommand(
+                    () -> ShooterConstants.SHOOTER_INTERPOLATION_MAP.get(distanceSotmSupplier.getAsDouble())).asProxy(),
+            hood.setPositionRepeatedly(
+                    () -> HoodConstants.HOOD_ANGLE_INTERPOLATION_MAP.get(distanceSotmSupplier.getAsDouble())).asProxy())
+            .andThen(useRequirement());
+}
+
+public static Command useRequirement() {
+  return Commands.runOnce(() -> {
+  });
+}
+
   /**
    * @return Command that shoots + feed + hood interpolation
    */
-  public static Command instantShoot() {
+  public static Command instantShoot(){
     return Commands.parallel(shooter.shoot(), feeder.feed(), hood.setPositionWithInterpolation());
   }
 

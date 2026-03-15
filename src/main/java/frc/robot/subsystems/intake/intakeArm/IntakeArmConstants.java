@@ -21,8 +21,9 @@ import frc.robot.Constants;
 
 public class IntakeArmConstants {
 
-  public static final double OPEN_POSITION = 0.5; // TODO: tune
-
+  public static final double OPEN_POSITION = 0.5; //TODO: tune
+  public static final double CLOSE_POSITION = 0.5; //TODO: tune
+  
   // ids
   public static final int MOTOR_ID = 21;
 
@@ -117,20 +118,22 @@ public class IntakeArmConstants {
     public static final double minAngleRads = Math.toRadians(90);
     public static final double maxAngleRads = Math.toRadians(180);
 
-    public static final SingleJointedArmSim armSim = new SingleJointedArmSim(
-        GEARBOX,
-        GEAR_RATIO,
-        jKgMetersSquared,
-        armLengthMeters,
-        minAngleRads,
-        maxAngleRads,
-        false,
-        STARTING_ANGLE);
+    public static final SingleJointedArmSim armSim =
+        new SingleJointedArmSim(
+            GEARBOX,
+            GEAR_RATIO,
+            jKgMetersSquared,
+            armLengthMeters,
+            minAngleRads,
+            maxAngleRads,
+            false,
+            STARTING_ANGLE);
   }
 
   // Mech2d
   // TODO: change this code to apply to the intake arm
   public static final Mechanism2d mech2d = new Mechanism2d(150, 150);
   public static final MechanismRoot2d root = mech2d.getRoot("root", 75, 75);
-  public static final MechanismLigament2d arm = root.append(new MechanismLigament2d("intake arm", 65, STARTING_ANGLE));
+  public static final MechanismLigament2d arm =
+      root.append(new MechanismLigament2d("intake arm", 65, STARTING_ANGLE));
 }
