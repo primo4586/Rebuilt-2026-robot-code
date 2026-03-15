@@ -78,6 +78,8 @@ public class ShotCalculator extends SubsystemBase {
         currentInterceptSolution = ShootOnTheFlyCalculator.solveShootOnTheFly(
                 shooterPose, targetLocation, drivetrainSpeeds, drivetrainAccelerations, targetSpeedRps, 5, 0.01);
     
+        currentEffectiveTargetPose = currentInterceptSolution.effectiveTargetPose();
+        currentEffectiveYaw = currentInterceptSolution.requiredYaw();
     }
 
     public void setTarget(Pose3d targetLocation, double targetSpeedRps) {
