@@ -222,8 +222,8 @@ public class RobotContainer {
         driveController.x().whileTrue(CommandGroupFactory.shootOnTheMoveCommand(
                 DriveCommands.joystickDriveAtAngle(
                         drive,
-                        () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
-                        () -> -driveController.getLeftX() * slowSpeed.getAsDouble(),
+                        () -> -driveController.getLeftY() * slowSpeed.getAsDouble() * Constants.SOTM_SPEED_MULT,
+                        () -> -driveController.getLeftX() * slowSpeed.getAsDouble() * Constants.SOTM_SPEED_MULT,
                         () -> new Rotation2d(PrimoCalc.getRadsToPose(shotCalculator.getCurrentEffectiveTargetPose().toPose2d())))));
 
         

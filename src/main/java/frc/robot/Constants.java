@@ -28,6 +28,7 @@ public final class Constants {
 
   public static final double HUB_ANGLE_RADS_THRESHOLD = 0.1;
   public static final double SHOOT_TIMEOUT_SECONDS = 3.0;
+  public static final double SOTM_SPEED_MULT = 0.8;
 
   public static final String CAN_BUS_NAME = "canBus";
 
