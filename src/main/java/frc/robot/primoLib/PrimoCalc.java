@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.Units.*;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -12,12 +13,14 @@ import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.hood.HoodConstants;
+import frc.robot.subsystems.shootOnTheMove.ShotCalculator;
 import frc.robot.subsystems.shooter.ShooterConstants;
 import frc.robot.util.interpolation.InterpolateUtil;
 import java.util.function.BooleanSupplier;
 
 public class PrimoCalc {
   private static final Drive drive = Drive.getInstance(RobotBase.isReal());
+  private static final ShotCalculator shotCalculator = ShotCalculator.getInstance();
 
   /**
    * Snaps an angle to the nearest value of the form 45 + 90k and normalizes the result to the range
@@ -49,6 +52,17 @@ public class PrimoCalc {
             .getRadians()
         + Math.PI;
   }
+
+  public static double getRadsToPose(Pose2d targetPose) {
+    return drive
+            .getPose()
+            .getTranslation()
+            .minus(targetPose.getTranslation())
+            .getAngle()
+            .getRadians()
+        + Math.PI;
+  }
+
 
   public static BooleanSupplier isFacingHub() {
     return () ->

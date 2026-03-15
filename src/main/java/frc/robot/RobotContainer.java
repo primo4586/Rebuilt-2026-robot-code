@@ -48,6 +48,7 @@ import frc.robot.subsystems.intake.intakeRoller.IntakeRoller;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRollerIO;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRollerSim;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRollerTalon;
+import frc.robot.subsystems.shootOnTheMove.ShotCalculator;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIO;
 import frc.robot.subsystems.shooter.ShooterRealIO;
@@ -76,6 +77,7 @@ public class RobotContainer {
     private final IntakeRoller intakeRoller;
     private final IntakeArm intakeArm;
     private final Hood hood;
+    private final ShotCalculator shotCalculator = ShotCalculator.getInstance();
     // Controller
     private final CommandXboxController driveController = new CommandXboxController(0);
     private final CommandXboxController testerController = new CommandXboxController(1);
@@ -210,21 +212,25 @@ public class RobotContainer {
     private void configureButtonBindings() {
 
         // tester
-        testerController.a().whileTrue(feeder.feed());
-        testerController.rightBumper().onTrue(shooter.setVelocityCommand(60));
-        testerController.leftBumper().onTrue(shooter.restCommand());
-        testerController.leftTrigger().whileTrue(shooter.setVoltageCommand(12));
-        testerController.b().onTrue(hood.setPosition(0.02));
-        testerController.y().onTrue(hood.setPosition(0.08));
+        // testerController.a().whileTrue(feeder.feed());
+        // testerController.rightBumper().onTrue(shooter.setVelocityCommand(60));
+        // testerController.leftBumper().onTrue(shooter.restCommand());
+        // testerController.leftTrigger().whileTrue(shooter.setVoltageCommand(12));
+        // testerController.b().onTrue(hood.setPosition(0.02));
+        // testerController.y().onTrue(hood.setPosition(0.08));
 
-        driveController.a().whileTrue(CommandGroupFactory.shootCommand());
-        driveController.y().whileTrue(Commands.run(() -> drive.stopWithX(), drive));
+        // driveController.a().whileTrue(CommandGroupFactory.shootCommand());
+        // driveController.y().whileTrue(Commands.run(() -> drive.stopWithX(), drive));
+
+
         driveController.x().whileTrue(CommandGroupFactory.shootOnTheMoveCommand(
                 DriveCommands.joystickDriveAtAngle(
                         drive,
                         () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
                         () -> -driveController.getLeftX() * slowSpeed.getAsDouble(),
-                        () -> new Rotation2d(PrimoCalc.getRadsToHub()))));
+                        () -> new Rotation2d(PrimoCalc.getRadsToPose(shotCalculator.getCurrentEffectiveTargetPose().toPose2d())))));
+
+        
 
         // Default command, normal field-relative drive
         drive.setDefaultCommand(
@@ -266,5 +272,6 @@ public class RobotContainer {
     }
 
     public void periodic() {
+        
     }
 }
