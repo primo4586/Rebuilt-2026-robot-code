@@ -19,8 +19,7 @@ public interface ShooterIO {
     public double position = 0; // r
   }
 
-  public default void updateInputs(ShooterIOInputs inputs) {
-  }
+  public default void updateInputs(ShooterIOInputs inputs) {}
 
   public default void setVoltage(double voltage) {
     _masterMotor.set(
@@ -46,8 +45,7 @@ public interface ShooterIO {
   }
 
   /**
-   * Set the shooter to pass mode, which is a Constant velocity of about 20 RPM.
-   * This is for passing
+   * Set the shooter to pass mode, which is a Constant velocity of about 20 RPM. This is for passing
    * the ball.
    */
   public default void pass() {

@@ -18,7 +18,7 @@ public class VisionConstants {
       AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltAndymark);
 
   // Camera names, must match names configured on coprocessor
-    public static String fowordCameraName = "forwardCamera";
+    public static String fowordCameraName = "fowordCamera";
 
   // Robot to camera transforms
   public static Rotation3d fowordRotation = new Rotation3d(0,Math.toRadians(15),0);
