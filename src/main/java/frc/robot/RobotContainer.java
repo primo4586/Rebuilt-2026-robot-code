@@ -7,7 +7,9 @@
 
 package frc.robot;
 
-import static frc.robot.subsystems.vision.VisionConstants.*;
+import java.util.function.DoubleSupplier;
+
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -50,9 +52,11 @@ import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIO;
 import frc.robot.subsystems.shooter.ShooterRealIO;
 import frc.robot.subsystems.shooter.ShooterSimIO;
-import frc.robot.subsystems.vision.*;
-import java.util.function.DoubleSupplier;
-import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import frc.robot.subsystems.vision.Vision;
+import frc.robot.subsystems.vision.VisionConstants;
+import frc.robot.subsystems.vision.VisionIO;
+import frc.robot.subsystems.vision.VisionIOPhotonVision;
+import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -228,7 +232,6 @@ public class RobotContainer {
                         drive,
                         () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
                         () -> -driveController.getLeftX() * slowSpeed.getAsDouble(),
-
                         () -> -driveController.getRightX() * slowSpeed.getAsDouble())
                         .withName("Drive"));
         driveController
