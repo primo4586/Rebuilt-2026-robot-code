@@ -259,16 +259,16 @@ public class RobotContainer {
                                 .ignoringDisable(true));
     }
 
-    /**
-     * Use this to pass the autonomous command t o the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
-    public Command getAutonomousCommand() {
-        return autoChooser.get();
-    }
 
-    public void periodic() {
-        
-    }
+  /**
+   * Use this to pass the autonomous command t o the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
+  public Command getAutonomousCommand() {
+    return autoChooser.get();
+  }
+
+  public void periodic() {}
+
 }

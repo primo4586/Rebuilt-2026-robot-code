@@ -17,7 +17,7 @@ import frc.robot.Constants;
 
 public class IntakeRollerConstants {
 
-  public static final double INTAKE_VOLTAGE = 6; // TODO: tune
+  public static final double INTAKE_VOLTAGE = 12; // TODO: tune
 
   // ids
   public static final int MOTOR_ID = 20;
