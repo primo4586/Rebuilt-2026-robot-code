@@ -13,10 +13,8 @@ import static edu.wpi.first.units.Units.*;
 import edu.wpi.first.wpilibj.RobotBase;
 
 /**
- * This class defines the runtime mode used by AdvantageKit. The mode is always
- * "real" when running
- * on a roboRIO. Change the value of "simMode" to switch between "sim" (physics
- * sim) and "replay"
+ * This class defines the runtime mode used by AdvantageKit. The mode is always "real" when running
+ * on a roboRIO. Change the value of "simMode" to switch between "sim" (physics sim) and "replay"
  * (log replay from a file).
  */
 public final class Constants {
@@ -30,6 +28,7 @@ public final class Constants {
 
   public static final double HUB_ANGLE_RADS_THRESHOLD = 0.1;
   public static final double SHOOT_TIMEOUT_SECONDS = 3.0;
+  public static final double SOTM_SPEED_MULT = 0.8;
 
   public static final String CAN_BUS_NAME = "canBus";
 

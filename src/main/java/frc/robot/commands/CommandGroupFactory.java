@@ -40,20 +40,22 @@ public class CommandGroupFactory {
   public static final DoubleSupplier distanceSotmSupplier = () -> drive.getPose().getTranslation()
     .getDistance(shotCalculator.getCurrentEffectiveTargetPose().getTranslation().toTranslation2d());
 
+
   /** turn to hub, stop with x, and shoot with interpolation */
   public static Command shootCommand() {
     return Commands.sequence(
-        Commands.deadline(
-            Commands.sequence(
-                Commands.waitSeconds(0.02),
-                Commands.waitUntil(
-                    () -> PrimoCalc.isFacingHub().getAsBoolean()
-                        && shooter.readyToShoot().getAsBoolean())),
-            hood.setPositionWithInterpolation(),
-            shooter.shoot(),
-            DriveCommands.joystickDriveAtAngle(
-                drive, () -> 0.0, () -> 0.0, () -> new Rotation2d(PrimoCalc.getRadsToHub()))),
-        Commands.parallel(feeder.feed(), Commands.run(() -> drive.stopWithX())))
+            Commands.deadline(
+                Commands.sequence(
+                    Commands.waitSeconds(0.02),
+                    Commands.waitUntil(
+                        () ->
+                            PrimoCalc.isFacingHub().getAsBoolean()
+                                && shooter.readyToShoot().getAsBoolean())),
+                hood.setPositionWithInterpolation(),
+                shooter.shoot(),
+                DriveCommands.joystickDriveAtAngle(
+                    drive, () -> 0.0, () -> 0.0, () -> new Rotation2d(PrimoCalc.getRadsToHub()))),
+            Commands.parallel(feeder.feed(), Commands.run(() -> drive.stopWithX())))
         .finallyDo(() -> shooter.rest());
   }
 
@@ -66,10 +68,10 @@ public class CommandGroupFactory {
       ).finallyDo(() -> shooter.rest());
     }
 
-  public static Command stopAll() {
+  public static Command stopAll(){
     return Commands.parallel(
-        intakeArm.setVoltage(0),
-        intakeRoller.setVoltage(0),
+        intakeArm.setVoltage(0), 
+        intakeRoller.setVoltage(0), 
         shooter.restCommand(),
         feeder.setVoltage(0));
   }
@@ -91,7 +93,7 @@ public static Command useRequirement() {
   /**
    * @return Command that shoots + feed + hood interpolation
    */
-  public static Command instantShoot() {
+  public static Command instantShoot(){
     return Commands.parallel(shooter.shoot(), feeder.feed(), hood.setPositionWithInterpolation());
   }
 

@@ -18,6 +18,7 @@ import frc.robot.commands.CommandGroupFactory;
 import frc.robot.primoLib.PrimoCalc;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.shooter.ShooterConstants;
+import frc.robot.util.interpolation.InterpolateUtil;
 
 // stores current target and actively computes effective target
 @LoggedObject
@@ -60,22 +61,23 @@ public class ShotCalculator extends SubsystemBase {
         this.drivetrain = drivetrain;
     }
 
+    
     @Override
     public void periodic() {
         Pose2d drivetrainPose = drivetrain.getPose();
-
         targetDistance = drivetrainPose.getTranslation().getDistance(targetLocation.toPose2d().getTranslation());
-        targetSpeedRps = ShooterConstants.SHOOTER_INTERPOLATION_MAP.get(targetDistance);
-
+        
+        // 1. Get the map value
+        targetSpeedRps = InterpolateUtil.interpolate(
+        ShooterConstants.SHOOTER_INTERPOLATION_MAP, PrimoCalc.getDistance(drivetrainPose, PrimoCalc.getHubPos()));
+    
         Pose3d shooterPose = new Pose3d(drivetrainPose).plus(new Transform3d()); 
-
         ChassisSpeeds drivetrainSpeeds = drivetrain.getFieldRelativeSpeeds();
         ChassisAccelerations drivetrainAccelerations = drivetrain.getFieldRelativeAccelerations();
 
-        currentInterceptSolution = ShootOnTheFlyCalculator.solveShootOnTheFly(shooterPose, targetLocation,
-                drivetrainSpeeds, drivetrainAccelerations, targetSpeedRps,
-                5, 0.01);
-
+        currentInterceptSolution = ShootOnTheFlyCalculator.solveShootOnTheFly(
+                shooterPose, targetLocation, drivetrainSpeeds, drivetrainAccelerations, targetSpeedRps, 5, 0.01);
+    
         currentEffectiveTargetPose = currentInterceptSolution.effectiveTargetPose();
         currentEffectiveYaw = currentInterceptSolution.requiredYaw();
     }

@@ -7,9 +7,7 @@
 
 package frc.robot;
 
-import java.util.function.DoubleSupplier;
-
-import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import static frc.robot.subsystems.vision.VisionConstants.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -48,15 +46,14 @@ import frc.robot.subsystems.intake.intakeRoller.IntakeRoller;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRollerIO;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRollerSim;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRollerTalon;
+import frc.robot.subsystems.shootOnTheMove.ShotCalculator;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIO;
 import frc.robot.subsystems.shooter.ShooterRealIO;
 import frc.robot.subsystems.shooter.ShooterSimIO;
-import frc.robot.subsystems.vision.Vision;
-import frc.robot.subsystems.vision.VisionConstants;
-import frc.robot.subsystems.vision.VisionIO;
-import frc.robot.subsystems.vision.VisionIOPhotonVision;
-import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
+import frc.robot.subsystems.vision.*;
+import java.util.function.DoubleSupplier;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -76,6 +73,7 @@ public class RobotContainer {
     private final IntakeRoller intakeRoller;
     private final IntakeArm intakeArm;
     private final Hood hood;
+    private final ShotCalculator shotCalculator = ShotCalculator.getInstance();
     // Controller
     private final CommandXboxController driveController = new CommandXboxController(0);
     private final CommandXboxController testerController = new CommandXboxController(1);
@@ -210,21 +208,25 @@ public class RobotContainer {
     private void configureButtonBindings() {
 
         // tester
-        testerController.a().whileTrue(feeder.feed());
-        testerController.rightBumper().onTrue(shooter.setVelocityCommand(60));
-        testerController.leftBumper().onTrue(shooter.restCommand());
-        testerController.leftTrigger().whileTrue(shooter.setVoltageCommand(12));
-        testerController.b().onTrue(hood.setPosition(0.02));
-        testerController.y().onTrue(hood.setPosition(0.08));
+        // testerController.a().whileTrue(feeder.feed());
+        // testerController.rightBumper().onTrue(shooter.setVelocityCommand(60));
+        // testerController.leftBumper().onTrue(shooter.restCommand());
+        // testerController.leftTrigger().whileTrue(shooter.setVoltageCommand(12));
+        // testerController.b().onTrue(hood.setPosition(0.02));
+        // testerController.y().onTrue(hood.setPosition(0.08));
 
-        driveController.a().whileTrue(CommandGroupFactory.shootCommand());
-        driveController.y().whileTrue(Commands.run(() -> drive.stopWithX(), drive));
+        // driveController.a().whileTrue(CommandGroupFactory.shootCommand());
+        // driveController.y().whileTrue(Commands.run(() -> drive.stopWithX(), drive));
+
+
         driveController.x().whileTrue(CommandGroupFactory.shootOnTheMoveCommand(
                 DriveCommands.joystickDriveAtAngle(
                         drive,
-                        () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
-                        () -> -driveController.getLeftX() * slowSpeed.getAsDouble(),
-                        () -> new Rotation2d(PrimoCalc.getRadsToHub()))));
+                        () -> -driveController.getLeftY() * slowSpeed.getAsDouble() * Constants.SOTM_SPEED_MULT,
+                        () -> -driveController.getLeftX() * slowSpeed.getAsDouble() * Constants.SOTM_SPEED_MULT,
+                        () -> new Rotation2d(PrimoCalc.getRadsToPose(shotCalculator.getCurrentEffectiveTargetPose().toPose2d())))));
+
+        
 
         // Default command, normal field-relative drive
         drive.setDefaultCommand(
@@ -232,6 +234,7 @@ public class RobotContainer {
                         drive,
                         () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
                         () -> -driveController.getLeftX() * slowSpeed.getAsDouble(),
+
                         () -> -driveController.getRightX() * slowSpeed.getAsDouble())
                         .withName("Drive"));
         driveController
@@ -256,50 +259,6 @@ public class RobotContainer {
                                 .ignoringDisable(true));
     }
 
-    //tester
-    testerController.a().whileTrue(shooter.setVelocityCommand(80));
-    testerController.b().whileTrue(shooter.setVelocityCommand(60));
-    testerController.x().whileTrue(shooter.setVelocityCommand(0));
-    testerController.y().whileTrue(feeder.setVoltage(12));
-    // testerController.rightTrigger().onTrue(shooter.restCommand());
-    // testerController.leftTrigger().whileTrue(shooter.setVoltageCommand(12));
-    // testerController.b().onTrue(hood.setPosition(0.02));
-    // testerController.y().onT[]\rue(hood.setPosition(0.08));
-
-    // driveController.a().whileTrue(CommandGroupFactory.shootCommand());
-    // driveController.y().whileTrue(Commands.run(() -> drive.stopWithX(), drive));
-
-    // Default command, normal field-relative drive
-    drive.setDefaultCommand(
-        DriveCommands.joystickDrive(
-                drive,
-                () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
-                () -> -driveController.getLeftX() * slowSpeed.getAsDouble(),
-                () -> -driveController.getRightX() * slowSpeed.getAsDouble())
-            .withName("Drive"));
-    driveController
-        .rightStick()
-        .whileTrue(
-            DriveCommands.joystickDriveAtAngle(
-                    drive,
-                    () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
-                    () -> -driveController.getLeftX() * slowSpeed.getAsDouble(),
-                    () ->
-                        new Rotation2d(
-                            Math.toRadians(PrimoCalc.bumpAngle(drive.getRotation().getDegrees()))))
-                .withName("Drive At Angle"));
-
-    // Reset gyro to 0° when B button is pressed
-    driveController
-        .rightBumper()
-        .onTrue(
-            Commands.runOnce(
-                    () ->
-                        drive.setPose(
-                            new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
-                    drive)
-                .ignoringDisable(true));
-  }
 
   /**
    * Use this to pass the autonomous command t o the main {@link Robot} class.
@@ -311,4 +270,5 @@ public class RobotContainer {
   }
 
   public void periodic() {}
+
 }

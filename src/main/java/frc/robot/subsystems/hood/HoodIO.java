@@ -15,8 +15,7 @@ public interface HoodIO {
     public double position = 0; // in rotations
   }
 
-  public default void updateInputs(HoodIOInputs inputs) {
-  }
+  public default void updateInputs(HoodIOInputs inputs) {}
 
   public default void setVoltage(double voltage) {
     _motor.set(voltage / _motor.getSupplyVoltage().getValueAsDouble());

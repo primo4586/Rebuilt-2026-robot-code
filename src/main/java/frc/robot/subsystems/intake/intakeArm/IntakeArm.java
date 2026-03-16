@@ -34,16 +34,17 @@ public class IntakeArm extends SubsystemBase {
     resetPosition();
 
     // Create the SysId routine
-    sysId = new SysIdRoutine(
-        new SysIdRoutine.Config(
-            null,
-            null,
-            null, // Use default config
-            (state) -> Logger.recordOutput("ShooterSysIdTestState", state.toString())),
-        new SysIdRoutine.Mechanism(
-            (voltage) -> this.setVoltageNoStop(voltage.in(Volts)),
-            null, // No log consumer, since data is recorded by AdvantageKit
-            this));
+    sysId =
+        new SysIdRoutine(
+            new SysIdRoutine.Config(
+                null,
+                null,
+                null, // Use default config
+                (state) -> Logger.recordOutput("ShooterSysIdTestState", state.toString())),
+            new SysIdRoutine.Mechanism(
+                (voltage) -> this.setVoltageNoStop(voltage.in(Volts)),
+                null, // No log consumer, since data is recorded by AdvantageKit
+                this));
   }
 
   @Override
@@ -55,7 +56,6 @@ public class IntakeArm extends SubsystemBase {
   public void resetPosition() {
     io.resetPosition();
   }
-
   // Commands
   /**
    * @return a command that sets the voltage of the intake arm motor. The motor will be stopped when the command ends. 

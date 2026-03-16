@@ -38,14 +38,11 @@ public class Feeder extends SubsystemBase {
   // Commands
 
   /**
-   * Creates a command to set the feeder motor to a specified voltage. The command
-   * starts by
-   * applying the given voltage to the motor and stops the motor when the command
-   * ends.
+   * Creates a command to set the feeder motor to a specified voltage. The command starts by
+   * applying the given voltage to the motor and stops the motor when the command ends.
    *
    * @param voltage The voltage to apply to the feeder motor.
-   * @return A command that sets the motor voltage and stops the motor when
-   *         finished.
+   * @return A command that sets the motor voltage and stops the motor when finished.
    */
   public Command setVoltage(double voltage) {
     return startEnd(() -> io.setVoltage(voltage), () -> io.stopMotor())
@@ -62,9 +59,8 @@ public class Feeder extends SubsystemBase {
   }
 
   /**
-   * @return a command that sets voltage to FEED_VOLTAGE (FeederConstants) and
-   *         stops the motor when
-   *         interupted
+   * @return a command that sets voltage to FEED_VOLTAGE (FeederConstants) and stops the motor when
+   *     interupted
    */
   public Command feed() {
     return startEnd(() -> io.setVoltage(FEED_VOLTAGE), () -> io.stopMotor())
