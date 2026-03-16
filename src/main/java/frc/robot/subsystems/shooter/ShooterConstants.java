@@ -46,7 +46,7 @@ public class ShooterConstants {
 
   // targets values
   public static final double PASS_RPS = 20;
-  public static final double REST_VELOCITY = 10;
+  public static final double REST_VELOCITY = 4;
   public static final double SHOOT_RPS = 20; // TODO: tune
   public static double targetVelocity = 0;
   public static final DoubleSupplier shotVelocitySupplier = () -> 0; // TODO: find equation
@@ -79,14 +79,14 @@ public class ShooterConstants {
     realConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
     // PID
-    realConfigs.Slot0.kP = 0.2;
+    realConfigs.Slot0.kP = 0.00012279;
     realConfigs.Slot0.kI = 0;
     realConfigs.Slot0.kD = 0; // TODO: maybe add D
 
-    // feedforward
-    realConfigs.Slot0.kV = 0.1229;
-    realConfigs.Slot0.kA = 0.013463;
-    realConfigs.Slot0.kS = 0.27895;
+    // feedforward 
+    realConfigs.Slot0.kV = 0.12219;
+    realConfigs.Slot0.kA = 0.0087164;
+    realConfigs.Slot0.kS = 0.28562;
 
     // MM
     // TODO: tune MM

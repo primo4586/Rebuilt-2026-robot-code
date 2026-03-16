@@ -256,15 +256,59 @@ public class RobotContainer {
                                 .ignoringDisable(true));
     }
 
-    /**
-     * Use this to pass the autonomous command t o the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
-    public Command getAutonomousCommand() {
-        return autoChooser.get();
-    }
+    //tester
+    testerController.a().whileTrue(shooter.setVelocityCommand(80));
+    testerController.b().whileTrue(shooter.setVelocityCommand(60));
+    testerController.x().whileTrue(shooter.setVelocityCommand(0));
+    testerController.y().whileTrue(feeder.setVoltage(12));
+    // testerController.rightTrigger().onTrue(shooter.restCommand());
+    // testerController.leftTrigger().whileTrue(shooter.setVoltageCommand(12));
+    // testerController.b().onTrue(hood.setPosition(0.02));
+    // testerController.y().onT[]\rue(hood.setPosition(0.08));
 
-    public void periodic() {
-    }
+    // driveController.a().whileTrue(CommandGroupFactory.shootCommand());
+    // driveController.y().whileTrue(Commands.run(() -> drive.stopWithX(), drive));
+
+    // Default command, normal field-relative drive
+    drive.setDefaultCommand(
+        DriveCommands.joystickDrive(
+                drive,
+                () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
+                () -> -driveController.getLeftX() * slowSpeed.getAsDouble(),
+                () -> -driveController.getRightX() * slowSpeed.getAsDouble())
+            .withName("Drive"));
+    driveController
+        .rightStick()
+        .whileTrue(
+            DriveCommands.joystickDriveAtAngle(
+                    drive,
+                    () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
+                    () -> -driveController.getLeftX() * slowSpeed.getAsDouble(),
+                    () ->
+                        new Rotation2d(
+                            Math.toRadians(PrimoCalc.bumpAngle(drive.getRotation().getDegrees()))))
+                .withName("Drive At Angle"));
+
+    // Reset gyro to 0° when B button is pressed
+    driveController
+        .rightBumper()
+        .onTrue(
+            Commands.runOnce(
+                    () ->
+                        drive.setPose(
+                            new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
+                    drive)
+                .ignoringDisable(true));
+  }
+
+  /**
+   * Use this to pass the autonomous command t o the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
+  public Command getAutonomousCommand() {
+    return autoChooser.get();
+  }
+
+  public void periodic() {}
 }
