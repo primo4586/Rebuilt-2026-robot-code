@@ -16,7 +16,7 @@ public class IntakeArmTalon implements IntakeArmIO {
         break;
       }
     }
-    if (statusCode.isError()) {
+    if (!statusCode.isOK()) {
       System.out.println("intkake arm configs failed" + statusCode.toString());
     }
   }

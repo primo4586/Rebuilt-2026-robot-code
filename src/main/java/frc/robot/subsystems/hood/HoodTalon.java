@@ -16,8 +16,8 @@ public class HoodTalon implements HoodIO {
         break;
       }
     }
-    if (statusCode.isError()) {
-      System.out.println("intkake arm configs failed" + statusCode.toString());
+    if (!statusCode.isOK()) {
+      System.out.println("hood configs failed" + statusCode.toString());
     }
   }
 

@@ -16,7 +16,7 @@ public class IntakeRollerTalon implements IntakeRollerIO {
         break;
       }
     }
-    if (statusCode.isError()) {
+    if (!statusCode.isOK()) {
       System.out.println("intake roller configs failed" + statusCode.toString());
     }
   }

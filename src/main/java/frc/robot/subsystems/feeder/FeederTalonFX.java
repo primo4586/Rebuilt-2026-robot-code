@@ -19,8 +19,8 @@ public class FeederTalonFX implements FeederIO {
         break;
       }
     }
-    if (statusCode.isError()) {
-      System.out.println("intake roller configs failed" + statusCode.toString());
+    if (!statusCode.isOK()) {
+      System.out.println("feeder configs failed" + statusCode.toString());
     }
     SPARKMAX_configs.smartCurrentLimit(SPARKMAX_MAX_CURRENT).idleMode(SPARKMAX_IDLE_MODE).inverted(SPARKMAX_INVERTED);
 
