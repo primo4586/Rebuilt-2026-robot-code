@@ -1,7 +1,5 @@
 package frc.robot.subsystems.shootOnTheMove;
 
-import java.util.function.DoubleSupplier;
-
 import com.techhounds.houndutil.houndlib.ChassisAccelerations;
 import com.techhounds.houndutil.houndlib.ShootOnTheFlyCalculator;
 import com.techhounds.houndutil.houndlib.ShootOnTheFlyCalculator.InterceptSolution;
@@ -14,7 +12,6 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.CommandGroupFactory;
 import frc.robot.primoLib.PrimoCalc;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.shooter.ShooterConstants;

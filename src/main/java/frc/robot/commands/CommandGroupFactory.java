@@ -4,12 +4,15 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.Constants;
 import frc.robot.primoLib.PrimoCalc;
 import frc.robot.subsystems.drive.Drive;
-import frc.robot.subsystems.feeder.*;
-import frc.robot.subsystems.hood.*;
+import frc.robot.subsystems.feeder.Feeder;
+import frc.robot.subsystems.feeder.FeederSim;
+import frc.robot.subsystems.feeder.FeederTalonFX;
+import frc.robot.subsystems.hood.Hood;
+import frc.robot.subsystems.hood.HoodConstants;
+import frc.robot.subsystems.hood.HoodSim;
+import frc.robot.subsystems.hood.HoodTalon;
 import frc.robot.subsystems.intake.intakeArm.IntakeArm;
 import frc.robot.subsystems.intake.intakeArm.IntakeArmSim;
 import frc.robot.subsystems.intake.intakeArm.IntakeArmTalon;
@@ -68,6 +71,9 @@ public class CommandGroupFactory {
       ).finallyDo(() -> shooter.rest());
     }
 
+    /**
+     * @return a command that stops all subsystems (intake arm, intake roller, shooter, feeder)
+     */
   public static Command stopAll(){
     return Commands.parallel(
         intakeArm.setVoltage(0), 
@@ -76,6 +82,9 @@ public class CommandGroupFactory {
         feeder.setVoltage(0));
   }
 
+  /**
+   * @return a command that sets shooter velocity and hood position based on distance to target for shoot on the move
+   */
   public static Command targetHubSotmCommand() {
     return Commands.parallel(
             shooter.setVelocityCommand(
@@ -85,7 +94,7 @@ public class CommandGroupFactory {
             .andThen(useRequirement());
 }
 
-public static Command useRequirement() {
+private static Command useRequirement() {
   return Commands.runOnce(() -> {
   });
 }

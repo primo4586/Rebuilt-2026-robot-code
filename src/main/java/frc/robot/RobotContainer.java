@@ -219,12 +219,14 @@ public class RobotContainer {
         // driveController.y().whileTrue(Commands.run(() -> drive.stopWithX(), drive));
 
 
-        driveController.x().whileTrue(CommandGroupFactory.shootOnTheMoveCommand(
-                DriveCommands.joystickDriveAtAngle(
-                        drive,
-                        () -> -driveController.getLeftY() * slowSpeed.getAsDouble() * Constants.SOTM_SPEED_MULT,
-                        () -> -driveController.getLeftX() * slowSpeed.getAsDouble() * Constants.SOTM_SPEED_MULT,
-                        () -> new Rotation2d(PrimoCalc.getRadsToPose(shotCalculator.getCurrentEffectiveTargetPose().toPose2d())))));
+        //Shoot on the move command
+        // driveController.x().whileTrue(CommandGroupFactory.shootOnTheMoveCommand(
+        //         DriveCommands.joystickDriveAtAngle(
+        //                 drive,
+        //                 () -> -driveController.getLeftY() * slowSpeed.getAsDouble() * Constants.SOTM_SPEED_MULT,
+        //                 () -> -driveController.getLeftX() * slowSpeed.getAsDouble() * Constants.SOTM_SPEED_MULT,
+        //                 () -> new Rotation2d(PrimoCalc.getRadsToPose(shotCalculator.getCurrentEffectiveTargetPose().toPose2d()))))
+        //                 .withName("Shoot On The Move"));
 
         
 

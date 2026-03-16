@@ -1,7 +1,7 @@
 package frc.robot.subsystems.feeder;
 
 import static frc.robot.subsystems.feeder.FeederConstants.*;
-import static frc.robot.util.SparkUtil.*;
+import static frc.robot.util.SparkUtil.tryUntilOk;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 

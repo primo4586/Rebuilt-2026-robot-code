@@ -18,7 +18,7 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
-import frc.robot.Constants;
+
 
 public class FeederConstants {
 
@@ -43,7 +43,7 @@ public class FeederConstants {
   public static final double STATOR_CURRENT = 60; // TODO: tune current
   public static final double SUPPLY_CURRENT = 30;
   public static final double VOLTAGE_LIMIT = 0;
-  public static final double GEAR_RATIO = 3; // TODO: set gear ratio
+  public static final double GEAR_RATIO = 9; // TODO: set gear ratio
   public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Brake;
   public static final InvertedValue INVERTED = InvertedValue.Clockwise_Positive;
   // SPARKMAX configs

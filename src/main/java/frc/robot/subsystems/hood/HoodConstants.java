@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
-import frc.robot.Constants;
 import frc.robot.util.interpolation.InterpolationMap;
 import java.util.function.DoubleSupplier;
 
