@@ -7,7 +7,7 @@
 
 package frc.robot;
 
-import com.techhounds.houndutil.houndlib.BallConstants;
+// import com.techhounds.houndutil.houndlib.BallConstants;
 import static edu.wpi.first.units.Units.*;
 
 import edu.wpi.first.wpilibj.RobotBase;
@@ -22,8 +22,8 @@ public final class Constants {
   public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : simMode;
 
   //SoTM
-  public static final BallConstants BALL_CONSTANTS = new BallConstants(
-    Grams.of(210).in(Kilograms), Inches.of(3).in(Meters), 1.2, 0.30, 1.2, 0.35, 9.81, 20);
+  // public static final BallConstants BALL_CONSTANTS = new BallConstants(
+  //   Grams.of(210).in(Kilograms), Inches.of(3).in(Meters), 1.2, 0.30, 1.2, 0.35, 9.81, 20);
 
 
   public static final double HUB_ANGLE_RADS_THRESHOLD = 0.1;

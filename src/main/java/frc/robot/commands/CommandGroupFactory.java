@@ -19,7 +19,7 @@ import frc.robot.subsystems.intake.intakeArm.IntakeArmTalon;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRoller;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRollerSim;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRollerTalon;
-import frc.robot.subsystems.shootOnTheMove.ShotCalculator;
+// import frc.robot.subsystems.shootOnTheMove.ShotCalculator;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterConstants;
 import frc.robot.subsystems.shooter.ShooterRealIO;
@@ -38,10 +38,10 @@ public class CommandGroupFactory {
     IntakeArm.getInstance(RobotBase.isReal() ? new IntakeArmTalon() : new IntakeArmSim());
   public static final IntakeRoller intakeRoller =
     IntakeRoller.getInstance(RobotBase.isReal() ? new IntakeRollerTalon() : new IntakeRollerSim());
-  public static final ShotCalculator shotCalculator = ShotCalculator.getInstance();
+  // public static final ShotCalculator shotCalculator = ShotCalculator.getInstance();
 
-  public static final DoubleSupplier distanceSotmSupplier = () -> drive.getPose().getTranslation()
-    .getDistance(shotCalculator.getCurrentEffectiveTargetPose().getTranslation().toTranslation2d());
+  // public static final DoubleSupplier distanceSotmSupplier = () -> drive.getPose().getTranslation()
+  //   .getDistance(shotCalculator.getCurrentEffectiveTargetPose().getTranslation().toTranslation2d());
 
 
   /** turn to hub, stop with x, and shoot with interpolation */
@@ -63,13 +63,13 @@ public class CommandGroupFactory {
   }
 
     /** Shoot on the move*/
-    public static Command shootOnTheMoveCommand(Command driveCommand) {
-      return Commands.parallel(
-        targetHubSotmCommand(),
-        feeder.feed(),
-        driveCommand
-      ).finallyDo(() -> shooter.rest());
-    }
+    // public static Command shootOnTheMoveCommand(Command driveCommand) {
+    //   return Commands.parallel(
+    //     targetHubSotmCommand(),
+    //     feeder.feed(),
+    //     driveCommand
+    //   ).finallyDo(() -> shooter.rest());
+    // }
 
     /**
      * @return a command that stops all subsystems (intake arm, intake roller, shooter, feeder)
@@ -82,17 +82,17 @@ public class CommandGroupFactory {
         feeder.setVoltage(0));
   }
 
-  /**
-   * @return a command that sets shooter velocity and hood position based on distance to target for shoot on the move
-   */
-  public static Command targetHubSotmCommand() {
-    return Commands.parallel(
-            shooter.setVelocityCommand(
-                    () -> ShooterConstants.SHOOTER_INTERPOLATION_MAP.get(distanceSotmSupplier.getAsDouble())).asProxy(),
-            hood.setPositionRepeatedly(
-                    () -> HoodConstants.HOOD_ANGLE_INTERPOLATION_MAP.get(distanceSotmSupplier.getAsDouble())).asProxy())
-            .andThen(useRequirement());
-}
+  // /**
+  //  * @return a command that sets shooter velocity and hood position based on distance to target for shoot on the move
+  //  */
+  // public static Command targetHubSotmCommand() {
+  //   return Commands.parallel(
+  //           shooter.setVelocityCommand(
+  //                   () -> ShooterConstants.SHOOTER_INTERPOLATION_MAP.get(distanceSotmSupplier.getAsDouble())).asProxy(),
+  //           hood.setPositionRepeatedly(
+  //                   () -> HoodConstants.HOOD_ANGLE_INTERPOLATION_MAP.get(distanceSotmSupplier.getAsDouble())).asProxy())
+  //           .andThen(useRequirement());
+// }
 
 private static Command useRequirement() {
   return Commands.runOnce(() -> {

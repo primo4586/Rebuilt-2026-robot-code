@@ -103,6 +103,10 @@ public class Hood extends SubsystemBase {
     return runOnce(() -> io.setPosition(position)).withName(getName() + "Set position");
   }
 
+  public Command setPosition(DoubleSupplier position) {
+    return runOnce(() -> io.setPosition(position.getAsDouble())).withName(getName() + "Set position");
+  }
+
   /**
    * @return a command that sets the hood position to the interpolated value
    */

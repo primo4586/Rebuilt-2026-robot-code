@@ -17,7 +17,7 @@ import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 import com.pathplanner.lib.util.PathPlannerLogging;
-import com.techhounds.houndutil.houndlib.ChassisAccelerations;
+// import com.techhounds.houndutil.houndlib.ChassisAccelerations;
 
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
@@ -413,8 +413,8 @@ public class Drive extends SubsystemBase {
     return ChassisSpeeds.fromRobotRelativeSpeeds(kinematics.toChassisSpeeds(getModuleStates()), getRotation());
 }
 
-    public ChassisAccelerations getFieldRelativeAccelerations() {
-        return new ChassisAccelerations(getFieldRelativeSpeeds(), prevFieldRelVelocities, 0.020);
-    }
+    // public ChassisAccelerations getFieldRelativeAccelerations() {
+    //     return new ChassisAccelerations(getFieldRelativeSpeeds(), prevFieldRelVelocities, 0.020);
+    // }
     
 }

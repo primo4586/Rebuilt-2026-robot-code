@@ -16,6 +16,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -35,6 +36,7 @@ import frc.robot.subsystems.feeder.FeederIO;
 import frc.robot.subsystems.feeder.FeederSim;
 import frc.robot.subsystems.feeder.FeederTalonFX;
 import frc.robot.subsystems.hood.Hood;
+import frc.robot.subsystems.hood.HoodConstants;
 import frc.robot.subsystems.hood.HoodIO;
 import frc.robot.subsystems.hood.HoodSim;
 import frc.robot.subsystems.hood.HoodTalon;
@@ -46,7 +48,7 @@ import frc.robot.subsystems.intake.intakeRoller.IntakeRoller;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRollerIO;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRollerSim;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRollerTalon;
-import frc.robot.subsystems.shootOnTheMove.ShotCalculator;
+// import frc.robot.subsystems.shootOnTheMove.ShotCalculator;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIO;
 import frc.robot.subsystems.shooter.ShooterRealIO;
@@ -73,7 +75,7 @@ public class RobotContainer {
     private final IntakeRoller intakeRoller;
     private final IntakeArm intakeArm;
     private final Hood hood;
-    private final ShotCalculator shotCalculator = ShotCalculator.getInstance();
+    // private final ShotCalculator shotCalculator = ShotCalculator.getInstance();
     // Controller
     private final CommandXboxController driveController = new CommandXboxController(0);
     private final CommandXboxController testerController = new CommandXboxController(1);
@@ -90,6 +92,10 @@ public class RobotContainer {
 
     // Dashboard inputs
     private final LoggedDashboardChooser<Command> autoChooser;
+
+    //SmartDashboard Calibration
+    private final DoubleSupplier shooterRps = () -> SmartDashboard.getNumber("shooter calibration RPS",0.0);
+    private final DoubleSupplier hoodAngle = () -> SmartDashboard.getNumber("hood angle rotations", 0.0);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -195,6 +201,10 @@ public class RobotContainer {
 
         // Configure the button bindings
         configureButtonBindings();
+
+         //smartDashboard
+        SmartDashboard.putNumber("shooter calibration RPS",0);
+        SmartDashboard.putNumber("hood angle rotations", 0);
     }
 
     /**
@@ -214,6 +224,13 @@ public class RobotContainer {
         // testerController.leftTrigger().whileTrue(shooter.setVoltageCommand(12));
         // testerController.b().onTrue(hood.setPosition(0.02));
         // testerController.y().onTrue(hood.setPosition(0.08));
+
+
+        testerController.a().whileTrue(shooter.setVelocityCommand(shooterRps));
+        testerController.b().onTrue(hood.setPosition(hoodAngle.getAsDouble()));
+        testerController.x().whileTrue(shooter.setVelocityCommand(80));
+        testerController.rightBumper().whileTrue(feeder.feed());
+        testerController.rightStick().whileTrue(shooter.setVelocityCommand(0));
 
         // driveController.a().whileTrue(CommandGroupFactory.shootCommand());
         // driveController.y().whileTrue(Commands.run(() -> drive.stopWithX(), drive));
@@ -271,6 +288,8 @@ public class RobotContainer {
     return autoChooser.get();
   }
 
-  public void periodic() {}
+  public void periodic() {
+    SmartDashboard.putNumber("Distance From Hub", PrimoCalc.getDistance(drive.getPose(), PrimoCalc.getHubPos()));
+  }
 
 }
