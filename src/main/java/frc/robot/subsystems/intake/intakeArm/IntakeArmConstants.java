@@ -39,7 +39,7 @@ public class IntakeArmConstants {
 
   // request
   public static final TorqueCurrentFOC currentRequest = new TorqueCurrentFOC(0);
-  public static final PositionVoltage positionRequest = new PositionVoltage(0);
+  public static final PositionVoltage positionRequest = new PositionVoltage(0).withEnableFOC(true);
 
   // configs
   public static final double STATOR_CURRENT = 100;

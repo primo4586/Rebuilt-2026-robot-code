@@ -44,7 +44,7 @@ public class ShooterConstants {
   // request
   public static final TorqueCurrentFOC currentRequest = new TorqueCurrentFOC(0);
   public static final MotionMagicVelocityVoltage velocityRequest =
-      new MotionMagicVelocityVoltage(0); // rps
+      new MotionMagicVelocityVoltage(0).withEnableFOC(true); // rps
   public static final Follower followerRequest = new Follower(MASTER_MOTOR_ID, MotorAlignmentValue.valueOf(1));
 
   // targets values
