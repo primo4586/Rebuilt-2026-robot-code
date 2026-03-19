@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.*;
 import static frc.robot.subsystems.shooter.ShooterConstants.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.primoLib.PrimoCalc;
@@ -108,6 +109,18 @@ public class Shooter extends SubsystemBase {
    */
   public Command setVelocityCommand(DoubleSupplier velocity) {
     return run(() -> io.setVelocity(velocity)).withName(getName() + " Set Velocity");
+  }
+
+  /**
+   * @param velocity the velocity to set the motor to (in RPS)
+   * @return a command that sets voltage to 11.5 until it is within TOLERANCE of the given velocity, then uses velocity control to maintain that velocity. 
+   */
+  public Command setVoltageWithVelocityCorrection(DoubleSupplier velocity) {
+    return Commands.either(
+      Commands.runOnce(() -> io.setVelocity(velocity)),
+      Commands.runOnce(() -> io.setVoltage(11.5)),
+      readyToShoot())
+      .withName(getName() + " Set Voltage with Velocity Correction");
   }
 
   /**
