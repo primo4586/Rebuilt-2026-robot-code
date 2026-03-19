@@ -85,7 +85,7 @@ public class RobotContainer {
     // () -> driveController.leftTrigger().getAsBoolean() ? 0.5 : 0.8;
 
     // suppliers
-    private final DoubleSupplier slowSpeed = () -> driveController.leftBumper().getAsBoolean() ? 0.5 : 0.8;
+    private final DoubleSupplier slowSpeed = () -> driveController.leftBumper().getAsBoolean() ? 0.5 : 1;
 
     // operator pathplanner values
     // TODO: move to robot state
@@ -227,10 +227,10 @@ public class RobotContainer {
 
 
         testerController.a().whileTrue(shooter.setVelocityCommand(shooterRps));
-        testerController.b().onTrue(hood.setPosition(hoodAngle.getAsDouble()));
-        testerController.x().whileTrue(shooter.setVelocityCommand(80));
+        testerController.b().onTrue(hood.setPosition(hoodAngle));
+        testerController.x().onTrue(shooter.setVelocityCommand(80));
         testerController.rightBumper().whileTrue(feeder.feed());
-        testerController.rightStick().whileTrue(shooter.setVelocityCommand(0));
+        testerController.rightStick().onTrue(shooter.setVelocityCommand(0));
 
         // driveController.a().whileTrue(CommandGroupFactory.shootCommand());
         // driveController.y().whileTrue(Commands.run(() -> drive.stopWithX(), drive));

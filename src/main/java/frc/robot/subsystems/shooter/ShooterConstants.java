@@ -59,9 +59,9 @@ public class ShooterConstants {
       new InterpolationMap().put(2.577, 100).put(2.124, 100).put(3.2, 100); // TODO: Find points
 
   // configs
-  public static final double GEAR_RATIO = 28/18; // TODO: tune
-  public static final double PEAK_CURRENT = 80; // TODO: tune
-  public static final double SUPPLY_CURRENT = 50; // TODO: tune
+  public static final double GEAR_RATIO = 28/18;
+  public static final double PEAK_CURRENT = 200; // TODO: tune
+  public static final double SUPPLY_CURRENT = 200; // TODO: tune
   public static final double TOLERANCE = 0.435;
 
   public static final TalonFXConfiguration realConfigs = new TalonFXConfiguration();
@@ -69,10 +69,10 @@ public class ShooterConstants {
   static {
 
     // peaks:
-    realConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
+    realConfigs.CurrentLimits.SupplyCurrentLimitEnable = false;
     realConfigs.CurrentLimits.SupplyCurrentLimit = SUPPLY_CURRENT;
 
-    realConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
+    realConfigs.CurrentLimits.StatorCurrentLimitEnable = false;
     realConfigs.CurrentLimits.StatorCurrentLimit = PEAK_CURRENT;
 
     // settings
