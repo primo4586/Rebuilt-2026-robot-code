@@ -20,7 +20,8 @@ public class ShooterRealIO implements ShooterIO {
     _followerMotor.setControl(followerRequest);
 
     //signal request
-    velocitySignal.setUpdateFrequency(200);
+    velocitySignal.setUpdateFrequency(UPDATE_FREQUENCY);
+    velocityRequest.UpdateFreqHz = UPDATE_FREQUENCY;
   }
 
   @Override

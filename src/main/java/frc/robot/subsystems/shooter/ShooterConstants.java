@@ -47,6 +47,9 @@ public class ShooterConstants {
       new MotionMagicVelocityVoltage(0).withEnableFOC(true); // rps
   public static final Follower followerRequest = new Follower(MASTER_MOTOR_ID, MotorAlignmentValue.valueOf(1));
 
+  //update frequency
+  public static final int UPDATE_FREQUENCY = 200;
+
   // targets values
   public static final double PASS_RPS = 20;
   public static final double REST_VELOCITY = 4;
