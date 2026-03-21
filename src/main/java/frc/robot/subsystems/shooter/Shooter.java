@@ -120,7 +120,7 @@ public class Shooter extends SubsystemBase {
       io.setVelocity(velocity);
     } else {
       io.setVoltage(11.5);
-    }}).withName(getName() + " Set Voltage with Velocity Correction");
+    }}).finallyDo(() -> io.stopMotor()).withName(getName() + " Set Voltage with Velocity Correction");
   }
 
   /**

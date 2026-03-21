@@ -54,6 +54,8 @@ import frc.robot.subsystems.shooter.ShooterIO;
 import frc.robot.subsystems.shooter.ShooterRealIO;
 import frc.robot.subsystems.shooter.ShooterSimIO;
 import frc.robot.subsystems.vision.*;
+
+import java.util.Set;
 import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
@@ -225,12 +227,20 @@ public class RobotContainer {
         // testerController.b().onTrue(hood.setPosition(0.02));
         // testerController.y().onTrue(hood.setPosition(0.08));
 
+        testerController.a().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+        testerController.b().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+        testerController.x().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
+        testerController.y().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
-        testerController.a().whileTrue(shooter.setVelocityCommand(shooterRps));
-        testerController.b().onTrue(hood.setPosition(hoodAngle));
-        testerController.x().onTrue(shooter.setVelocityCommand(80));
-        testerController.rightBumper().whileTrue(feeder.feed());
-        testerController.rightStick().onTrue(shooter.setVelocityCommand(0));
+
+
+        // testerController.a().whileTrue(shooter.setVelocityCommand(shooterRps));
+        // testerController.b().onTrue(hood.setPosition(hoodAngle));
+        // testerController.x().onTrue(shooter.setVelocityCommand(80));
+        testerController.rightBumper().whileTrue(feeder.feed().alongWith(intakeArm.openAndCloseCommand()).alongWith(intakeRoller.intakeNoStop()));
+        testerController.leftBumper().whileTrue(shooter.setVoltageWithVelocityCorrection(() -> 80));
+
+        // testerController.rightStick().onTrue(shooter.setVelocityCommand(0));
 
         // driveController.a().whileTrue(CommandGroupFactory.shootCommand());
         // driveController.y().whileTrue(Commands.run(() -> drive.stopWithX(), drive));

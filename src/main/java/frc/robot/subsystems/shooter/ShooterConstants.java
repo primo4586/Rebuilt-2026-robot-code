@@ -59,10 +59,10 @@ public class ShooterConstants {
 
   // Interpolation Map
   public static final InterpolationMap SHOOTER_INTERPOLATION_MAP =
-      new InterpolationMap().put(2.577, 100).put(2.124, 100).put(3.2, 100); // TODO: Find points
+      new InterpolationMap().put(2.28, 53).put(2.124, 100).put(3.2, 100); // TODO: Find points
 
   // configs
-  public static final double GEAR_RATIO = 28/18;
+  public static final double GEAR_RATIO = 25/22;
   public static final double PEAK_CURRENT = 200; // TODO: tune
   public static final double SUPPLY_CURRENT = 200; // TODO: tune
   public static final double TOLERANCE = 0.435;
@@ -85,14 +85,14 @@ public class ShooterConstants {
     realConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
     // PID
-    realConfigs.Slot0.kP = 0.00012279;
+    realConfigs.Slot0.kP = 0.70613;
     realConfigs.Slot0.kI = 0;
     realConfigs.Slot0.kD = 0; //TODO: maybe add D 
 
     // feedforward 
-    realConfigs.Slot0.kV = 0.12219;
-    realConfigs.Slot0.kA = 0.0087164;
-    realConfigs.Slot0.kS = 0.28562;
+    realConfigs.Slot0.kV = 0.12316;
+    realConfigs.Slot0.kA = 0.0080154;
+    realConfigs.Slot0.kS = 0.21606;
 
     // MM
     // TODO: tune MM
