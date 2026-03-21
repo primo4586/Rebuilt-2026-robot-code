@@ -24,8 +24,9 @@ public class IntakeArmTalon implements IntakeArmIO {
   @Override
   public void updateInputs(IntakeArmIOInputs inputs) {
     StatusSignal.refreshAll(
-        voltageSignal, supplyCurrentSignal, statorCurrentSignal, velocitySignal);
+        voltageSignal, supplyCurrentSignal, statorCurrentSignal, velocitySignal, positionSignal);
     inputs.voltage = voltageSignal.getValueAsDouble();
+    inputs.position = positionSignal.getValueAsDouble();
     inputs.statorCurrent = statorCurrentSignal.getValueAsDouble();
     inputs.supplyCurrent = supplyCurrentSignal.getValueAsDouble();
     inputs.velocity = velocitySignal.getValueAsDouble();
