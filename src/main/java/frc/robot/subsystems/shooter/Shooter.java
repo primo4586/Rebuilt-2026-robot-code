@@ -116,11 +116,11 @@ public class Shooter extends SubsystemBase {
    * @return a command that sets voltage to 11.5 until it is within TOLERANCE of the given velocity, then uses velocity control to maintain that velocity. 
    */
   public Command setVoltageWithVelocityCorrection(DoubleSupplier velocity) {
-    return Commands.either(
-      Commands.runOnce(() -> io.setVelocity(velocity)),
-      Commands.runOnce(() -> io.setVoltage(11.5)),
-      readyToShoot())
-      .withName(getName() + " Set Voltage with Velocity Correction");
+    return run(() -> {if (readyToShoot().getAsBoolean() || getVelocity() > getWantedVelocity()) {
+      io.setVelocity(velocity);
+    } else {
+      io.setVoltage(11.5);
+    }}).withName(getName() + " Set Voltage with Velocity Correction");
   }
 
   /**
