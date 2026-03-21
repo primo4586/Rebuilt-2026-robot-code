@@ -22,11 +22,11 @@ public class VisionConstants {
 
   // Robot to camera transforms
   public static Rotation3d fowordRotation = new Rotation3d(0,Math.toRadians(15),0);
-  public static Transform3d fowordTransform = new Transform3d(0.405,0,4.785,fowordRotation);
+  public static Transform3d fowordTransform = new Transform3d(0.405,0,0.505,fowordRotation);
 
   // Basic filtering thresholds
   public static double maxAmbiguity = 0.3;
-  public static double maxZError = 0.75;
+  public static double maxZError = 1.5;
 
   // Standard deviation baselines, for 1 meter distance and 1 tag
   // (Adjusted automatically based on distance and # of tags)
