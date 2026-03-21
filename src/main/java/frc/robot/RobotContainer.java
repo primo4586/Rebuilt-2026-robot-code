@@ -237,7 +237,7 @@ public class RobotContainer {
         // testerController.a().whileTrue(shooter.setVelocityCommand(shooterRps));
         // testerController.b().onTrue(hood.setPosition(hoodAngle));
         // testerController.x().onTrue(shooter.setVelocityCommand(80));
-        testerController.rightBumper().whileTrue(feeder.feed().alongWith(intakeArm.openAndCloseCommand()).alongWith(intakeRoller.intakeNoStop()));
+        testerController.rightBumper().whileTrue(CommandGroupFactory.feedAndMoveIntake());
         testerController.leftBumper().whileTrue(shooter.setVoltageWithVelocityCorrection(() -> 80));
 
         // testerController.rightStick().onTrue(shooter.setVelocityCommand(0));

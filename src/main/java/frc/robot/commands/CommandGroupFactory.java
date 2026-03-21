@@ -17,6 +17,7 @@ import frc.robot.subsystems.intake.intakeArm.IntakeArm;
 import frc.robot.subsystems.intake.intakeArm.IntakeArmSim;
 import frc.robot.subsystems.intake.intakeArm.IntakeArmTalon;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRoller;
+import frc.robot.subsystems.intake.intakeRoller.IntakeRollerConstants;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRollerSim;
 import frc.robot.subsystems.intake.intakeRoller.IntakeRollerTalon;
 // import frc.robot.subsystems.shootOnTheMove.ShotCalculator;
@@ -97,6 +98,14 @@ public class CommandGroupFactory {
 private static Command useRequirement() {
   return Commands.runOnce(() -> {
   });
+}
+
+public static Command feedAndMoveIntake(){
+  return Commands.parallel(
+    feeder.feed(),
+    intakeArm.openAndCloseCommand(),
+    intakeRoller.setVoltage(IntakeRollerConstants.INTAKE_FEED_VOLTAGE)
+  );
 }
 
   /**
