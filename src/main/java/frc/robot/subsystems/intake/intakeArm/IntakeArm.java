@@ -118,6 +118,10 @@ public class IntakeArm extends SubsystemBase {
     return setVoltage(RESET_VOLTAGE).finallyDo(() -> io.resetPosition());
   }
 
+  public Command resetEncoderPositionCommand(){
+    return runOnce(()-> io.resetPosition());
+  }
+
   // sysId Commands
 
   public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {

@@ -34,6 +34,6 @@ public interface IntakeArmIO {
   }
 
   public default void resetPosition() {
-    _motor.setPosition(STARTING_ANGLE / 2 / Math.PI);
+    _motor.setPosition(0);
   }
 }
