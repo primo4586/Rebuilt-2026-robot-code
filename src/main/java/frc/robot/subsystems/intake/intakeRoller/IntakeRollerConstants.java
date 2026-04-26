@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 
 public class IntakeRollerConstants {
 
-  public static final double INTAKE_VOLTAGE = 12; // TODO: tune
+  public static final double INTAKE_VOLTAGE = 12; 
   public static final double INTAKE_FEED_VOLTAGE = 12;
 
   // ids

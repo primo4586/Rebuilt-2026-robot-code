@@ -21,8 +21,8 @@ import frc.robot.Constants;
 
 public class IntakeArmConstants {
 
-  public static final double OPEN_POSITION = 1.9; //TODO: tune
-  public static final double CLOSE_POSITION = 0; //TODO: tune
+  public static final double OPEN_POSITION = 1.9; 
+  public static final double CLOSE_POSITION = 0; 
   
   // ids
   public static final int MOTOR_ID = 21;
@@ -66,12 +66,12 @@ public class IntakeArmConstants {
     realConfiguration.MotorOutput.Inverted = INVERTED;
 
     // PID
-    realConfiguration.Slot0.kP = 8; // TODO: tune
+    realConfiguration.Slot0.kP = 8; 
     realConfiguration.Slot0.kI = 0.0;
     realConfiguration.Slot0.kD = 1;
 
     // feedforward
-    realConfiguration.Slot0.kS = 0; // TODO: tune
+    realConfiguration.Slot0.kS = 0; 
     realConfiguration.Slot0.kV = 0;
     realConfiguration.Slot0.kA = 0;
   }
@@ -97,12 +97,12 @@ public class IntakeArmConstants {
       simConfiguration.MotorOutput.Inverted = INVERTED;
 
       // PID
-      simConfiguration.Slot0.kP = 10; // TODO: tune
+      simConfiguration.Slot0.kP = 10; 
       simConfiguration.Slot0.kI = 0.0;
       simConfiguration.Slot0.kD = 1;
 
       // feedforward
-      simConfiguration.Slot0.kS = 0; // TODO: tune
+      simConfiguration.Slot0.kS = 0; 
       simConfiguration.Slot0.kV = 0;
       simConfiguration.Slot0.kA = 0;
     }

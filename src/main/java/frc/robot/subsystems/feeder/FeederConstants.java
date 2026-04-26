@@ -94,7 +94,7 @@ public class FeederConstants {
       simConfigs.MotorOutput.Inverted = INVERTED;
     }
 
-    // phisics
+    // physics
     public static final double JKG = 5; // TODO: tune
 
     // sims

@@ -24,7 +24,6 @@ public class Elastic {
   }
 
   public static void displayRobotPose() {
-    // m_field.setRobotPose(Robot POSE); //TODO: where tf do i get the robot pos from help
-    // TODO: get good
+    m_field.setRobotPose(PrimoCalc.getRobotPose());
   }
 }

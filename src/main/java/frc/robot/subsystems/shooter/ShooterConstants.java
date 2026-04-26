@@ -30,8 +30,7 @@ public class ShooterConstants {
 
   // devices
   public static final TalonFX _masterMotor = new TalonFX(MASTER_MOTOR_ID, Constants.CAN_BUS_NAME);
-  public static final TalonFX _followerMotor =
-      new TalonFX(FOLLOWER_MOTOR_ID, Constants.CAN_BUS_NAME);
+  public static final TalonFX _followerMotor = new TalonFX(FOLLOWER_MOTOR_ID, Constants.CAN_BUS_NAME);
 
   // signals
   public static final StatusSignal<Voltage> voltageSignal = _masterMotor.getMotorVoltage();
@@ -39,15 +38,14 @@ public class ShooterConstants {
   public static final StatusSignal<Current> supplyCurrentSignal = _masterMotor.getSupplyCurrent();
   public static final StatusSignal<AngularVelocity> velocitySignal = _masterMotor.getVelocity();
   public static final StatusSignal<Angle> positionSignal = _masterMotor.getPosition();
-  public static final StatusSignal<AngularAcceleration> AccelerationSignal =
-      _masterMotor.getAcceleration();
+  public static final StatusSignal<AngularAcceleration> AccelerationSignal = _masterMotor.getAcceleration();
   // request
   public static final TorqueCurrentFOC currentRequest = new TorqueCurrentFOC(0);
-  public static final MotionMagicVelocityVoltage velocityRequest =
-      new MotionMagicVelocityVoltage(0).withEnableFOC(true); // rps
+  public static final MotionMagicVelocityVoltage velocityRequest = new MotionMagicVelocityVoltage(0)
+      .withEnableFOC(true); // rps
   public static final Follower followerRequest = new Follower(MASTER_MOTOR_ID, MotorAlignmentValue.valueOf(1));
 
-  //update frequency
+  // update frequency
   public static final int UPDATE_FREQUENCY = 200;
 
   // targets values
@@ -58,11 +56,11 @@ public class ShooterConstants {
   public static final DoubleSupplier shotVelocitySupplier = () -> 0; // TODO: find equation
 
   // Interpolation Map
-  public static final InterpolationMap SHOOTER_INTERPOLATION_MAP =
-      new InterpolationMap().put(2.28, 53).put(2.124, 100).put(3.2, 100); // TODO: Find points
+  public static final InterpolationMap SHOOTER_INTERPOLATION_MAP = new InterpolationMap().put(2.28, 53).put(2.124, 100)
+      .put(3.2, 100); // TODO: Find points
 
   // configs
-  public static final double GEAR_RATIO = 25/22;
+  public static final double GEAR_RATIO = 25 / 22;
   public static final double PEAK_CURRENT = 200; // TODO: tune
   public static final double SUPPLY_CURRENT = 200; // TODO: tune
   public static final double TOLERANCE = 0.435;
@@ -87,9 +85,9 @@ public class ShooterConstants {
     // PID
     realConfigs.Slot0.kP = 0.70613;
     realConfigs.Slot0.kI = 0;
-    realConfigs.Slot0.kD = 0; //TODO: maybe add D 
+    realConfigs.Slot0.kD = 0; // TODO: maybe add D
 
-    // feedforward 
+    // feedforward
     realConfigs.Slot0.kV = 0.12316;
     realConfigs.Slot0.kA = 0.0080154;
     realConfigs.Slot0.kS = 0.21606;
@@ -113,24 +111,20 @@ public class ShooterConstants {
 
       // settings
       simConfigs.Feedback.SensorToMechanismRatio = GEAR_RATIO;
-      // TODO: tune motor modes
       simConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
       simConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
       // PID
-      // TODO: tune PID
       simConfigs.Slot0.kP = 10;
       simConfigs.Slot0.kI = 0;
       simConfigs.Slot0.kD = 0.03;
 
       // feedforward
-      // TODO: tune FF
       simConfigs.Slot0.kV = 0.16;
       simConfigs.Slot0.kA = 0.02;
       simConfigs.Slot0.kS = 0.17;
 
       // MM
-      // TODO: tune MM;
       simConfigs.MotionMagic.MotionMagicAcceleration = 3;
     }
 
@@ -140,8 +134,7 @@ public class ShooterConstants {
     // sims
     public static final DCMotor motorModel = DCMotor.getKrakenX60(2);
     public static final TalonFXSimState simMotor = _masterMotor.getSimState();
-    public static final FlywheelSim sim =
-        new FlywheelSim(
-            LinearSystemId.createFlywheelSystem(motorModel, JKG, GEAR_RATIO), motorModel);
+    public static final FlywheelSim sim = new FlywheelSim(
+        LinearSystemId.createFlywheelSystem(motorModel, JKG, GEAR_RATIO), motorModel);
   }
 }

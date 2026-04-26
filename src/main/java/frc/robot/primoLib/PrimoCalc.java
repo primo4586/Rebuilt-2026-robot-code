@@ -17,6 +17,11 @@ import java.util.function.BooleanSupplier;
 public class PrimoCalc {
   private static final Drive drive = Drive.getInstance(RobotBase.isReal());
 
+  /** @return the robot's current pose as a Pose2d. */
+  public static Pose2d getRobotPose() {
+    return drive.getPose();
+  }
+
   /**
    * Snaps an angle to the nearest value of the form 45 + 90k and normalizes the result to the range
    * [0, 360].

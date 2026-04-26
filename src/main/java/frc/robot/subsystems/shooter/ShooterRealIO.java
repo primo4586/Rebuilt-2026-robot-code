@@ -12,27 +12,28 @@ public class ShooterRealIO implements ShooterIO {
     // upload configs
     for (int i = 0; i < 5; i++) {
       statusCode = _masterMotor.getConfigurator().apply(realConfigs);
-      if (statusCode.isOK()) break;
+      if (statusCode.isOK())
+        break;
     }
-    if (!statusCode.isOK()) System.out.println("shooter configs failed" + statusCode.toString());
+    if (!statusCode.isOK())
+      System.out.println("shooter configs failed" + statusCode.toString());
 
     // follower
     _followerMotor.setControl(followerRequest);
 
-    //signal request
+    // signal request
     velocitySignal.setUpdateFrequency(UPDATE_FREQUENCY);
     velocityRequest.UpdateFreqHz = UPDATE_FREQUENCY;
   }
 
   @Override
   public void updateInputs(ShooterIOInputs inputs) {
-    statusCode =
-        StatusSignal.refreshAll(
-            voltageSignal,
-            supplyCurrentSignal,
-            statorCurrentSignal,
-            velocitySignal,
-            AccelerationSignal, positionSignal);
+    statusCode = StatusSignal.refreshAll(
+        voltageSignal,
+        supplyCurrentSignal,
+        statorCurrentSignal,
+        velocitySignal,
+        AccelerationSignal, positionSignal);
 
     inputs.voltage = voltageSignal.getValueAsDouble();
     inputs.statorCurrent = statorCurrentSignal.getValueAsDouble();

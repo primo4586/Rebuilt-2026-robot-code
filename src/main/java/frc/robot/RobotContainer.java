@@ -68,6 +68,8 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
  * the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
+
+@SuppressWarnings("unused")
 public class RobotContainer {
     // Subsystems
     private final Vision vision;

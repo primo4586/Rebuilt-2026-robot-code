@@ -108,12 +108,12 @@ public class HoodConstants {
       simConfiguration.MotorOutput.Inverted = INVERTED;
 
       // PID
-      simConfiguration.Slot0.kP = 10; // TODO: tune
+      simConfiguration.Slot0.kP = 10; 
       simConfiguration.Slot0.kI = 0.0;
       simConfiguration.Slot0.kD = 1;
 
       // feedforward
-      simConfiguration.Slot0.kS = 0; // TODO: tune
+      simConfiguration.Slot0.kS = 0; 
       simConfiguration.Slot0.kV = 0;
       simConfiguration.Slot0.kA = 0;
     }
