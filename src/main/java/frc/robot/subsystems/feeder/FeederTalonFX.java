@@ -22,14 +22,6 @@ public class FeederTalonFX implements FeederIO {
     if (!statusCode.isOK()) {
       System.out.println("feeder configs failed" + statusCode.toString());
     }
-      SPARKMAX_configs.smartCurrentLimit(SPARKMAX_MAX_CURRENT).idleMode(SPARKMAX_IDLE_MODE).inverted(SPARKMAX_INVERTED);
-
-    tryUntilOk(
-        _SparkMax,
-        5,
-        () ->
-          _SparkMax.configure(
-                SPARKMAX_configs, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters));
   }
 
   @Override

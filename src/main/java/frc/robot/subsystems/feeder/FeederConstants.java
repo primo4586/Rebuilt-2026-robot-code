@@ -24,11 +24,11 @@ public class FeederConstants {
 
   // ids
   public static final int MOTOR_ID = 22;
-  public static final int SparkMaxID = 23;
+  
 
   // devices
   public static final TalonFX _motor = new TalonFX(MOTOR_ID);
-  public static final SparkMax _SparkMax = new SparkMax(SparkMaxID, MotorType.kBrushless);
+
 
   // signals
   public static final StatusSignal<Voltage> voltageSignal = _motor.getMotorVoltage();

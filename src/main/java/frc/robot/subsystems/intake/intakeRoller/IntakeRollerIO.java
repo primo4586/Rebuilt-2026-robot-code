@@ -1,6 +1,5 @@
 package frc.robot.subsystems.intake.intakeRoller;
 
-import static frc.robot.subsystems.feeder.FeederConstants._SparkMax;
 import static frc.robot.subsystems.intake.intakeRoller.IntakeRollerConstants.*;
 
 import org.littletonrobotics.junction.AutoLog;
@@ -19,7 +18,6 @@ public interface IntakeRollerIO {
 
   public default void setVoltage(double voltage) {
     _motor.set(voltage / _motor.getSupplyVoltage().getValueAsDouble());
-    _SparkMax.set(voltage / _SparkMax.getBusVoltage());
   }
 
   public default void setCurrent(double current) {
@@ -28,6 +26,5 @@ public interface IntakeRollerIO {
 
   public default void stopMotor() {
     _motor.stopMotor();
-    _SparkMax.stopMotor();
   }
 }
