@@ -91,6 +91,10 @@ public class RobotContainer {
     // suppliers
     private final DoubleSupplier slowSpeed = () -> driveController.leftBumper().getAsBoolean() ? 0.5 : 1;
 
+    //LOOK HERE
+    private final double safeSpeedMultiplier = 0.4;
+    private final double safeRotationMultiplier = 0.5;
+
     // operator pathplanner values
     // TODO: move to robot state
 
@@ -221,81 +225,15 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
 
-        // tester
-        // testerController.a().whileTrue(feeder.feed());
-        // testerController.rightBumper().onTrue(shooter.setVelocityCommand(60));
-        // testerController.leftBumper().onTrue(shooter.restCommand());
-        // testerController.leftTrigger().whileTrue(shooter.setVoltageCommand(12));
-        // testerController.b().onTrue(hood.setPosition(0.02));
-        // testerController.y().onTrue(hood.setPosition(0.08));
-
-        // testerController.a().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-        // testerController.b().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-        // testerController.x().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
-        // testerController.y().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
-
-
-
-        // driveController.a().whileTrue(shooter.setVoltageCommand(0));
-        // driveController.b().onTrue(hood.setPosition(hoodAngle));
-        // driveController.x().onTrue(shooter.setVelocityCommand(60));
-        // driveController.rightBumper().whileTrue(feeder.feed());
-        // driveController.leftBumper().whileTrue(shooter.setVoltageWithVelocityCorrection(() -> 80));
-
-        // driveController.a().onTrue(hood.setPosition(hoodAngle.getAsDouble()));
-        // driveController.b().whileTrue(hood.setVoltage(1));][\
-        
-        // driveController.b().whileTrue(hood.setVoltage(-1));
-        
-        // driveController.rightTrigger().whileTrue(intakeArm.setVoltage(1));
-        // driveController.leftTrigger().whileTrue(intakeArm.setVoltage(-2));
-        // driveController.y().onTrue(intakeArm.resetEncoderPositionCommand());
-
-        // driveController.a().onTrue(intakeArm.setPositionCommand(1.44));
-        // driveController.leftBumper().onTrue(intakeArm.setPositionCommand(0));
-        // driveController.rightBumper().whileTrue(intakeRoller.intakeWithStop());
-
-
-
-        // driveController.rightBumper().whileTrue(intakeRoller.intakeWithStop());
-
-
-        // testerController.rightStick().onTrue(shooter.setVelocityCommand(0));
-
-        // driveController.a().whileTrue(CommandGroupFactory.shootCommand());
-        // driveController.y().whileTrue(Commands.run(() -> drive.stopWithX(), drive));
-
-
-        //Shoot on the move command
-        // driveController.x().whileTrue(CommandGroupFactory.shootOnTheMoveCommand(
-        //         DriveCommands.joystickDriveAtAngle(
-        //                 drive,
-        //                 () -> -driveController.getLeftY() * slowSpeed.getAsDouble() * Constants.SOTM_SPEED_MULT,
-        //                 () -> -driveController.getLeftX() * slowSpeed.getAsDouble() * Constants.SOTM_SPEED_MULT,
-        //                 () -> new Rotation2d(PrimoCalc.getRadsToPose(shotCalculator.getCurrentEffectiveTargetPose().toPose2d()))))
-        //                 .withName("Shoot On The Move"));
-
-        
-
         // Default command, normal field-relative drive
         drive.setDefaultCommand(
                 DriveCommands.joystickDrive(
                         drive,
-                        () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
-                        () -> -driveController.getLeftX() * slowSpeed.getAsDouble(),
+                        () -> -driveController.getLeftY() * slowSpeed.getAsDouble() * safeSpeedMultiplier,
+                        () -> -driveController.getLeftX() * slowSpeed.getAsDouble() * safeSpeedMultiplier,
 
-                        () -> -driveController.getRightX() * slowSpeed.getAsDouble())
+                        () -> -driveController.getRightX() * slowSpeed.getAsDouble() * safeRotationMultiplier)
                         .withName("Drive"));
-        // driveController
-        //         .rightStick()
-        //         .whileTrue(
-        //                 DriveCommands.joystickDriveAtAngle(
-        //                         drive,
-        //                         () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
-        //                         () -> -driveController.getLeftX() * slowSpeed.getAsDouble(),
-        //                         () -> new Rotation2d(
-        //                                 Math.toRadians(PrimoCalc.bumpAngle(drive.getRotation().getDegrees()))))
-        //                         .withName("Drive At Angle"));
 
         // Reset gyro to 0° when B button is pressed
         driveController
