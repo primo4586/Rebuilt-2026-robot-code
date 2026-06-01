@@ -229,18 +229,36 @@ public class RobotContainer {
         // testerController.b().onTrue(hood.setPosition(0.02));
         // testerController.y().onTrue(hood.setPosition(0.08));
 
-        testerController.a().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-        testerController.b().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-        testerController.x().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
-        testerController.y().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+        // testerController.a().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+        // testerController.b().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+        // testerController.x().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
+        // testerController.y().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
 
 
-        // testerController.a().whileTrue(shooter.setVelocityCommand(shooterRps));
-        // testerController.b().onTrue(hood.setPosition(hoodAngle));
-        // testerController.x().onTrue(shooter.setVelocityCommand(80));
-        testerController.rightBumper().whileTrue(CommandGroupFactory.feedAndMoveIntake());
-        testerController.leftBumper().whileTrue(shooter.setVoltageWithVelocityCorrection(() -> 80));
+        // driveController.a().whileTrue(shooter.setVoltageCommand(0));
+        // driveController.b().onTrue(hood.setPosition(hoodAngle));
+        // driveController.x().onTrue(shooter.setVelocityCommand(60));
+        // driveController.rightBumper().whileTrue(feeder.feed());
+        // driveController.leftBumper().whileTrue(shooter.setVoltageWithVelocityCorrection(() -> 80));
+
+        // driveController.a().onTrue(hood.setPosition(hoodAngle.getAsDouble()));
+        // driveController.b().whileTrue(hood.setVoltage(1));][\
+        
+        // driveController.b().whileTrue(hood.setVoltage(-1));
+        
+        // driveController.rightTrigger().whileTrue(intakeArm.setVoltage(1));
+        // driveController.leftTrigger().whileTrue(intakeArm.setVoltage(-2));
+        // driveController.y().onTrue(intakeArm.resetEncoderPositionCommand());
+
+        // driveController.a().onTrue(intakeArm.setPositionCommand(1.44));
+        // driveController.leftBumper().onTrue(intakeArm.setPositionCommand(0));
+        // driveController.rightBumper().whileTrue(intakeRoller.intakeWithStop());
+
+
+
+        // driveController.rightBumper().whileTrue(intakeRoller.intakeWithStop());
+
 
         // testerController.rightStick().onTrue(shooter.setVelocityCommand(0));
 
@@ -268,16 +286,16 @@ public class RobotContainer {
 
                         () -> -driveController.getRightX() * slowSpeed.getAsDouble())
                         .withName("Drive"));
-        driveController
-                .rightStick()
-                .whileTrue(
-                        DriveCommands.joystickDriveAtAngle(
-                                drive,
-                                () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
-                                () -> -driveController.getLeftX() * slowSpeed.getAsDouble(),
-                                () -> new Rotation2d(
-                                        Math.toRadians(PrimoCalc.bumpAngle(drive.getRotation().getDegrees()))))
-                                .withName("Drive At Angle"));
+        // driveController
+        //         .rightStick()
+        //         .whileTrue(
+        //                 DriveCommands.joystickDriveAtAngle(
+        //                         drive,
+        //                         () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
+        //                         () -> -driveController.getLeftX() * slowSpeed.getAsDouble(),
+        //                         () -> new Rotation2d(
+        //                                 Math.toRadians(PrimoCalc.bumpAngle(drive.getRotation().getDegrees()))))
+        //                         .withName("Drive At Angle"));
 
         // Reset gyro to 0° when B button is pressed
         driveController
