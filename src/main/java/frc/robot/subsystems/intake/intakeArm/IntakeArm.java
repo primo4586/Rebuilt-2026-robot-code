@@ -94,7 +94,12 @@ public class IntakeArm extends SubsystemBase {
   public Command openCommand(){
     return setPositionCommand(OPEN_POSITION);
   }
-
+  public Command openWithVoltageCommand(){
+    return setVoltage(OPEN_VOLTAGE).withTimeout(OPEN_TIME);
+  }
+  public Command closeWithVoltageCommand(){
+    return setVoltage(CLOSE_VOLTAGE).withTimeout(CLOSE_TIME);
+  }
   /**
    * @return a command that closes the intake arm.
    */

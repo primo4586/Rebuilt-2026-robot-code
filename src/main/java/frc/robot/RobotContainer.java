@@ -247,13 +247,13 @@ public class RobotContainer {
         
         // driveController.b().whileTrue(hood.setVoltage(-1));
         
-        // driveController.rightTrigger().whileTrue(intakeArm.setVoltage(1));
-        // driveController.leftTrigger().whileTrue(intakeArm.setVoltage(-2));
-        // driveController.y().onTrue(intakeArm.resetEncoderPositionCommand());
-
+        testerController.rightTrigger().whileTrue(intakeRoller.intakeWithStop());
+        testerController.y().onTrue(intakeArm.resetEncoderPositionCommand());
+        testerController.rightBumper().onTrue(intakeArm.closeWithVoltageCommand());
+        testerController.leftBumper().onTrue(intakeArm.openWithVoltageCommand());
         // driveController.a().onTrue(intakeArm.setPositionCommand(1.44));
         // driveController.leftBumper().onTrue(intakeArm.setPositionCommand(0));
-        // driveController.rightBumper().whileTrue(intakeRoller.intakeWithStop());
+        
 
 
 
