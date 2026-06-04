@@ -100,6 +100,7 @@ public class RobotContainer {
     //SmartDashboard Calibration
     private final DoubleSupplier shooterRps = () -> SmartDashboard.getNumber("shooter calibration RPS",0.0);
     private final DoubleSupplier hoodAngle = () -> SmartDashboard.getNumber("hood angle rotations", 0.0);
+    private final DoubleSupplier rollerVoltage = () -> SmartDashboard.getNumber("roller voltage volts", 0.0);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -179,7 +180,7 @@ public class RobotContainer {
                 CommandGroupFactory.shootCommand().withTimeout(Constants.SHOOT_TIMEOUT_SECONDS));
         NamedCommands.registerCommand("open intake", intakeArm.openCommand());
         NamedCommands.registerCommand("intake", intakeRoller.intakeNoStop());
-        NamedCommands.registerCommand("stop intake", intakeRoller.setVoltage(0));
+        NamedCommands.registerCommand("stop intake", intakeRoller.setVoltage(rollerVoltage.getAsDouble()));
         NamedCommands.registerCommand("stop all", CommandGroupFactory.stopAll());
 
         // Set up auto routines
@@ -209,6 +210,7 @@ public class RobotContainer {
          //smartDashboard
         SmartDashboard.putNumber("shooter calibration RPS",0);
         SmartDashboard.putNumber("hood angle rotations", 0);
+        SmartDashboard.putNumber("roller voltage volts", 0);
     }
 
     /**
@@ -221,49 +223,26 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
 
-        // tester
-        // testerController.a().whileTrue(feeder.feed());
-        // testerController.rightBumper().onTrue(shooter.setVelocityCommand(60));
-        // testerController.leftBumper().onTrue(shooter.restCommand());
-        // testerController.leftTrigger().whileTrue(shooter.setVoltageCommand(12));
-        // testerController.b().onTrue(hood.setPosition(0.02));
-        // testerController.y().onTrue(hood.setPosition(0.08));
-
+        //SHOOTER SYSID 
         // testerController.a().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
         // testerController.b().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
         // testerController.x().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
         // testerController.y().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
+        //INTAKE TUNING
+        // driveController.rightTrigger().whileTrue(intakeRoller.intakeWithStop());
+        // driveController.y().onTrue(intakeArm.resetEncoderPositionCommand());
+        // driveController.b().onTrue(intakeArm.closeWithVoltageCommand());
+        // driveController.x().onTrue(intakeArm.openWithVoltageCommand());
+        // driveController.a().whileTrue(intakeArm.setVoltage(1));
 
-
+        //SHOOTING TUNING
         // driveController.a().whileTrue(shooter.setVoltageCommand(0));
         // driveController.b().onTrue(hood.setPosition(hoodAngle));
-        // driveController.x().onTrue(shooter.setVelocityCommand(60));
-        // driveController.rightBumper().whileTrue(feeder.feed());
-        // driveController.leftBumper().whileTrue(shooter.setVoltageWithVelocityCorrection(() -> 80));
-
-        // driveController.a().onTrue(hood.setPosition(hoodAngle.getAsDouble()));
-        // driveController.b().whileTrue(hood.setVoltage(1));][\
-        
-        // driveController.b().whileTrue(hood.setVoltage(-1));
-        
-        testerController.rightTrigger().whileTrue(intakeRoller.intakeWithStop());
-        testerController.y().onTrue(intakeArm.resetEncoderPositionCommand());
-        testerController.rightBumper().onTrue(intakeArm.closeWithVoltageCommand());
-        testerController.leftBumper().onTrue(intakeArm.openWithVoltageCommand());
-        // driveController.a().onTrue(intakeArm.setPositionCommand(1.44));
-        // driveController.leftBumper().onTrue(intakeArm.setPositionCommand(0));
-        
-
-
-
-        // driveController.rightBumper().whileTrue(intakeRoller.intakeWithStop());
-
-
-        // testerController.rightStick().onTrue(shooter.setVelocityCommand(0));
-
-        // driveController.a().whileTrue(CommandGroupFactory.shootCommand());
-        // driveController.y().whileTrue(Commands.run(() -> drive.stopWithX(), drive));
+        // driveController.x().onTrue(shooter.setVelocityCommand(shooterRps));
+        // driveController.y().whileTrue(CommandGroupFactory.instantShoot());
+        // driveController.rightTrigger().whileTrue(feeder.feed());
+        // driveController.leftTrigger().whileTrue(shooter.setVoltageWithVelocityCorrection(() -> shooterRps));
 
 
         //Shoot on the move command
@@ -275,8 +254,6 @@ public class RobotContainer {
         //                 () -> new Rotation2d(PrimoCalc.getRadsToPose(shotCalculator.getCurrentEffectiveTargetPose().toPose2d()))))
         //                 .withName("Shoot On The Move"));
 
-        
-
         // Default command, normal field-relative drive
         drive.setDefaultCommand(
                 DriveCommands.joystickDrive(
@@ -286,20 +263,20 @@ public class RobotContainer {
 
                         () -> -driveController.getRightX() * slowSpeed.getAsDouble())
                         .withName("Drive"));
-        // driveController
-        //         .rightStick()
-        //         .whileTrue(
-        //                 DriveCommands.joystickDriveAtAngle(
-        //                         drive,
-        //                         () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
-        //                         () -> -driveController.getLeftX() * slowSpeed.getAsDouble(),
-        //                         () -> new Rotation2d(
-        //                                 Math.toRadians(PrimoCalc.bumpAngle(drive.getRotation().getDegrees()))))
-        //                         .withName("Drive At Angle"));
+        driveController
+                .rightStick()
+                .whileTrue(
+                        DriveCommands.joystickDriveAtAngle(
+                                drive,
+                                () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
+                                () -> -driveController.getLeftX() * slowSpeed.getAsDouble(),
+                                () -> new Rotation2d(
+                                        Math.toRadians(PrimoCalc.bumpAngle(drive.getRotation().getDegrees()))))
+                                .withName("Drive At Angle"));
 
         // Reset gyro to 0° when B button is pressed
         driveController
-                .rightBumper()
+                .leftStick()
                 .onTrue(
                         Commands.runOnce(
                                 () -> drive.setPose(
