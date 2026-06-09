@@ -56,8 +56,10 @@ public class ShooterConstants {
   public static final DoubleSupplier shotVelocitySupplier = () -> 0; // TODO: find equation
 
   // Interpolation Map
-  public static final InterpolationMap SHOOTER_INTERPOLATION_MAP = new InterpolationMap().put(2.28, 53).put(2.124, 100)
-      .put(3.2, 100); // TODO: Find points
+  public static final InterpolationMap SHOOTER_INTERPOLATION_MAP = new InterpolationMap()
+  .put(2.28, 53)
+  .put(2.124, 100)
+  .put(3.2, 100); // TODO: Find points
 
   // configs
   public static final double GEAR_RATIO = 25 / 22;
