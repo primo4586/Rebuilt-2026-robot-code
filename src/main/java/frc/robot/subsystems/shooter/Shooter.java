@@ -109,6 +109,9 @@ public class Shooter extends SubsystemBase {
   public Command setVelocityCommand(DoubleSupplier velocity) {
     return run(() -> io.setVelocity(velocity)).withName(getName() + " Set Velocity");
   }
+  public Command setVelocityWithStopCommand(DoubleSupplier velocity){
+    return startEnd(() -> io.setVelocity(velocity),() -> io.setVelocity(0)).withName(getName() + "Set VelocityStop");
+  }
 
   /**
    * @param velocity the velocity to set the motor to (in RPS)

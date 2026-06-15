@@ -11,7 +11,7 @@ public class HoodTalon implements HoodIO {
 
     StatusCode statusCode = StatusCode.StatusCodeNotInitialized;
     for (int i = 0; i < 5; i++) {
-      _motor.getConfigurator().apply(realConfiguration);
+      statusCode = _motor.getConfigurator().apply(realConfiguration);
       if (statusCode.isOK()) {
         break;
       }

@@ -14,7 +14,7 @@ public class FeederTalonFX implements FeederIO {
     
     StatusCode statusCode = StatusCode.StatusCodeNotInitialized;
     for (int i = 0; i < 5; i++) {
-      _motor.getConfigurator().apply(realConfigs);
+      statusCode = _motor.getConfigurator().apply(realConfigs);
       if (statusCode.isOK()) {
         break;
       }
