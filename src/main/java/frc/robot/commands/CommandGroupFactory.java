@@ -49,15 +49,14 @@ public class CommandGroupFactory {
             Commands.deadline(
                 Commands.sequence(
                     Commands.waitSeconds(0.02),
-                    Commands.waitUntil(
-                        () ->
-                            PrimoCalc.isFacingHub().getAsBoolean()
-                                && shooter.readyToShoot().getAsBoolean())),
+                    Commands.race(Commands.waitUntil(
+                        () -> PrimoCalc.isFacingHub().getAsBoolean() && shooter.readyToShoot().getAsBoolean()),
+                        Commands.waitSeconds(3))),
                 hood.setPositionWithInterpolation(),
                 shooter.shoot(),
                 DriveCommands.joystickDriveAtAngle(
                     drive, () -> 0.0, () -> 0.0, () -> new Rotation2d(PrimoCalc.getRadsToHub()))),
-            Commands.parallel(feeder.feed(), Commands.run(() -> drive.stopWithX())))
+            Commands.parallel(feeder.feed(), Commands.runOnce(() -> drive.stopWithX(), drive)))
         .finallyDo(() -> shooter.rest());
   }
 
