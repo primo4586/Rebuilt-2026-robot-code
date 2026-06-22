@@ -21,8 +21,8 @@ public class VisionConstants {
     public static String fowordCameraName = "fowordCamera";
 
   // Robot to camera transforms
-  public static Rotation3d fowordRotation = new Rotation3d(0,Math.toRadians(15),0);
-  public static Transform3d fowordTransform = new Transform3d(0.405,0,0.505,fowordRotation);
+  public static Rotation3d fowordRotation = new Rotation3d(0,Math.toRadians(15),0); //20
+  public static Transform3d fowordTransform = new Transform3d(-0.02,0,0.505,fowordRotation); //0.405
 
   // Basic filtering thresholds
   public static double maxAmbiguity = 0.3;
