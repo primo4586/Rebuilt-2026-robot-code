@@ -85,7 +85,7 @@ public class ShooterConstants {
     realConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
     // PID
-    realConfigs.Slot0.kP = 0.70613;
+    realConfigs.Slot0.kP = 0.2; // old 0.70613;
     realConfigs.Slot0.kI = 0;
     realConfigs.Slot0.kD = 0; // TODO: maybe add D
 
