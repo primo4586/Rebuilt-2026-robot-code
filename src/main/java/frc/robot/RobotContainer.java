@@ -180,7 +180,7 @@ public class RobotContainer {
                 CommandGroupFactory.shootCommand().withTimeout(Constants.SHOOT_TIMEOUT_SECONDS));
         NamedCommands.registerCommand("open intake", intakeArm.openCommand());
         NamedCommands.registerCommand("intake", intakeRoller.intakeNoStop());
-        NamedCommands.registerCommand("stop intake", intakeRoller.setVoltage(rollerVoltage.getAsDouble()));
+        // NamedCommands.registerCommand("stop intake", intakeRoller.setVoltage(rollerVoltage.getAsDouble()));
         NamedCommands.registerCommand("stop all", CommandGroupFactory.stopAll());
 
         // Set up auto routines
@@ -233,19 +233,32 @@ public class RobotContainer {
         //INTAKE TUNING
         // driveController.rightTrigger().whileTrue(intakeRoller.intakeWithStop());
         // driveController.y().onTrue(intakeArm.resetEncoderPositionCommand());
-        // driveController.b().onTrue(intakeArm.closeWithVoltageCommand());
-        // driveController.x().onTrue(intakeArm.openWithVoltageCommand());
+        driveController.povDown().onTrue(intakeArm.closeWithVoltageCommand());
+        driveController.povUp().onTrue(intakeArm.openWithVoltageCommand());
         // driveController.a().whileTrue(intakeArm.setVoltage(1));
 
         //SHOOTING TUNING
-        // driveController.a().whileTrue(shooter.setVoltageCommand(0));
-        // driveController.b().onTrue(hood.setPosition(hoodAngle));
-        // driveController.x().onTrue(shooter.setVelocityCommand(shooterRps));
-        // driveController.y().whileTrue(CommandGroupFactory.instantShoot());
-        // driveController.rightTrigger().whileTrue(feeder.feed());
-        // driveController.leftTrigger().whileTrue(shooter.setVoltageWithVelocityCorrection(shooterRps));
-        driveController.leftTrigger().whileTrue(CommandGroupFactory.feedAndMoveIntake());
-        // driveController.rightBumper().onTrue(hood.resetPositionCommand());
+        driveController.a().whileTrue(shooter.setVoltageCommand(0));
+        driveController.b().onTrue(hood.setPosition(hoodAngle));
+        driveController.x().onTrue(shooter.setVelocityCommand(shooterRps));
+        driveController.y().whileTrue(CommandGroupFactory.instantShoot());
+        driveController.rightTrigger().whileTrue(feeder.feed());
+        driveController.leftTrigger().whileTrue(shooter.setVoltageWithVelocityCorrection(shooterRps));
+        // driveController.leftTrigger().whileTrue(CommandGroupFactory.feedAndMoveIntake());
+        driveController.rightBumper().whileTrue(hood.resetPositionCommand());
+
+        // driveController.a().whileTrue(intakeArm.setVoltage(-1));
+        //         driveController.b().whileTrue(intakeArm.setVoltage(-2));
+
+        /*
+         * x: 1.282 rot: 0 pow: 40 
+         * x: rot: pow:
+         * x: rot: pow:
+         * x: rot: pow:
+         * x: rot: pow:
+         * x: rot: pow:
+         * x: rot: pow:
+         */
 
 
         //DRIVER COMMANDS
