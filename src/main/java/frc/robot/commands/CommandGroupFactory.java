@@ -23,6 +23,8 @@ import frc.robot.subsystems.intake.intakeRoller.IntakeRollerTalon;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterRealIO;
 import frc.robot.subsystems.shooter.ShooterSimIO;
+
+import java.util.Set;
 import java.util.function.DoubleSupplier;
 
 public class CommandGroupFactory {
@@ -85,9 +87,9 @@ public static Command feedAndMoveIntake(){
   /**
    * @return Command that shoots + feed + hood interpolation
    */
-  public static Command instantShoot(){
-    return Commands.parallel(shooter.shoot(), feeder.feed(), hood.setPositionWithInterpolation());
-  }
+  // public static Command instantShoot(){
+  //   return Commands.defer(() -> Commands.parallel(shooter.shootWithInterpolation(), feeder.feed(), hood.setPositionWithInterpolation()),Set.of(shooter,feeder,hood));
+  // }
 
   /**
    * returns System.out.println as a command
