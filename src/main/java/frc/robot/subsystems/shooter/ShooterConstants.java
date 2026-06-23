@@ -57,9 +57,14 @@ public class ShooterConstants {
 
   // Interpolation Map
   public static final InterpolationMap SHOOTER_INTERPOLATION_MAP = new InterpolationMap()
-  .put(2.28, 53)
-  .put(2.124, 100)
-  .put(3.2, 100); // TODO: Find points
+  .put(1.39, 47)
+  .put(1.55, 48)
+  .put(1.77, 49)
+  .put(2.01, 50)
+  .put(2.24,52)
+  .put(2.51, 54)
+  .put(2.81, 57)
+  .put(3.20, 60);
 
   // configs
   public static final double GEAR_RATIO = 25 / 22;

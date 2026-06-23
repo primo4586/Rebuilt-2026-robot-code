@@ -47,12 +47,15 @@ public class HoodConstants {
 
   // Interpolation Map
   public static InterpolationMap HOOD_ANGLE_INTERPOLATION_MAP =
-      new InterpolationMap() // TODO: find points
-          .put(2.15, 50)
-          .put(2.52, 55)
-          .put(2.9, 62)
-          .put(3.04, 56)
-          .put(3.59, 63);
+      new InterpolationMap() 
+      .put(1.39, 0)
+      .put(1.55, 0.002)
+      .put(1.77, 0.003)
+      .put(2.01, 0.004)
+      .put(2.24,0.006)
+      .put(2.51, 0.007)
+      .put(2.81, 0.008)
+      .put(3.20, 0.010);
 /*
  *       new InterpolationMap() // TODO: find points
           .put(2.15, 50)
