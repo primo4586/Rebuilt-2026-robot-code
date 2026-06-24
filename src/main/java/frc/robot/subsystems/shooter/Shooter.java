@@ -76,7 +76,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public Command shootWithInterpolation() {
-    return setVelocityCommand(PrimoCalc.hubShooterInterpolate());
+    return setVelocityCommand(() -> PrimoCalc.hubShooterInterpolate());
   }
 
   /**
@@ -107,7 +107,7 @@ public class Shooter extends SubsystemBase {
    * @return a command which sets the velocity and then dont stops the motor when finished
    */
   public Command setVelocityCommand(DoubleSupplier velocity) {
-    return run(() -> io.setVelocity(velocity)).withName(getName() + " Set Velocity");
+    return runOnce(() -> io.setVelocity(velocity)).withName(getName() + " Set Velocity");
   }
   public Command setVelocityWithStopCommand(DoubleSupplier velocity){
     return startEnd(() -> io.setVelocity(velocity),() -> io.setVelocity(0)).withName(getName() + "Set VelocityStop");

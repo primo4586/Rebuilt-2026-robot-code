@@ -231,7 +231,7 @@ public class RobotContainer {
 
 
         //INTAKE TUNING
-        // driveController.rightTrigger().whileTrue(intakeRoller.intakeWithStop());
+        driveController.rightTrigger().whileTrue(intakeRoller.intakeWithStop());
         // driveController.y().onTrue(intakeArm.resetEncoderPositionCommand());
         driveController.povDown().onTrue(intakeArm.closeWithVoltageCommand());
         driveController.povUp().onTrue(intakeArm.openWithVoltageCommand());
@@ -240,9 +240,9 @@ public class RobotContainer {
         //SHOOTING TUNING
         driveController.a().whileTrue(shooter.setVoltageCommand(0));
         driveController.b().onTrue(hood.setPosition(hoodAngle));
-        driveController.x().onTrue(shooter.setVelocityCommand(shooterRps));
-        driveController.y().whileTrue(CommandGroupFactory.instantShoot());
-        driveController.rightTrigger().whileTrue(feeder.feed());
+        driveController.b().onTrue(shooter.setVelocityCommand(shooterRps));
+        driveController.y().whileTrue(CommandGroupFactory.shootCommand());
+        driveController.x().whileTrue(feeder.feed());
         driveController.leftTrigger().whileTrue(shooter.setVoltageWithVelocityCorrection(shooterRps));
         // driveController.leftTrigger().whileTrue(CommandGroupFactory.feedAndMoveIntake());
         driveController.rightBumper().whileTrue(hood.resetPositionCommand());

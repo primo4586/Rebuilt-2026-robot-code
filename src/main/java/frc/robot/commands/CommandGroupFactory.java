@@ -53,12 +53,12 @@ public class CommandGroupFactory {
                     Commands.waitSeconds(0.02),
                     Commands.race(Commands.waitUntil(
                         () -> PrimoCalc.isFacingHub().getAsBoolean() && shooter.readyToShoot().getAsBoolean()),
-                        Commands.waitSeconds(3))),
+                        Commands.waitSeconds(2))),
                 hood.setPositionWithInterpolation(),
-                shooter.shoot(),
+                shooter.shootWithInterpolation(),
                 DriveCommands.joystickDriveAtAngle(
                     drive, () -> 0.0, () -> 0.0, () -> new Rotation2d(PrimoCalc.getRadsToHub()))),
-            Commands.parallel(feeder.feed(), Commands.runOnce(() -> drive.stopWithX(), drive)))
+            Commands.parallel(intakeRoller.setVoltage(6),feeder.feed(), Commands.runOnce(() -> drive.stopWithX(), drive)))
         .finallyDo(() -> shooter.rest());
   }
 
@@ -90,6 +90,7 @@ public static Command feedAndMoveIntake(){
   // public static Command instantShoot(){
   //   return Commands.defer(() -> Commands.parallel(shooter.shootWithInterpolation(), feeder.feed(), hood.setPositionWithInterpolation()),Set.of(shooter,feeder,hood));
   // }
+
 
   /**
    * returns System.out.println as a command

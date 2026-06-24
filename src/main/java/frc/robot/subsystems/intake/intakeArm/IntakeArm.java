@@ -112,8 +112,8 @@ public class IntakeArm extends SubsystemBase {
    */
   public Command openAndCloseCommand(){
     return Commands.repeatingSequence(
-      setVoltage(2).withTimeout(0.2),
-      setVoltage(-2).withTimeout(0.3)).finallyDo(() -> io.setPosition(OPEN_POSITION)).withName(getName() + "Open and Close");
+      setVoltage(4).withTimeout(0.4),
+      setVoltage(-4).withTimeout(0.3)).finallyDo(() -> io.setPosition(OPEN_POSITION)).withName(getName() + "Open and Close");
   }
 
   /**
