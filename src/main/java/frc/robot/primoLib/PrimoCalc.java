@@ -45,6 +45,16 @@ public class PrimoCalc {
         Units.inchesToMeters(72), Rotation3d.kZero);
   }
 
+    /**
+   * @return get distance in meters from robot to ds wall
+   */
+  public static double getDistanceFromDSWall() {
+    return DriverStation.getAlliance().isPresent()
+            && DriverStation.getAlliance().get() == Alliance.Blue
+        ? getRobotPose().getTranslation().getX()
+        : 16.5 - getRobotPose().getTranslation().getX();
+  }
+
   /**
    * @return the angle the robot needs to be to point at the hub, on radians.
    */
