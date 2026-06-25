@@ -89,7 +89,7 @@ public class RobotContainer {
     // () -> driveController.leftTrigger().getAsBoolean() ? 0.5 : 0.8;
 
     // suppliers
-    private final DoubleSupplier slowSpeed = () -> driveController.leftBumper().getAsBoolean() ? 0.8 : 1;
+    private final DoubleSupplier slowSpeed = () -> driveController.leftBumper().getAsBoolean() ? 0.63 : 1;
 
     // operator pathplanner values
     // TODO: move to robot state
