@@ -62,6 +62,11 @@ public class CommandGroupFactory {
         .finallyDo(() -> shooter.rest());
   }
 
+    public static Command pass(){ //TODO: DO
+    return Commands.defer(() -> Commands.parallel(shooter.shootWithInterpolation(), feeder.feed(), hood.setPositionWithInterpolation()),Set.of(shooter,feeder,hood));
+  }
+
+
 
 
     /**
@@ -87,9 +92,9 @@ public static Command feedAndMoveIntake(){
   /**
    * @return Command that shoots + feed + hood interpolation
    */
-  // public static Command instantShoot(){
-  //   return Commands.defer(() -> Commands.parallel(shooter.shootWithInterpolation(), feeder.feed(), hood.setPositionWithInterpolation()),Set.of(shooter,feeder,hood));
-  // }
+  public static Command instantShoot(){
+    return Commands.defer(() -> Commands.parallel(shooter.shootWithInterpolation(), feeder.feed(), hood.setPositionWithInterpolation()),Set.of(shooter,feeder,hood));
+  }
 
 
   /**
