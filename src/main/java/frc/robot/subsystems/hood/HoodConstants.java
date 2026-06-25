@@ -55,7 +55,10 @@ public class HoodConstants {
       .put(2.24,0.006)
       .put(2.51, 0.007)
       .put(2.81, 0.008)
-      .put(3.20, 0.010);
+      .put(3.20, 0.010)
+      .put(3.76, 0.02)
+      .put(4.2, 0.025).
+      put(4.6, 0.028);
 /*
  *       new InterpolationMap() // TODO: find points
           .put(2.15, 50)

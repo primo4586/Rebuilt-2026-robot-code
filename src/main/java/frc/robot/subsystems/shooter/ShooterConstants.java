@@ -64,7 +64,10 @@ public class ShooterConstants {
   .put(2.24,52)
   .put(2.51, 54)
   .put(2.81, 57)
-  .put(3.20, 60);
+  .put(3.20, 60)
+  .put(3.76, 60)
+  .put(4.2, 63)
+   .put(4.6, 65);
 
   // configs
   public static final double GEAR_RATIO = 25 / 22;
