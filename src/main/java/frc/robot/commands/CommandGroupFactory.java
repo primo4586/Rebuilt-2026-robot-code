@@ -53,7 +53,7 @@ public class CommandGroupFactory {
                     Commands.waitSeconds(0.02),
                     Commands.race(Commands.waitUntil(
                         () -> PrimoCalc.isFacingHub().getAsBoolean() && shooter.readyToShoot().getAsBoolean()),
-                        Commands.waitSeconds(2))),
+                        Commands.waitSeconds(1))),
                 hood.setPositionWithInterpolation(),
                 shooter.shootWithInterpolation(),
                 DriveCommands.joystickDriveAtAngle(

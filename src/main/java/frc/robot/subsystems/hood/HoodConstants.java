@@ -48,6 +48,7 @@ public class HoodConstants {
   // Interpolation Map
   public static ExterpolationMap HOOD_ANGLE_INTERPOLATION_MAP =
       new ExterpolationMap() 
+      .put(0, 0)
       .put(1.39, 0)
       .put(1.55, 0.002)
       .put(1.77, 0.003)

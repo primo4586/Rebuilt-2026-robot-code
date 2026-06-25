@@ -71,7 +71,7 @@ public class FeederConstants {
   }
 
   // Default Values
-  public static final double FEED_VOLTAGE = 10; // TODO: set voltage
+  public static final double FEED_VOLTAGE = 12; // TODO: set voltage
   public static final double FEED_CURRENT = 30;
 
   public final class FeederSimConstants {

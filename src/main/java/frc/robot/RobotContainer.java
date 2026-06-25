@@ -83,7 +83,7 @@ public class RobotContainer {
     // Controller
     private final CommandXboxController driveController = new CommandXboxController(0);
     private final CommandXboxController testerController = new CommandXboxController(1);
-    private final CustomController operatorController = new CustomController(3);
+    private final CommandXboxController operatorController = new CommandXboxController(3);
     // SlowMode
     // private final DoubleSupplier slowSpeed =
     // () -> driveController.leftTrigger().getAsBoolean() ? 0.5 : 0.8;
@@ -223,43 +223,41 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
 
+        //TELEOP
+        driveController.rightTrigger().whileTrue(CommandGroupFactory.shootCommand());
+        driveController.povRight().whileTrue(intakeRoller.intakeWithStop());
+
+        driveController.b().onTrue(hood.resetPositionCommand());
+
+        operatorController.rightTrigger().onTrue(intakeArm.closeCommand());
+        operatorController.leftTrigger().onTrue(intakeArm.openCommand());
+
+
         //SHOOTER SYSID 
         // testerController.a().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
         // testerController.b().whileTrue(shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
         // testerController.x().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kForward));
         // testerController.y().whileTrue(shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
-
         //INTAKE TUNING
-        driveController.rightTrigger().whileTrue(intakeRoller.intakeWithStop());
+        // driveController.rightTrigger().whileTrue(intakeRoller.intakeWithStop());
         // driveController.y().onTrue(intakeArm.resetEncoderPositionCommand());
-        driveController.povDown().onTrue(intakeArm.closeWithVoltageCommand());
-        driveController.povUp().onTrue(intakeArm.openWithVoltageCommand());
+        // driveController.povDown().onTrue(intakeArm.closeWithVoltageCommand());
+        // driveController.povUp().onTrue(intakeArm.openWithVoltageCommand());
         // driveController.a().whileTrue(intakeArm.setVoltage(1));
 
         //SHOOTING TUNING
-        driveController.a().whileTrue(shooter.setVoltageCommand(0));
-        driveController.b().onTrue(hood.setPosition(hoodAngle));
-        driveController.b().onTrue(shooter.setVelocityCommand(shooterRps));
-        driveController.y().whileTrue(CommandGroupFactory.shootCommand());
-        driveController.x().whileTrue(feeder.feed());
-        // driveController.leftTrigger().whileTrue(shooter.se[]\tVoltageWithVelocityCorrection(shooterRps));
+        // driveController.a().whileTrue(shooter.setVoltageCommand(0));
+        // driveController.b().onTrue(hood.setPosition(hoodAngle));
+        // driveController.b().onTrue(shooter.setVelocityCommand(shooterRps));
+        // driveController.y().whileTrue(CommandGroupFactory.shootCommand());
+        // driveController.x().whileTrue(feeder.feed());
+        // driveController.leftTrigger().whileTrue(shooter.setVoltageWithVelocityCorrection(shooterRps));
         // driveController.leftTrigger().whileTrue(CommandGroupFactory.feedAndMoveIntake());
-        driveController.rightBumper().whileTrue(hood.resetPositionCommand());
+        // driveController.rightBumper().whileTrue(hood.resetPositionCommand());
 
         // driveController.a().whileTrue(intakeArm.setVoltage(-1));
         //         driveController.b().whileTrue(intakeArm.setVoltage(-2));
-
-        /*
-         * x: 1.282 rot: 0 pow: 40 
-         * x: rot: pow:
-         * x: rot: pow:
-         * x: rot: pow:
-         * x: rot: pow:
-         * x: rot: pow:
-         * x: rot: pow:
-         */
-
 
         //DRIVER COMMANDS
         // driveController.y().whileTrue(DriveCommands.joystickDriveAtAngle(
@@ -267,11 +265,11 @@ public class RobotContainer {
         //         ()->0.0,
         //         ()->0.0,
         //         ()->new Rotation2d(PrimoCalc.getRadsToHub())));
-        driveController.leftTrigger().whileTrue(DriveCommands.joystickDriveAtAngle(
-                drive,
-                () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
-                () -> -driveController.getLeftX() * slowSpeed.getAsDouble(),
-                ()->new Rotation2d(PrimoCalc.getRadsToHub())));
+        // driveController.leftTrigger().whileTrue(DriveCommands.joystickDriveAtAngle(
+        //         drive,
+        //         () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
+        //         () -> -driveController.getLeftX() * slowSpeed.getAsDouble(),
+        //         ()->new Rotation2d(PrimoCalc.getRadsToHub())));
 
         //Shoot on the move command
         // driveController.x().whileTrue(CommandGroupFactory.shootOnTheMoveCommand(
@@ -289,7 +287,8 @@ public class RobotContainer {
                         () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
                         () -> -driveController.getLeftX() * slowSpeed.getAsDouble(),
 
-                        () -> -driveController.getRightX() * slowSpeed.getAsDouble())
+                        () -> -driveController.getRightX() * slowSpeed.getAsDouble() * 0.75
+                )
                         .withName("Drive"));
         driveController
                 .rightStick()
