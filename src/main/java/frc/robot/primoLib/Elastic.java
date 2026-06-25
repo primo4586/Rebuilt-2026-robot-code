@@ -9,9 +9,8 @@ public class Elastic {
   // public static RobotState rState = RobotState.getInstance();
 
   public static void displayAll() {
-    // displayRobotPose();
-    // displayTimer();
-    // displayField();
+    displayRobotPose();
+    displayTimer();
   }
 
   public static void displayTimer() {

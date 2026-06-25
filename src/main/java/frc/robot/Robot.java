@@ -36,25 +36,26 @@ public class Robot extends LoggedRobot {
   private RobotContainer robotContainer;
 
   public Robot() {
-    // SmartDashboard.putData("CommandScheduler", CommandScheduler.getInstance());
+    Elastic.displayField();
+    SmartDashboard.putData("CommandScheduler", CommandScheduler.getInstance());
     // Record metadata
-    // Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
-    // Logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
-    // Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
-    // Logger.recordMetadata("GitDate", BuildConstants.GIT_DATE);
-    // Logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
+    Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
+    Logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
+    Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
+    Logger.recordMetadata("GitDate", BuildConstants.GIT_DATE);
+    Logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
 
-    // switch (BuildConstants.DIRTY) {
-    // case 0:
-    // Logger.recordMetadata("GitDirty", "All changes committed");
-    // break;
-    // case 1:
-    // Logger.recordMetadata("GitDirty", "Uncomitted changes");
-    // break;
-    // default:
-    // Logger.recordMetadata("GitDirty", "Unknown");
-    // break;
-    // }
+    switch (BuildConstants.DIRTY) {
+    case 0:
+    Logger.recordMetadata("GitDirty", "All changes committed");
+    break;
+    case 1:
+    Logger.recordMetadata("GitDirty", "Uncomitted changes");
+    break;
+    default:
+    Logger.recordMetadata("GitDirty", "Unknown");
+    break;
+    }
 
     // Set up data receivers & replay source
     switch (Constants.currentMode) {
@@ -81,7 +82,7 @@ public class Robot extends LoggedRobot {
     DriverStation.silenceJoystickConnectionWarning(true);
 
     // Start AdvantageKit logger
-    // Logger.start();
+    Logger.start();
     // Advantagekit pathfinder fix
     Pathfinding.setPathfinder(new LocalADStarAK());
     robotContainer = new RobotContainer();
@@ -92,7 +93,7 @@ public class Robot extends LoggedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    // SmartDashboard.putData("CommandScheduler", CommandScheduler.getInstance());
+    SmartDashboard.putData("CommandScheduler", CommandScheduler.getInstance());
     Elastic.displayAll();
     robotContainer.periodic();
   }

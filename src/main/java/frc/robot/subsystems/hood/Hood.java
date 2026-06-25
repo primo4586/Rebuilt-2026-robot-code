@@ -92,7 +92,7 @@ public class Hood extends SubsystemBase {
    * @return a command that resets the hood position
    */
   public Command resetPositionCommand() {
-    return setVoltage(RESET_VOLTAGE).finallyDo(() -> setPosition(0));
+    return setVoltage(RESET_VOLTAGE).finallyDo(() ->io.resetPosition());
   }
 
   /**
