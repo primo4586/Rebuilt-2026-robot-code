@@ -243,7 +243,7 @@ public class RobotContainer {
         driveController.b().onTrue(shooter.setVelocityCommand(shooterRps));
         driveController.y().whileTrue(CommandGroupFactory.shootCommand());
         driveController.x().whileTrue(feeder.feed());
-        driveController.leftTrigger().whileTrue(shooter.setVoltageWithVelocityCorrection(shooterRps));
+        // driveController.leftTrigger().whileTrue(shooter.se[]\tVoltageWithVelocityCorrection(shooterRps));
         // driveController.leftTrigger().whileTrue(CommandGroupFactory.feedAndMoveIntake());
         driveController.rightBumper().whileTrue(hood.resetPositionCommand());
 
@@ -267,11 +267,11 @@ public class RobotContainer {
         //         ()->0.0,
         //         ()->0.0,
         //         ()->new Rotation2d(PrimoCalc.getRadsToHub())));
-        // driveController.x().whileTrue(DriveCommands.joystickDriveAtAngle(
-        //         drive,
-        //         () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
-        //         () -> -driveController.getLeftX() * slowSpeed.getAsDouble(),
-        //         ()->new Rotation2d(PrimoCalc.getRadsToHub())));
+        driveController.leftTrigger().whileTrue(DriveCommands.joystickDriveAtAngle(
+                drive,
+                () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
+                () -> -driveController.getLeftX() * slowSpeed.getAsDouble(),
+                ()->new Rotation2d(PrimoCalc.getRadsToHub())));
 
         //Shoot on the move command
         // driveController.x().whileTrue(CommandGroupFactory.shootOnTheMoveCommand(
@@ -325,6 +325,9 @@ public class RobotContainer {
 
   public void periodic() {
     SmartDashboard.putNumber("Distance From Hub", PrimoCalc.getDistance(drive.getPose(), PrimoCalc.getHubPos()));
+    SmartDashboard.putNumber("interpolted hood value", PrimoCalc.hubHoodInterpolate());
+    SmartDashboard.putBoolean("in shooting distance", PrimoCalc.getDistance(drive.getPose(), PrimoCalc.getHubPos()) < 3.2 &&
+    PrimoCalc.getDistance(drive.getPose(), PrimoCalc.getHubPos()) > 1.39);
   }
 
 }

@@ -19,7 +19,7 @@ import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.Constants;
-import frc.robot.util.interpolation.InterpolationMap;
+import frc.robot.util.interpolation.ExterpolationMap;
 import java.util.function.DoubleSupplier;
 
 public class ShooterConstants {
@@ -56,7 +56,7 @@ public class ShooterConstants {
   public static final DoubleSupplier shotVelocitySupplier = () -> 0; // TODO: find equation
 
   // Interpolation Map
-  public static final InterpolationMap SHOOTER_INTERPOLATION_MAP = new InterpolationMap()
+  public static final ExterpolationMap SHOOTER_INTERPOLATION_MAP = new ExterpolationMap()
   .put(1.39, 47)
   .put(1.55, 48)
   .put(1.77, 49)

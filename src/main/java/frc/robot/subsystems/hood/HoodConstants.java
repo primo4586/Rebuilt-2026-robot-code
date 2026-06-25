@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
-import frc.robot.util.interpolation.InterpolationMap;
+import frc.robot.util.interpolation.ExterpolationMap;
 import java.util.function.DoubleSupplier;
 
 public class HoodConstants {
@@ -46,8 +46,8 @@ public class HoodConstants {
   public static final PositionVoltage positionRequest = new PositionVoltage(0);
 
   // Interpolation Map
-  public static InterpolationMap HOOD_ANGLE_INTERPOLATION_MAP =
-      new InterpolationMap() 
+  public static ExterpolationMap HOOD_ANGLE_INTERPOLATION_MAP =
+      new ExterpolationMap() 
       .put(1.39, 0)
       .put(1.55, 0.002)
       .put(1.77, 0.003)
