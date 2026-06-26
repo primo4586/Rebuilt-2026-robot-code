@@ -56,6 +56,10 @@ public class PrimoCalc {
         : 16.5 - getRobotPose().getTranslation().getX();
   }
 
+  public static BooleanSupplier pastMiddle(){
+    return ()-> getDistanceFromDSWall() > 8.5;
+  }
+
   /**
    * @return the angle the robot needs to be to point at the hub, on radians.
    */
