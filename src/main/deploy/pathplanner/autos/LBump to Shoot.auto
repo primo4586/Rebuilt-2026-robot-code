@@ -5,15 +5,21 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "LBump reverse"
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "open intake"
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "LBump reverse"
+            "waitTime": 0.5
           }
         },
         {
