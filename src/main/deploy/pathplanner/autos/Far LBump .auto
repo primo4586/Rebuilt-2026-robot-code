@@ -31,13 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Far LBump reverse to Depot "
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Depot to Shoot"
+            "pathName": "Far LBump reverse "
           }
         },
         {
