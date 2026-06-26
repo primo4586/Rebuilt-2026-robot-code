@@ -59,7 +59,15 @@ public class TunerConstants {
     // cannot be null.
     // Some configs will be overwritten; check the `with*InitialConfigs()` API
     // documentation.
-    private static final TalonFXConfiguration driveInitialConfigs = new TalonFXConfiguration();
+    private static final TalonFXConfiguration driveInitialConfigs = new TalonFXConfiguration().withCurrentLimits(
+            new CurrentLimitsConfigs()
+                    // Swerve drive does not require much torque output, so we can set a relatively
+                    // low
+                    // stator current limit to help avoid brownouts without impacting performance.
+                    .withStatorCurrentLimit(kSlipCurrent)
+                    .withStatorCurrentLimitEnable(true)
+                    .withSupplyCurrentLimit(50)
+                    .withSupplyCurrentLimitEnable(true));
     private static final TalonFXConfiguration steerInitialConfigs = new TalonFXConfiguration()
             .withCurrentLimits(
                     new CurrentLimitsConfigs()

@@ -111,7 +111,8 @@ public class Hood extends SubsystemBase {
    * @return a command that sets the hood position to the interpolated value
    */
   public Command setPositionWithInterpolation() {
-    return setPosition(() -> PrimoCalc.hubHoodInterpolate());
+    return run(() -> io.setPosition(PrimoCalc.hubHoodInterpolate()))
+        .withName(getName() + "Set position with interpolation");
   }
 
   /**

@@ -76,7 +76,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public Command shootWithInterpolation() {
-    return setVelocityCommand(() -> PrimoCalc.hubShooterInterpolate());
+    return run(() -> io.setVelocity(PrimoCalc.hubShooterInterpolate()))
+        .withName(getName() + "Set velocity with interpolation");
   }
 
   /**
@@ -134,7 +135,6 @@ public class Shooter extends SubsystemBase {
   /** sets velocity with REST_VELOCITY constant */
   public void rest() {
     io.setVelocity(REST_VELOCITY);
-    System.out.println("resting");
   }
 
   public Command restCommand(){

@@ -2,6 +2,8 @@ package frc.robot.subsystems.hood;
 
 import static frc.robot.subsystems.hood.HoodConstants.*;
 
+import java.util.function.DoubleSupplier;
+
 import org.littletonrobotics.junction.AutoLog;
 
 public interface HoodIO {
@@ -27,6 +29,10 @@ public interface HoodIO {
 
   public default void setPosition(double position) {
     _motor.setControl(positionRequest.withPosition(position));
+  }
+
+  public default void setPosition(DoubleSupplier position) {
+    _motor.setControl(positionRequest.withPosition(position.getAsDouble()));
   }
 
   public default void stopMotor() {

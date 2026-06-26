@@ -225,9 +225,13 @@ public class RobotContainer {
 
         //TELEOP
         driveController.rightTrigger().whileTrue(CommandGroupFactory.shootCommand());
+        driveController.rightBumper().whileTrue(CommandGroupFactory.closeShoot());
+        driveController.leftTrigger().whileTrue(CommandGroupFactory.pass());
         driveController.povRight().whileTrue(intakeRoller.intakeWithStop());
+        driveController.y().whileTrue(CommandGroupFactory.instantShoot());
 
-        driveController.b().onTrue(hood.resetPositionCommand());
+
+        driveController.b().whileTrue(hood.resetPositionCommand());
 
         operatorController.rightTrigger().onTrue(intakeArm.closeCommand());
         operatorController.leftTrigger().onTrue(intakeArm.openCommand());
@@ -303,11 +307,11 @@ public class RobotContainer {
 
         // Reset gyro to 0° when B button is pressed
         driveController
-                .leftStick()
+                .povLeft()
                 .onTrue(
                         Commands.runOnce(
                                 () -> drive.setPose(
-                                        new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
+                                        new Pose2d(drive.getPose().getTranslation(), new Rotation2d(Math.PI))),
                                 drive)
                                 .ignoringDisable(true));
     }
@@ -324,8 +328,9 @@ public class RobotContainer {
 
   public void periodic() {
     SmartDashboard.putNumber("Distance From Hub", PrimoCalc.getDistance(drive.getPose(), PrimoCalc.getHubPos()));
-    SmartDashboard.putNumber("interpolted hood value", PrimoCalc.hubHoodInterpolate());
-    SmartDashboard.putBoolean("in shooting distance", PrimoCalc.getDistance(drive.getPose(), PrimoCalc.getHubPos()) < 3.2 &&
+    SmartDashboard.putNumber("interpolted HOOD value", PrimoCalc.hubHoodInterpolate().getAsDouble());
+SmartDashboard.putNumber("interpolted SHOOTER value", PrimoCalc.hubShooterInterpolate().getAsDouble());
+    SmartDashboard.putBoolean("in shooting distance", PrimoCalc.getDistance(drive.getPose(), PrimoCalc.getHubPos()) < 4.6 &&
     PrimoCalc.getDistance(drive.getPose(), PrimoCalc.getHubPos()) > 1.39);
   }
 

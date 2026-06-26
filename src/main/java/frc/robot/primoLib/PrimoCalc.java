@@ -12,6 +12,7 @@ import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.hood.HoodConstants;
 import frc.robot.subsystems.shooter.ShooterConstants;
 import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
 
 public class PrimoCalc {
   private static final Drive drive = Drive.getInstance(RobotBase.isReal());
@@ -99,14 +100,14 @@ public class PrimoCalc {
   /**
    * @return the hood angle in radians to hit the hub based on the robot's current distance from the hub
   */
-  public static double hubHoodInterpolate() {
-    return HoodConstants.HOOD_ANGLE_INTERPOLATION_MAP.exterpolate(getDistance(drive.getPose(), getHubPos()));
+  public static DoubleSupplier hubHoodInterpolate() {
+    return () -> HoodConstants.HOOD_ANGLE_INTERPOLATION_MAP.exterpolate(getDistance(drive.getPose(), getHubPos()));
   }
 
     /**
     * @return the shooter wheel speed in RPS to hit the hub based on the robot's current distance from the hub
     */
-  public static double hubShooterInterpolate() {
-    return  ShooterConstants.SHOOTER_INTERPOLATION_MAP.exterpolate(getDistance(drive.getPose(), getHubPos()));
+  public static DoubleSupplier hubShooterInterpolate() {
+    return () -> ShooterConstants.SHOOTER_INTERPOLATION_MAP.exterpolate(getDistance(drive.getPose(), getHubPos()));
   }
 }
