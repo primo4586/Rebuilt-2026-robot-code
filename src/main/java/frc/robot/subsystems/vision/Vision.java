@@ -76,6 +76,10 @@ public class Vision extends SubsystemBase {
       // Update disconnected alert
       disconnectedAlerts[cameraIndex].set(!inputs[cameraIndex].connected);
 
+      if (!inputs[cameraIndex].connected) {
+        continue;
+      }
+
       // Initialize logging values
       List<Pose3d> tagPoses = new LinkedList<>();
       List<Pose3d> robotPoses = new LinkedList<>();
