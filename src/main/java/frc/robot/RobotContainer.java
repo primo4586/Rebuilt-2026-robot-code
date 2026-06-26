@@ -235,12 +235,12 @@ public class RobotContainer {
         driveController.povRight().whileTrue(intakeRoller.intakeWithStop());
         driveController.y().whileTrue(CommandGroupFactory.instantShoot());
 
-        driveController.x().onTrue(intakeArm.closeCommand());
-        driveController.b().onTrue(intakeArm.openCommand());
+        driveController.x().whileTrue(intakeArm.closeWithVoltageCommandAndStay());
+        driveController.b().onTrue(intakeArm.openWithVoltageCommand());
 
 
 
-        driveController.b().whileTrue(hood.resetPositionCommand());
+        driveController.a().whileTrue(hood.resetPositionCommand());
 
         operatorController.rightTrigger().onTrue(intakeArm.closeCommand());
         operatorController.leftTrigger().onTrue(intakeArm.openCommand());

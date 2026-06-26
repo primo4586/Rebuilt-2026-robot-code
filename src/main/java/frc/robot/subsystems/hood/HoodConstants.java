@@ -91,6 +91,9 @@ public class HoodConstants {
     realConfiguration.Feedback.SensorToMechanismRatio = GEAR_RATIO;
     realConfiguration.MotorOutput.NeutralMode = NEUTRAL_MODE;
     realConfiguration.MotorOutput.Inverted = INVERTED;
+    realConfiguration.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+    realConfiguration.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0.0;    
+
 
     // PID
     realConfiguration.Slot0.kP = 300; // TODO: tune

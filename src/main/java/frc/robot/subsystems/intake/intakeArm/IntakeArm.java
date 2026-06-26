@@ -105,6 +105,9 @@ public class IntakeArm extends SubsystemBase {
   public Command closeWithVoltageCommand(){
     return setVoltage(CLOSE_VOLTAGE).withTimeout(CLOSE_TIME);
   }
+    public Command closeWithVoltageCommandAndStay(){
+    return Commands.startEnd(()->io.setVoltage(CLOSE_VOLTAGE),()->io.setVoltage(-1));
+  }
   /**
    * @return a command that closes the intake arm.
    */
