@@ -30,104 +30,106 @@ import java.util.function.DoubleSupplier;
 
 public class CommandGroupFactory {
   private static final Drive drive = Drive.getInstance(RobotBase.isReal());
-  private static final Shooter shooter =
-      Shooter.getInstance(RobotBase.isReal() ? new ShooterRealIO() : new ShooterSimIO());
-  private static final Hood hood =
-      Hood.getInstance(RobotBase.isReal() ? new HoodTalon() : new HoodSim());
-  public static final Feeder feeder =
-      Feeder.getInstance(RobotBase.isReal() ? new FeederTalonFX() : new FeederSim());
-  public static final IntakeArm intakeArm =
-    IntakeArm.getInstance(RobotBase.isReal() ? new IntakeArmTalon() : new IntakeArmSim());
-  public static final IntakeRoller intakeRoller =
-    IntakeRoller.getInstance(RobotBase.isReal() ? new IntakeRollerTalon() : new IntakeRollerSim());
-  // public static final ShotCalculator shotCalculator = ShotCalculator.getInstance();
+  private static final Shooter shooter = Shooter
+      .getInstance(RobotBase.isReal() ? new ShooterRealIO() : new ShooterSimIO());
+  private static final Hood hood = Hood.getInstance(RobotBase.isReal() ? new HoodTalon() : new HoodSim());
+  public static final Feeder feeder = Feeder.getInstance(RobotBase.isReal() ? new FeederTalonFX() : new FeederSim());
+  public static final IntakeArm intakeArm = IntakeArm
+      .getInstance(RobotBase.isReal() ? new IntakeArmTalon() : new IntakeArmSim());
+  public static final IntakeRoller intakeRoller = IntakeRoller
+      .getInstance(RobotBase.isReal() ? new IntakeRollerTalon() : new IntakeRollerSim());
+  // public static final ShotCalculator shotCalculator =
+  // ShotCalculator.getInstance();
 
-  // public static final DoubleSupplier distanceSotmSupplier = () -> drive.getPose().getTranslation()
-  //   .getDistance(shotCalculator.getCurrentEffectiveTargetPose().getTranslation().toTranslation2d());
-
+  // public static final DoubleSupplier distanceSotmSupplier = () ->
+  // drive.getPose().getTranslation()
+  // .getDistance(shotCalculator.getCurrentEffectiveTargetPose().getTranslation().toTranslation2d());
 
   /** turn to hub, stop with x, and shoot with interpolation */
-  public static Command shootCommand() {
-    return Commands.sequence(
+  public static Command shootCommand(DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
+    return Commands.parallel(
+      Commands.sequence(
             Commands.deadline(
                 Commands.sequence(
-                    Commands.waitSeconds(0.02),
-                    Commands.race(Commands.waitUntil(
-                        () -> PrimoCalc.isFacingHub().getAsBoolean() && shooter.readyToShoot().getAsBoolean()),
-                        Commands.waitSeconds(0.7))),
-                hood.setPositionWithInterpolation(),
-                shooter.shootWithInterpolation(),
-                DriveCommands.joystickDriveAtAngle(
-                    drive, () -> 0.0, () -> 0.0, () -> new Rotation2d(PrimoCalc.getRadsToHub()))),
-            Commands.parallel(intakeRoller.setVoltage(6),feeder.feed(), Commands.runOnce(() -> drive.stopWithX(), drive)))
-        .finallyDo(() -> shooter.rest());
+                    Commands.runOnce(()->{})),
+                    Commands.race(
+                      Commands.waitUntil(() -> PrimoCalc.isFacingHub().getAsBoolean() && shooter.readyToShoot().getAsBoolean()),
+                        Commands.waitSeconds(0.5))),
+            Commands.parallel(intakeRoller.setVoltage(9),feeder.feed()
+            )
+          ),
+
+          shooter.shootWithInterpolation(),
+          hood.setPositionWithInterpolation(),
+          DriveCommands.joystickDriveAtAngle(
+              drive, () -> xSupplier.getAsDouble(), () -> ySupplier.getAsDouble(), () -> new Rotation2d(PrimoCalc.getRadsToHub()))
+    ).finallyDo(() -> shooter.rest());
   }
 
-
-
-
-    /**
-     * @return a command that stops all subsystems (intake arm, intake roller, shooter, feeder)
-     */
-  public static Command stopAll(){
+  /**
+   * @return a command that stops all subsystems (intake arm, intake roller,
+   *         shooter, feeder)
+   */
+  public static Command stopAll() {
     return Commands.parallel(
-        intakeArm.setVoltage(0), 
-        intakeRoller.setVoltage(0), 
+        intakeArm.setVoltage(0),
+        intakeRoller.setVoltage(0),
         shooter.restCommand(),
         feeder.setVoltage(0));
   }
 
-
-public static Command feedAndMoveIntake(){
-  return Commands.parallel(
-    feeder.feed(),
-    intakeArm.openAndCloseCommand(),
-    intakeRoller.setVoltage(IntakeRollerConstants.INTAKE_FEED_VOLTAGE)
-  );
-}
+  public static Command feedAndMoveIntake() {
+    return Commands.parallel(
+        feeder.feed(),
+        intakeArm.openAndCloseCommand(),
+        intakeRoller.setVoltage(IntakeRollerConstants.INTAKE_FEED_VOLTAGE));
+  }
 
   /**
    * @return Command that shoots + feed + hood interpolation
    */
-  public static Command instantShoot(){
-    return Commands.defer(() -> Commands.parallel(shooter.shootWithInterpolation(), feeder.feed(), hood.setPositionWithInterpolation()),Set.of(shooter,feeder,hood));
+  public static Command instantShoot() {
+    return Commands.defer(
+        () -> Commands.parallel(shooter.shootWithInterpolation(), feeder.feed(), hood.setPositionWithInterpolation()),
+        Set.of(shooter, feeder, hood));
   }
 
-    /**
+  /**
    * @return pass
    */
-  public static Command pass(){
+  public static Command pass() {
     return Commands.defer(() -> Commands.parallel(shooter.setVoltageCommand(12),
-    feeder.feed(),
-    intakeRoller.intakeWithStop(),
-    hood.setPosition(0.06)).finallyDo(() -> shooter.rest()),Set.of(intakeRoller,shooter,feeder,hood));
+        feeder.feed(),
+        intakeRoller.intakeWithStop(),
+        hood.setPosition(0.06)).finallyDo(() -> shooter.rest()), Set.of(intakeRoller, shooter, feeder, hood));
   }
 
-      /**
+  /**
    * @return pass with parameters
    */
-  public static Command pass(double shooterVel, double hoodAng){
-    return Commands.defer(() -> Commands.parallel(shooter.setVelocityCommand(shooterVel), feeder.feed(), hood.setPosition(hoodAng)).finallyDo(() -> shooter.rest()),Set.of(shooter,feeder,hood));
+  public static Command pass(double shooterVel, double hoodAng) {
+    return Commands
+        .defer(() -> Commands.parallel(shooter.setVelocityCommand(shooterVel), feeder.feed(), hood.setPosition(hoodAng))
+            .finallyDo(() -> shooter.rest()), Set.of(shooter, feeder, hood));
   }
 
-      /**
+  /**
    * @return passWithCorrection
    */
-  public static Command passWithCorrection(){
+  public static Command passWithCorrection() {
     return Commands.either(
-      pass(48,0.04),
-      pass(45,0.05),
-      PrimoCalc.pastMiddle());
+        pass(48, 0.04),
+        pass(45, 0.05),
+        PrimoCalc.pastMiddle());
   }
 
-
-      /**
+  /**
    * @return closeShoot
    */
-  public static Command closeShoot(){
-    return Commands.defer(() -> Commands.parallel(shooter.setVelocityCommand(45), feeder.feed(), hood.setPosition(0)),Set.of(shooter,feeder,hood));
+  public static Command closeShoot() {
+    return Commands.defer(() -> Commands.parallel(shooter.setVelocityCommand(45), feeder.feed(), hood.setPosition(0)),
+        Set.of(shooter, feeder, hood));
   }
-
 
   /**
    * returns System.out.println as a command
@@ -149,30 +151,32 @@ public static Command feedAndMoveIntake(){
     return Commands.runOnce(() -> System.out.println(output.getAsDouble()));
   }
 
-  /** Shoot on the move*/
+  /** Shoot on the move */
   // public static Command shootOnTheMoveCommand(Command driveCommand) {
-  //   return Commands.parallel(
-  //     targetHubSotmCommand(),
-  //     feeder.feed(),
-  //     driveCommand
-  //   ).finallyDo(() -> shooter.rest());
+  // return Commands.parallel(
+  // targetHubSotmCommand(),
+  // feeder.feed(),
+  // driveCommand
+  // ).finallyDo(() -> shooter.rest());
   // }
 
   // /**
-  //  * @return a command that sets shooter velocity and hood position based on distance to target for shoot on the move
-  //  */
+  // * @return a command that sets shooter velocity and hood position based on
+  // distance to target for shoot on the move
+  // */
   // public static Command targetHubSotmCommand() {
-  //   return Commands.parallel(
-  //           shooter.setVelocityCommand(
-  //                   () -> ShooterConstants.SHOOTER_INTERPOLATION_MAP.get(distanceSotmSupplier.getAsDouble())).asProxy(),
-  //           hood.setPositionRepeatedly(
-  //                   () -> HoodConstants.HOOD_ANGLE_INTERPOLATION_MAP.get(distanceSotmSupplier.getAsDouble())).asProxy())
-  //           .andThen(useRequirement());
-// }
+  // return Commands.parallel(
+  // shooter.setVelocityCommand(
+  // () ->
+  // ShooterConstants.SHOOTER_INTERPOLATION_MAP.get(distanceSotmSupplier.getAsDouble())).asProxy(),
+  // hood.setPositionRepeatedly(
+  // () ->
+  // HoodConstants.HOOD_ANGLE_INTERPOLATION_MAP.get(distanceSotmSupplier.getAsDouble())).asProxy())
+  // .andThen(useRequirement());
+  // }
 
-// private static Command useRequirement() {
-//   return Commands.runOnce(() -> {
-//   });
-// }
+  // private static Command useRequirement() {
+  // return Commands.runOnce(() -> {
+  // });
+  // }
 }
-

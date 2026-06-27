@@ -73,7 +73,7 @@ public class ShooterConstants {
   public static final double GEAR_RATIO = 25 / 22;
   public static final double PEAK_CURRENT = 200; // TODO: tune
   public static final double SUPPLY_CURRENT = 200; // TODO: tune
-  public static final double TOLERANCE = 0.435;
+  public static final double TOLERANCE = 3;
 
   public static final TalonFXConfiguration realConfigs = new TalonFXConfiguration();
 

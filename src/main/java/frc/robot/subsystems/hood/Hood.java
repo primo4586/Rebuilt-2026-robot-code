@@ -97,6 +97,9 @@ public class Hood extends SubsystemBase {
     .andThen(setVoltage(RESET_VOLTAGE).finallyDo(() ->io.resetPosition()));
   }
 
+  public void resetEncoderPosition(){
+    io.resetPosition();
+  }
   /**
    * @param position in rotations
    * @return a command that moves the motor to a position

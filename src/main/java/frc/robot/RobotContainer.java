@@ -177,10 +177,10 @@ public class RobotContainer {
         }
 
         // named commands
-        NamedCommands.registerCommand("shoot", CommandGroupFactory.shootCommand());
+        NamedCommands.registerCommand("shoot", CommandGroupFactory.shootCommand(()-> 0, ()-> 0));
         NamedCommands.registerCommand("shoot with timeout",
-                CommandGroupFactory.shootCommand().withTimeout(Constants.SHOOT_TIMEOUT_SECONDS));
-        NamedCommands.registerCommand("open intake", intakeArm.openCommand());
+                CommandGroupFactory.shootCommand(()-> 0, ()-> 0).withTimeout(Constants.SHOOT_TIMEOUT_SECONDS));
+        NamedCommands.registerCommand("open intake", intakeArm.openWithVoltageCommand());
         NamedCommands.registerCommand("intake", intakeRoller.intakeNoStop());
         // NamedCommands.registerCommand("stop intake", intakeRoller.setVoltage(rollerVoltage.getAsDouble()));
         NamedCommands.registerCommand("stop all", CommandGroupFactory.stopAll());
@@ -229,7 +229,9 @@ public class RobotContainer {
 
 
         //TELEOP
-        driveController.rightTrigger().whileTrue(CommandGroupFactory.shootCommand());
+        driveController.rightTrigger().whileTrue(CommandGroupFactory.shootCommand(
+                                () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
+                                () -> -driveController.getLeftX() * slowSpeed.getAsDouble()));
         driveController.rightBumper().whileTrue(CommandGroupFactory.closeShoot());
         driveController.leftTrigger().whileTrue(CommandGroupFactory.pass());
         driveController.povRight().whileTrue(intakeRoller.intakeWithStop());
@@ -333,6 +335,10 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return autoChooser.get();
+  }
+
+  public void resetHood(){
+        hood.resetEncoderPosition();
   }
 
   public void periodic() {
