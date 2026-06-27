@@ -15,8 +15,8 @@ public class Elastic {
   public static void displayAll() {
     displayRobotPose();
     displayTimer();
-    // displayHubStatus();
-    // displayShiftTimer();
+    displayHubStatus();
+    displayShiftTimer();
   }
 
   public static void displayTimer() {
