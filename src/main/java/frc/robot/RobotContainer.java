@@ -235,6 +235,10 @@ public class RobotContainer {
         driveController.povRight().whileTrue(intakeRoller.intakeWithStop());
         driveController.y().whileTrue(CommandGroupFactory.instantShoot());
 
+        driveController.x().onTrue(intakeArm.closeCommand());
+        driveController.b().onTrue(intakeArm.openCommand());
+
+
 
         driveController.b().whileTrue(hood.resetPositionCommand());
 

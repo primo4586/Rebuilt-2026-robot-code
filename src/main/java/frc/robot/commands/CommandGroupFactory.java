@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.RobotContainer;
 import frc.robot.primoLib.PrimoCalc;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.feeder.Feeder;
@@ -98,6 +99,24 @@ public static Command feedAndMoveIntake(){
   public static Command pass(){
     return Commands.defer(() -> Commands.parallel(shooter.setVelocityCommand(45), feeder.feed(), hood.setPosition(0.05)).finallyDo(() -> shooter.rest()),Set.of(shooter,feeder,hood));
   }
+
+      /**
+   * @return pass with parameters
+   */
+  public static Command pass(double shooterVel, double hoodAng){
+    return Commands.defer(() -> Commands.parallel(shooter.setVelocityCommand(shooterVel), feeder.feed(), hood.setPosition(hoodAng)).finallyDo(() -> shooter.rest()),Set.of(shooter,feeder,hood));
+  }
+
+      /**
+   * @return passWithCorrection
+   */
+  public static Command passWithCorrection(){
+    return Commands.either(
+      pass(48,0.04),
+      pass(45,0.05),
+      PrimoCalc.pastMiddle());
+  }
+
 
       /**
    * @return closeShoot
