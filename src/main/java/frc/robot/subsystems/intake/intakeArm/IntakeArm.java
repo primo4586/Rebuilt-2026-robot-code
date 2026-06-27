@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import org.littletonrobotics.junction.Logger;
+
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
 import static frc.robot.subsystems.intake.intakeArm.IntakeArmConstants.*;
 
 public class IntakeArm extends SubsystemBase {
@@ -21,6 +24,8 @@ public class IntakeArm extends SubsystemBase {
   private final SysIdRoutine sysId;
 
   private static IntakeArm instance;
+
+  private boolean isBreak = true;
 
   public static IntakeArm getInstance(IntakeArmIO io) {
     if (instance == null) {
@@ -125,6 +130,15 @@ public class IntakeArm extends SubsystemBase {
 
   public Command resetEncoderPositionCommand(){
     return runOnce(()-> io.resetPosition());
+  }
+
+  public void switchBreak(){
+    if (isBreak){
+      _motor.setNeutralMode(NeutralModeValue.Coast);
+    }
+    else
+      _motor.setNeutralMode(NeutralModeValue.Brake);
+    isBreak = !isBreak;
   }
 
   // sysId Commands
