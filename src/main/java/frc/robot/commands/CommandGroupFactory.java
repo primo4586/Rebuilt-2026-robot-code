@@ -100,7 +100,7 @@ public static Command feedAndMoveIntake(){
     return Commands.defer(() -> Commands.parallel(shooter.setVoltageCommand(12),
     feeder.feed(),
     intakeRoller.intakeWithStop(),
-    hood.setPosition(0.2)).finallyDo(() -> shooter.rest()),Set.of(intakeRoller,shooter,feeder,hood));
+    hood.setPosition(0.06)).finallyDo(() -> shooter.rest()),Set.of(intakeRoller,shooter,feeder,hood));
   }
 
       /**

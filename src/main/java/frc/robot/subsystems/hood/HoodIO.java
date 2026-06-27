@@ -42,4 +42,8 @@ public interface HoodIO {
   public default void resetPosition() {
     _motor.setPosition(STARTING_ANGLE / 2 / Math.PI);
   }
+
+  public default void setPos1000() {
+    _motor.setPosition(1000);
+  }
 }

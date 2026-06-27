@@ -11,6 +11,7 @@ import static frc.robot.subsystems.hood.HoodConstants.targetPosition;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.primoLib.PrimoCalc;
@@ -92,7 +93,8 @@ public class Hood extends SubsystemBase {
    * @return a command that resets the hood position
    */
   public Command resetPositionCommand() {
-    return setVoltage(RESET_VOLTAGE).finallyDo(() ->io.resetPosition());
+    return Commands.runOnce(()->io.setPos1000())
+    .andThen(setVoltage(RESET_VOLTAGE).finallyDo(() ->io.resetPosition()));
   }
 
   /**
