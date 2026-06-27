@@ -5,21 +5,21 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "open intake"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "RBump reverse"
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 0.5
+            "name": "open intake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "intake"
           }
         },
         {
@@ -27,11 +27,23 @@
           "data": {
             "name": "shoot with timeout"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "behind hub right"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Close Autos",
+  "folder": "Far Autos",
   "choreoAuto": false
 }
