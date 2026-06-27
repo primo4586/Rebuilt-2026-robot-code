@@ -84,8 +84,8 @@ public class RobotContainer {
     // private final ShotCalculator shotCalculator = ShotCalculator.getInstance();
     // Controller
     private final CommandXboxController driveController = new CommandXboxController(0);
-    private final CommandXboxController testerController = new CommandXboxController(1);
-    private final CommandXboxController operatorController = new CommandXboxController(3);
+    private final CommandXboxController testerController = new CommandXboxController(3);
+    private final CommandXboxController operatorController = new CommandXboxController(1);
     // SlowMode
     // private final DoubleSupplier slowSpeed =
     // () -> driveController.leftTrigger().getAsBoolean() ? 0.5 : 0.8;
@@ -100,9 +100,9 @@ public class RobotContainer {
     private final LoggedDashboardChooser<Command> autoChooser;
 
     //SmartDashboard Calibration
-    private final DoubleSupplier shooterRps = () -> SmartDashboard.getNumber("shooter calibration RPS",0.0);
-    private final DoubleSupplier hoodAngle = () -> SmartDashboard.getNumber("hood angle rotations", 0.0);
-    private final DoubleSupplier rollerVoltage = () -> SmartDashboard.getNumber("roller voltage volts", 0.0);
+//     private final DoubleSupplier shooterRps = () -> SmartDashboard.getNumber("shooter calibration RPS",0.0);
+//     private final DoubleSupplier hoodAngle = () -> SmartDashboard.getNumber("hood angle rotations", 0.0);
+//     private final DoubleSupplier rollerVoltage = () -> SmartDashboard.getNumber("roller voltage volts", 0.0);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -210,9 +210,9 @@ public class RobotContainer {
         configureButtonBindings();
 
          //smartDashboard
-        SmartDashboard.putNumber("shooter calibration RPS",0);
-        SmartDashboard.putNumber("hood angle rotations", 0);
-        SmartDashboard.putNumber("roller voltage volts", 0);
+        // SmartDashboard.putNumber("shooter calibration RPS",0);
+        // SmartDashboard.putNumber("hood angle rotations", 0);
+        // SmartDashboard.putNumber("roller voltage volts", 0);
     }
 
     /**
@@ -229,23 +229,28 @@ public class RobotContainer {
 
 
         //TELEOP
+        //driver
         driveController.rightTrigger().whileTrue(CommandGroupFactory.shootCommand(
                                 () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
                                 () -> -driveController.getLeftX() * slowSpeed.getAsDouble()));
         driveController.rightBumper().whileTrue(CommandGroupFactory.closeShoot());
         driveController.leftTrigger().whileTrue(CommandGroupFactory.pass());
         driveController.povRight().whileTrue(intakeRoller.intakeWithStop());
-        driveController.y().whileTrue(CommandGroupFactory.instantShoot());
+
+        driveController.y().whileTrue(intakeRoller.outtakeWithStop());
 
         driveController.x().whileTrue(intakeArm.closeWithVoltageCommandAndStay());
         driveController.b().onTrue(intakeArm.openWithVoltageCommand());
 
-
-
         driveController.a().whileTrue(hood.resetPositionCommand());
 
-        operatorController.rightTrigger().onTrue(intakeArm.closeCommand());
-        operatorController.leftTrigger().onTrue(intakeArm.openCommand());
+        //Operator
+        operatorController.rightTrigger().whileTrue(intakeArm.closeWithVoltageCommandAndStay());
+        operatorController.leftTrigger().onTrue(intakeArm.openWithVoltageCommand());
+
+        operatorController.a().whileTrue(hood.resetPositionCommand());
+        operatorController.x().whileTrue(intakeRoller.outtakeWithStop());
+
 
 
         //SHOOTER SYSID 
