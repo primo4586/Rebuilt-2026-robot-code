@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "LBump reverse"
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "open intake"
@@ -14,12 +20,6 @@
           "type": "named",
           "data": {
             "name": "intake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "LBump reverse"
           }
         },
         {

@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "RBump reverse"
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "open intake"
@@ -17,12 +23,6 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "RBump reverse"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "shoot with timeout"
@@ -31,25 +31,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Far RBump reverse to Outpost "
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 3.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Outpost to Shoot"
+            "pathName": "Far RBump reverse"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "shoot"
+            "name": "shoot with timeout"
           }
         }
       ]
