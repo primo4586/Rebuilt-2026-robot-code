@@ -184,7 +184,6 @@ public class RobotContainer {
         NamedCommands.registerCommand("intake", intakeRoller.intakeNoStop());
         // NamedCommands.registerCommand("stop intake", intakeRoller.setVoltage(rollerVoltage.getAsDouble()));
         NamedCommands.registerCommand("stop all", CommandGroupFactory.stopAll());
-        NamedCommands.registerCommand("close intake",intakeArm.closeWithVoltageCommand());
 
         // Set up auto routines
         autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
