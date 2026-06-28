@@ -233,7 +233,7 @@ public class RobotContainer {
         driveController.rightTrigger().whileTrue(CommandGroupFactory.shootCommand(
                                 () -> -driveController.getLeftY() * slowSpeed.getAsDouble(),
                                 () -> -driveController.getLeftX() * slowSpeed.getAsDouble()));
-        driveController.rightBumper().whileTrue(CommandGroupFactory.closeShoot());
+        driveController.rightBumper().whileTrue(CommandGroupFactory.closeShoot(45.0,0.0));
         driveController.leftTrigger().whileTrue(CommandGroupFactory.pass());
         driveController.povRight().whileTrue(intakeRoller.intakeWithStop());
 

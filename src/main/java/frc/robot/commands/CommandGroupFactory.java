@@ -131,6 +131,23 @@ public class CommandGroupFactory {
         Set.of(shooter, feeder, hood));
   }
 
+  public static Command closeShoot(double shooterVel, double hoodAng) {
+    return Commands.parallel(
+      Commands.sequence(
+            Commands.deadline(
+                Commands.sequence(
+                    Commands.runOnce(()->{})),
+                    Commands.race(
+                      Commands.waitUntil(() -> shooter.readyToShoot().getAsBoolean()),
+                        Commands.waitSeconds(0.5))),
+            Commands.parallel(intakeRoller.setVoltage(9),feeder.feed()
+            )
+          ),
+          shooter.setVelocityWithStopCommand(()->shooterVel),
+          hood.setPosition(hoodAng)
+    ).finallyDo(() -> shooter.rest());
+  }
+
   /**
    * returns System.out.println as a command
    *
