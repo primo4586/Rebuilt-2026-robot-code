@@ -29,9 +29,41 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "behind hub left"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "behind hub left"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "close intake"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 3.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "open intake"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {

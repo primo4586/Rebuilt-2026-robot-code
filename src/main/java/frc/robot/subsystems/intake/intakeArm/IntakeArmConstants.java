@@ -28,7 +28,7 @@ public class IntakeArmConstants {
   public static final double CLOSE_VOLTAGE = -2;
 
   public static final double OPEN_TIME = 1;
-  public static final double CLOSE_TIME = 1;
+  public static final double CLOSE_TIME = 1.5;
   // ids
   public static final int MOTOR_ID = 21;
 
