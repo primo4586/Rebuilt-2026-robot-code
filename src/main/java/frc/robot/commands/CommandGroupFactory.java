@@ -54,7 +54,7 @@ public class CommandGroupFactory {
                     Commands.runOnce(()->{})),
                     Commands.race(
                       Commands.waitUntil(() -> PrimoCalc.isFacingHub().getAsBoolean() && shooter.readyToShoot().getAsBoolean()),
-                        Commands.waitSeconds(0.5))),
+                        Commands.waitSeconds(0.8))),
             Commands.parallel(intakeRoller.setVoltage(9),feeder.feed()
             )
           ),

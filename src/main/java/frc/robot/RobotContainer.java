@@ -180,10 +180,13 @@ public class RobotContainer {
         NamedCommands.registerCommand("shoot", CommandGroupFactory.shootCommand(()-> 0, ()-> 0));
         NamedCommands.registerCommand("shoot with timeout",
                 CommandGroupFactory.shootCommand(()-> 0, ()-> 0).withTimeout(Constants.SHOOT_TIMEOUT_SECONDS));
-        NamedCommands.registerCommand("open intake", intakeArm.openWithVoltageCommand());
+        NamedCommands.registerCommand("open intake SHORT", intakeArm.openWithVoltageCommand());
+        NamedCommands.registerCommand("open intake", intakeArm.openWithVoltageCommandLONG());
+
         NamedCommands.registerCommand("intake", intakeRoller.intakeNoStop());
         // NamedCommands.registerCommand("stop intake", intakeRoller.setVoltage(rollerVoltage.getAsDouble()));
         NamedCommands.registerCommand("stop all", CommandGroupFactory.stopAll());
+
 
         // Set up auto routines
         autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());

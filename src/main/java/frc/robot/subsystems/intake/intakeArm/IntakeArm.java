@@ -102,6 +102,9 @@ public class IntakeArm extends SubsystemBase {
   public Command openWithVoltageCommand(){
     return setVoltage(OPEN_VOLTAGE).withTimeout(OPEN_TIME);
   }
+  public Command openWithVoltageCommandLONG(){
+    return setVoltage(OPEN_VOLTAGE).withTimeout(OPEN_TIME+1);
+  }
   public Command closeWithVoltageCommand(){
     return setVoltage(CLOSE_VOLTAGE).withTimeout(CLOSE_TIME);
   }
