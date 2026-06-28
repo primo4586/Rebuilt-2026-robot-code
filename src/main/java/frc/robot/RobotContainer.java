@@ -323,7 +323,7 @@ public class RobotContainer {
 
         // Reset gyro to 0° when B button is pressed
         driveController
-                .povLeft()
+                .povDown()
                 .onTrue(
                         Commands.runOnce(
                                 () -> drive.setPose(
