@@ -25,7 +25,7 @@ public class IntakeArmConstants {
   public static final double CLOSE_POSITION = 0; 
   
   public static final double OPEN_VOLTAGE = 1;
-  public static final double CLOSE_VOLTAGE = -2;
+  public static final double CLOSE_VOLTAGE = -3;
 
   public static final double OPEN_TIME = 1;
   public static final double CLOSE_TIME = 1;

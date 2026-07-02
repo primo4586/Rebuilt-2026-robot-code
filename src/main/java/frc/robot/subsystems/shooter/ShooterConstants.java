@@ -70,7 +70,7 @@ public class ShooterConstants {
    .put(4.6, 65);
 
   // configs
-  public static final double GEAR_RATIO = 25 / 22;
+  public static final double GEAR_RATIO = 27 / 20;
   public static final double PEAK_CURRENT = 200; // TODO: tune
   public static final double SUPPLY_CURRENT = 200; // TODO: tune
   public static final double TOLERANCE = 3;
